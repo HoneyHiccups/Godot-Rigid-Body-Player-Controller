@@ -25,7 +25,7 @@ def find_sources(dirs, exts):
 
 # Configuration
 libname = "rigid_body_controller"
-projectdir = "test_project"
+projectdir = "rigid_body_controller_projc"
 
 # Set up the environment
 env = Environment(tools=["default"], PLATFORM="")
