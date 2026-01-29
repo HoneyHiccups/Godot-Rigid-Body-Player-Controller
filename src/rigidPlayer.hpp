@@ -8,14 +8,16 @@ class RigidPlayer : public godot::RigidBody3D{
     GDCLASS(RigidPlayer, godot::RigidBody3D)
 
     protected:
-    static void _bind_method();
-    void _ready() override;
+        static void _bind_method();
+    
 
     private:
-        void virtual _virtual_ready();
+        
+        
 
     public:
-
+        void _ready() override;
+        void virtual _virtual_ready();
 
 
     protected:
