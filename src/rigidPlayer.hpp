@@ -18,6 +18,10 @@ using namespace godot;
 class RigidPlayer : public RigidBody3D{
     GDCLASS(RigidPlayer, RigidBody3D)
 
+         enum InputStates{
+
+        };
+
     
     protected:
         static void _bind_methods();
@@ -36,6 +40,9 @@ class RigidPlayer : public RigidBody3D{
         void UI_Mode();
         void Game_Mode();
 
+        void debuginput();
+        void orbitcamtoggle();
+
     RigidPlayer() = default;
 	~RigidPlayer() override = default;
 
@@ -49,29 +56,48 @@ class RigidPlayer : public RigidBody3D{
 
         Input* input = nullptr;
 
+        bool allowDebugFeatuers = true;
+
         String MoveForwardActionMappping = "empty";
         String MoveBackWardActionMappping = "empty";
         String MoveLeftActionMappping = "empty";
         String MoveRightActionMappping = "empty";
+        String JumpActionMappping = "empty";
+        String DuckActionMappping = "empty";
 
-        float speed = 10;
+        float Acceleration = 10;
+        float MaxSpeed = 10;
         float friction = 10;
         float sensitivity = 1;
-        float mass = 100;
+        float aircontrol = 0.f;
+        float jumppower = 300;
+        int maxjumps = 1;
 
         bool mousecursor_show = true;
 
         
 
+        
+
     public:
+        bool bisinputing = false;
         
     public: //setters and getters
+        
+        void set_maxjumps(int n){maxjumps = n;}
+	    int get_maxjumps(){return maxjumps;}
 
-        void set_speed(float n){speed = n;}
-	    float get_speed(){return speed;}
+        void set_jumppower(float n){jumppower = n;}
+	    float get_jumppower(){return jumppower;}
 
-        void set_mass(float n){mass = n;}
-	    float get_mass(){return mass;}
+        void set_aircontrol(float n){aircontrol = n;}
+	    float get_aircontrol(){return aircontrol;}
+
+        void  set_acceleration(float n){Acceleration = n;}
+	    float get_acceleration(){return Acceleration;}
+
+        void  set_maxSpeed(float n){MaxSpeed = n;}
+	    float get_maxSpeed(){return MaxSpeed;}
 
 	    void set_friction(float n){friction = n;}
 	    float get_friction(){return friction;}
@@ -97,4 +123,9 @@ class RigidPlayer : public RigidBody3D{
         void set_right_action_map(String n) {MoveRightActionMappping = n;}
         String get_right_action_map() {return MoveRightActionMappping;}
 
+        void set_jump_action_map(String n) {JumpActionMappping = n;}
+        String get_jump_action_map() {return JumpActionMappping;}
+
+        void set_duck_action_map(String n) {DuckActionMappping = n;}
+        String get_duck_action_map() {return DuckActionMappping;}
 };

@@ -13,7 +13,7 @@
 [node name="Node3D" type="Node3D" unique_id=1579760363]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=678768590]
-transform = Transform3D(13.9440775, 0, 0, 0, 0.9999994, 0, 0, 0, 10.11332, 0, -1.011935, 0)
+transform = Transform3D(49.425606, 0, 0, 0, 0.9999994, 0, 0, 0, 33.467777, 0, -1.011935, 0)
 mesh = SubResource("BoxMesh_7dm0k")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1180860513]
@@ -33,3 +33,6 @@ mesh = SubResource("BoxMesh_ig7tw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1041584397]
 shape = SubResource("BoxShape3D_0xm2m")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=644527967]
+transform = Transform3D(-0.54440916, 0.81017053, 0.21735325, -0.36515707, -0.46217644, 0.8081171, 0.7551682, 0.3605783, 0.54745257, 0, 4.0953074, 0)

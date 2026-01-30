@@ -1,13 +1,31 @@
 #include "rigidPlayer.hpp"
 #include "godot_cpp/classes/input_event.hpp"
 #include "godot_cpp/core/class_db.hpp"
+#include "godot_cpp/core/object.hpp"
+#include "godot_cpp/core/print_string.hpp"
+#include "godot_cpp/core/property_info.hpp"
+#include "godot_cpp/variant/basis.hpp"
+#include "godot_cpp/variant/variant.hpp"
+#include "godot_cpp/variant/vector2.hpp"
+#include "godot_cpp/variant/vector3.hpp"
 
 using namespace godot;
 void RigidPlayer::_bind_methods(){
-    ClassDB::bind_method(D_METHOD("get_speed"), &RigidPlayer::get_speed);
-    ClassDB::bind_method(D_METHOD("set_speed", "speed"), &RigidPlayer::set_speed);
-    ClassDB::bind_method(D_METHOD("get_mass"), &RigidPlayer::get_mass);
-    ClassDB::bind_method(D_METHOD("set_mass", "mass"), &RigidPlayer::set_mass);
+    ClassDB::bind_method(D_METHOD("get_acceleration"), &RigidPlayer::get_acceleration);
+    ClassDB::bind_method(D_METHOD("set_acceleration", "acceleration"), &RigidPlayer::set_acceleration);
+
+    ClassDB::bind_method(D_METHOD("get_maxSpeed"), &RigidPlayer::get_maxSpeed);
+    ClassDB::bind_method(D_METHOD("set_maxSpeed", "maxSpeed"), &RigidPlayer::set_maxSpeed);
+    
+    ClassDB::bind_method(D_METHOD("get_aircontrol"), &RigidPlayer::get_aircontrol);
+    ClassDB::bind_method(D_METHOD("set_aircontrol", "aircontrol"), &RigidPlayer::set_aircontrol);
+
+    ClassDB::bind_method(D_METHOD("get_jumppower"), &RigidPlayer::get_jumppower);
+    ClassDB::bind_method(D_METHOD("set_jumppower", "jumppower"), &RigidPlayer::set_jumppower);
+
+    ClassDB::bind_method(D_METHOD("get_maxjumps"), &RigidPlayer::get_maxjumps);
+    ClassDB::bind_method(D_METHOD("set_maxjumps", "maxjumps"), &RigidPlayer::set_maxjumps);
+
     ClassDB::bind_method(D_METHOD("get_friction"), &RigidPlayer::get_friction);
     ClassDB::bind_method(D_METHOD("set_friction", "friction"), &RigidPlayer::set_friction);
     ClassDB::bind_method(D_METHOD("get_sensitivity"), &RigidPlayer::get_sensitivity);
@@ -27,13 +45,27 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_left_action_map"), &RigidPlayer::get_left_action_map);
     ClassDB::bind_method(D_METHOD("set_right_action_map", "MoveRightActionMappping"), &RigidPlayer::set_right_action_map);
     ClassDB::bind_method(D_METHOD("get_right_action_map"), &RigidPlayer::get_right_action_map);
+    ClassDB::bind_method(D_METHOD("set_jump_action_map", "JumpActionMappping"), &RigidPlayer::set_jump_action_map);
+    ClassDB::bind_method(D_METHOD("get_jump_action_map"), &RigidPlayer::get_jump_action_map);        
+    ClassDB::bind_method(D_METHOD("set_duck_action_map", "DuckActionMappping"), &RigidPlayer::set_duck_action_map);
+    ClassDB::bind_method(D_METHOD("get_duck_action_map"), &RigidPlayer::get_duck_action_map);
 
 
     //macro       //type       // type        //var name  //setter    //getter
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "mass"), "set_mass", "get_mass");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "maxSpeed"), "set_maxSpeed", "get_maxSpeed");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "aircontrol"), "set_aircontrol", "get_aircontrol");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "jumppower"), "set_jumppower", "get_jumppower");
+    ADD_PROPERTY(PropertyInfo(Variant::INT, "maxjumps"), "set_maxjumps", "get_maxjumps");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "friction"), "set_friction", "get_friction");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "sensitivity"), "set_sensitivity", "get_sensitivity");
+
+    ADD_PROPERTY(PropertyInfo( Variant::STRING, "Forward Action Map"), "set_forward_action_map","get_forward_action_map");
+    ADD_PROPERTY(PropertyInfo( Variant::STRING, "Back Action Map"), "set_backward_action_map","get_backward_action_map");
+    ADD_PROPERTY(PropertyInfo( Variant::STRING, "Left Action Map"), "set_left_action_map","get_left_action_map");
+    ADD_PROPERTY(PropertyInfo( Variant::STRING, "Right Action Map"), "set_right_action_map","get_right_action_map");
+    ADD_PROPERTY(PropertyInfo( Variant::STRING, "Jump Action Map"), "set_jump_action_map","get_jump_action_map");
+    ADD_PROPERTY(PropertyInfo( Variant::STRING, "Duck Action Map"), "set_duck_action_map","get_duck_action_map");
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
@@ -46,7 +78,7 @@ void RigidPlayer::_ready(){
     this->set_process_input(true);
 
 
-    this->set_mass(mass);
+    
 
 }
 
@@ -56,7 +88,30 @@ void RigidPlayer::_process(double delta){
 }
 
 void RigidPlayer::_physics_process(double delta){
+    if(input != nullptr && piv_body != nullptr){
+        Vector2 InputDir = Vector2(
+            input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
+            //0.0f,
+            input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
+        );
 
+        if(InputDir.is_zero_approx()== false){
+            bisinputing = true;
+            InputDir.normalize();
+            Basis BodyBasis = piv_body->get_basis();
+            Vector3 ForwardVec = BodyBasis.get_column(2);
+            Vector3 RightVec = BodyBasis.get_column(0);
+            Vector3 Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
+            Wishdir.normalize();
+            // need to do planer rots
+            apply_central_force((Wishdir*this->get_mass())*Acceleration);
+
+        }else{
+            bisinputing = false;
+        }
+        debuginput();
+    }
+    
 }
 
 void RigidPlayer::_input(const Ref<InputEvent> &event){
@@ -64,11 +119,17 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
 
     if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
         if(MouseEvent.is_valid()){
-
+            Vector2 MouseDelta = MouseEvent->get_relative() *-0.001;
+            if(MouseDelta != Vector2(0,0)){
+                piv_body->rotate(piv_body->get_basis().get_column(1), MouseDelta.x*sensitivity);
+            }
         }
     }
 }
 
+void RigidPlayer::orbitcamtoggle(){
+    return;
+}
 
 void RigidPlayer::ToggleCursor(){
     if( input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED ){
@@ -88,4 +149,18 @@ void RigidPlayer::UI_Mode(){
 void RigidPlayer::Game_Mode(){
     input->set_mouse_mode(Input::MOUSE_MODE_CAPTURED);
     mousecursor_show = false; 
+}
+
+void RigidPlayer::debuginput(){
+
+    if (allowDebugFeatuers != true)
+        return;
+    
+    if (input->is_action_just_released("toggle_focus")){
+        ToggleCursor();
+    }
+    if(input->is_action_just_released("toggle_orbit_cam")){
+        orbitcamtoggle();
+    }
+    
 }
