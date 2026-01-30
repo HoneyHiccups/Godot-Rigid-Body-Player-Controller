@@ -36,6 +36,8 @@ class RigidPlayer : public RigidBody3D{
         void _physics_process(double delta) override; 
 	    void _input(const Ref<InputEvent> &event) override;
 
+        void jump();
+
         void ToggleCursor();
         void UI_Mode();
         void Game_Mode();
@@ -75,7 +77,7 @@ class RigidPlayer : public RigidBody3D{
 
         bool mousecursor_show = true;
 
-        
+        float CurrentHeadRot = 0;
 
         
 

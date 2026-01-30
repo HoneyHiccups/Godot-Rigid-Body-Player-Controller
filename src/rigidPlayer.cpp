@@ -1,6 +1,7 @@
 #include "rigidPlayer.hpp"
 #include "godot_cpp/classes/input_event.hpp"
 #include "godot_cpp/core/class_db.hpp"
+#include "godot_cpp/core/math.hpp"
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/core/property_info.hpp"
@@ -78,7 +79,7 @@ void RigidPlayer::_ready(){
     this->set_process_input(true);
 
 
-    
+    CurrentHeadRot = piv_head->get_rotation().y;
 
 }
 
@@ -109,6 +110,10 @@ void RigidPlayer::_physics_process(double delta){
         }else{
             bisinputing = false;
         }
+
+        if(input->is_action_just_pressed(JumpActionMappping)){
+            jump();
+        }
         debuginput();
     }
     
@@ -122,9 +127,20 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
             Vector2 MouseDelta = MouseEvent->get_relative() *-0.001;
             if(MouseDelta != Vector2(0,0)){
                 piv_body->rotate(piv_body->get_basis().get_column(1), MouseDelta.x*sensitivity);
+                float min = Math::deg_to_rad(-89.0f);
+                float max = Math::deg_to_rad(89.0f);
+                CurrentHeadRot = Math::clamp(CurrentHeadRot + (MouseDelta.y*sensitivity), min,max);
+                piv_head->set_rotation(Vector3(CurrentHeadRot,0.0f,0.0f));
             }
         }
     }
+}
+
+void RigidPlayer::jump(){
+    Vector3 GravityDir = (this->get_gravity()*-1.0f);
+    GravityDir.normalize();
+    this->apply_central_impulse( (GravityDir*this->get_mass()) * (jumppower*.03) );
+    print_line((GravityDir*this->get_mass()) * (jumppower*.03) );
 }
 
 void RigidPlayer::orbitcamtoggle(){
@@ -159,6 +175,7 @@ void RigidPlayer::debuginput(){
     if (input->is_action_just_released("toggle_focus")){
         ToggleCursor();
     }
+    return;
     if(input->is_action_just_released("toggle_orbit_cam")){
         orbitcamtoggle();
     }

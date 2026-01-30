@@ -7,6 +7,7 @@
 [node name="RigidPlayerPawn" type="RigidPlayer" unique_id=170371887 node_paths=PackedStringArray("piv_body", "piv_head")]
 acceleration = 30.0
 maxSpeed = 30.0
+jumppower = 150.0
 "Forward Action Map" = "Forward"
 "Back Action Map" = "Back"
 "Left Action Map" = "Left"
@@ -15,6 +16,7 @@ maxSpeed = 30.0
 "Duck Action Map" = "Duck"
 piv_body = NodePath("BodyPiv")
 piv_head = NodePath("BodyPiv/HeadPiv")
+physics_interpolation_mode = 1
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
