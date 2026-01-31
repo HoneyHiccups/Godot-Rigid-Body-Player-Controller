@@ -1,15 +1,7 @@
 #include "rigidPlayer.hpp"
-#include "godot_cpp/classes/input_event.hpp"
+#include "RigidBodyUtilitys.h"
 #include "godot_cpp/core/class_db.hpp"
-#include "godot_cpp/core/math.hpp"
-#include "godot_cpp/core/object.hpp"
-#include "godot_cpp/core/print_string.hpp"
-#include "godot_cpp/core/property_info.hpp"
-#include "godot_cpp/variant/basis.hpp"
-#include "godot_cpp/variant/transform3d.hpp"
-#include "godot_cpp/variant/variant.hpp"
-#include "godot_cpp/variant/vector2.hpp"
-#include "godot_cpp/variant/vector3.hpp"
+
 
 using namespace godot;
 void RigidPlayer::_bind_methods(){
@@ -48,7 +40,7 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_jump_action_map"), &RigidPlayer::get_jump_action_map);        
     ClassDB::bind_method(D_METHOD("set_duck_action_map", "DuckActionMappping"), &RigidPlayer::set_duck_action_map);
     ClassDB::bind_method(D_METHOD("get_duck_action_map"), &RigidPlayer::get_duck_action_map);
-
+    ClassDB::bind_method(D_METHOD("get_wish_dir"), &RigidPlayer::GetWishDir);
 
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
@@ -101,7 +93,7 @@ void RigidPlayer::_process(double delta){
     
     auto test = this->get_gravity();
     test.normalize();
-    if(piv_body!=nullptr && test != LastGravitydir){
+    if(piv_body!=nullptr && test != LastGravitydir ){
         
         Basis BodyBasis = this->get_basis();
         Vector3 Gravitydir = this->get_gravity();
@@ -136,17 +128,21 @@ void RigidPlayer::_physics_process(double delta){
 
         if(InputDir.is_zero_approx()== false){
             bisinputing = true;
+            //
             InputDir.normalize();
-            Basis BodyBasis = piv_body->get_basis();
+            Basis BodyBasis = piv_body->get_global_transform().get_basis();
+            //
             Vector3 ForwardVec = BodyBasis.get_column(2);
             Vector3 RightVec = BodyBasis.get_column(0);
-            Vector3 Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
+            Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
             // need to do planer rots
             apply_central_force(((Wishdir*this->get_mass())*Acceleration)*delta);
 
+
         }else{
             bisinputing = false;
+            Wishdir = Vector3(0,0,0);
         }
 
         if(input->is_action_just_pressed(JumpActionMappping)){
@@ -185,7 +181,7 @@ void RigidPlayer::orbitcamtoggle(){
     if(camrea_wrapper!= nullptr){
         Vector3 camloc = camrea_wrapper->get_position();
         if(camloc == Vector3 (0.0f,0.0f,0.0f)){
-            camrea_wrapper->set_position(Vector3(0,0,10));
+            camrea_wrapper->set_position(Vector3(0,0,50));
         }else{
             camrea_wrapper->set_position(Vector3 (0.0f,0.0f,0.0f));
         }

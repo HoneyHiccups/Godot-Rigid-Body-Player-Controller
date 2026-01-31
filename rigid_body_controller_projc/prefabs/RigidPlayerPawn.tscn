@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://cx4ndp6hx7ngy"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ib480"]
-radius = 0.03
-height = 7.992
+[ext_resource type="Script" uid="uid://blo22706p8ljt" path="res://testing.gd" id="1_ib480"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ib480"]
+friction = 0.3
+bounce = 0.2
+absorbent = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mllbw"]
 
@@ -26,9 +29,11 @@ axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
 mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_ib480")
 
 [node name="BodyPiv" type="Node3D" parent="." unique_id=934816624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68711245, 0)
+script = ExtResource("1_ib480")
 
 [node name="HeadPiv" type="Node3D" parent="BodyPiv" unique_id=1871123716]
 
@@ -36,14 +41,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68711245, 0)
 
 [node name="Camera3D" type="Camera3D" parent="BodyPiv/HeadPiv/ShakerWrapper" unique_id=1335987393]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BodyPiv" unique_id=1450814439]
-transform = Transform3D(1, 0, 0, 0, -1.0924388e-06, -1, 0, 24.992086, -4.371139e-08, 0, -0.68711245, 0)
-cast_shadow = 0
-mesh = SubResource("CapsuleMesh_ib480")
-skeleton = NodePath("../..")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1455552595]
 shape = SubResource("CapsuleShape3D_mllbw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=1725472060]
 mesh = SubResource("CapsuleMesh_mllbw")
+
+[node name="ThirdPersonBodyWrapper" type="Node3D" parent="." unique_id=888345571]

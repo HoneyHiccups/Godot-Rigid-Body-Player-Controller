@@ -12,6 +12,19 @@
 #include "godot_cpp/classes/input_event_mouse_button.hpp"
 #include "godot_cpp/classes/input_event_mouse_motion.hpp"
 #include "godot_cpp/core/math.hpp"
+#include "RigidBodyUtilitys.h"
+#include "godot_cpp/core/property_info.hpp"
+#include "godot_cpp/variant/basis.hpp"
+#include "godot_cpp/variant/projection.hpp"
+#include "godot_cpp/variant/transform3d.hpp"
+#include "godot_cpp/variant/variant.hpp"
+#include "godot_cpp/variant/vector2.hpp"
+#include "godot_cpp/variant/vector3.hpp"
+#include "godot_cpp/core/class_db.hpp"
+#include "godot_cpp/core/object.hpp"
+#include "godot_cpp/core/print_string.hpp"
+
+
 
 using namespace godot;
 
@@ -39,6 +52,7 @@ class RigidPlayer : public RigidBody3D{
 	    void _input(const Ref<InputEvent> &event) override;
 
         void jump();
+        Vector3 GetWishDir(){return Wishdir;}
 
         void ToggleCursor();
         void UI_Mode();
@@ -81,6 +95,8 @@ class RigidPlayer : public RigidBody3D{
         Vector3 LastGravitydir = Vector3(0,-1,0);
         Vector3 LastGravityForward = Vector3(1,0,0);
         Vector3 LastGravityRight;
+
+        Vector3 Wishdir;
 
         
 

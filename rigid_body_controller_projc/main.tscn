@@ -25,6 +25,16 @@ ambient_light_color = Color(0.63306266, 0.4497742, 0.794311, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ig7tw"]
 size = Vector3(67.684235, 5.522461, 33.468964)
 
+[sub_resource type="SphereMesh" id="SphereMesh_nr6gg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h250m"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.9138679, 0.60018694, 0.51887304, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6tm8e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ivkol"]
+
 [node name="Node3D" type="Node3D" unique_id=1579760363]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=678768590]
@@ -51,6 +61,13 @@ shape = SubResource("BoxShape3D_0xm2m")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=644527967]
 transform = Transform3D(-0.54440916, 0.81017053, 0.21735325, -0.36515707, -0.46217644, 0.8081171, 0.7551682, 0.3605783, 0.54745257, 0, 4.0953074, 0)
+directional_shadow_mode = 0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=179616306]
+transform = Transform3D(-0.20544812, -0.39944655, -0.8934392, -0.51895326, -0.72953224, 0.44550005, -0.8297462, 0.5551804, -0.05741304, 0, 4.0953074, 0)
+light_color = Color(0.74509805, 1, 1, 1)
+light_energy = 0.32
+directional_shadow_mode = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1958210341]
 environment = SubResource("Environment_h2yge")
@@ -96,5 +113,28 @@ shape = SubResource("BoxShape3D_0xm2m")
 [node name="OmniLight3D" type="OmniLight3D" parent="StaticBody3D3" unique_id=301181853]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.980294, 0)
 
-[node name="Node3D" parent="StaticBody3D3" unique_id=447789922 instance=ExtResource("2_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.38502, 4.8534994, 16.290737)
+[node name="Node3D" type="Node3D" parent="StaticBody3D3" unique_id=447789922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.38502, 4.8534994, 16.608845)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3/Node3D" unique_id=1813156668]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
+mesh = SubResource("SphereMesh_nr6gg")
+surface_material_override/0 = SubResource("StandardMaterial3D_h250m")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticBody3D3/Node3D/MeshInstance3D" unique_id=1594362623]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3/Node3D/MeshInstance3D/StaticBody3D" unique_id=1465133043]
+shape = SubResource("SphereShape3D_6tm8e")
+
+[node name="Area3D" type="Area3D" parent="StaticBody3D3/Node3D" unique_id=1193623608]
+gravity_space_override = 2
+gravity_point = true
+gravity_point_unit_distance = 4.0
+gravity = 12.092
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3/Node3D/Area3D" unique_id=510958167]
+transform = Transform3D(16.495, 0, 0, 0, 16.495, 0, 0, 0, 16.495, 0, 0, 0)
+shape = SubResource("SphereShape3D_ivkol")
+
+[node name="Node3D2" parent="StaticBody3D3" unique_id=321813564 instance=ExtResource("2_0xm2m")]
+transform = Transform3D(6.36, 0, 0, 0, 6.36, 0, 0, 0, 6.36, -87.262314, 4.8534994, 16.608845)

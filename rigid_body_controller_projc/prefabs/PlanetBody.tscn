@@ -25,7 +25,7 @@ shape = SubResource("SphereShape3D_6tm8e")
 [node name="Area3D" type="Area3D" parent="." unique_id=1193623608]
 gravity_space_override = 3
 gravity_point = true
-gravity = 32.0
+gravity = 13.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=510958167]
 transform = Transform3D(16.495, 0, 0, 0, 16.495, 0, 0, 0, 16.495, 0, 0, 0)
