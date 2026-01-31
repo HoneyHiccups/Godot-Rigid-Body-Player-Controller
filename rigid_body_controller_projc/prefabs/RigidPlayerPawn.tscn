@@ -1,13 +1,17 @@
 [gd_scene format=3 uid="uid://cx4ndp6hx7ngy"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ib480"]
+radius = 0.03
+height = 7.992
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mllbw"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_mllbw"]
 
-[node name="RigidPlayerPawn" type="RigidPlayer" unique_id=170371887 node_paths=PackedStringArray("piv_body", "piv_head")]
+[node name="RigidPlayerPawn" type="RigidPlayer" unique_id=170371887 node_paths=PackedStringArray("piv_body", "piv_head", "camrea_wrapper")]
 acceleration = 30.0
 maxSpeed = 30.0
-jumppower = 150.0
+jumppower = 5.0
 "Forward Action Map" = "Forward"
 "Back Action Map" = "Back"
 "Left Action Map" = "Left"
@@ -16,10 +20,12 @@ jumppower = 150.0
 "Duck Action Map" = "Duck"
 piv_body = NodePath("BodyPiv")
 piv_head = NodePath("BodyPiv/HeadPiv")
+camrea_wrapper = NodePath("BodyPiv/HeadPiv/ShakerWrapper")
 physics_interpolation_mode = 1
 axis_lock_angular_x = true
 axis_lock_angular_y = true
 axis_lock_angular_z = true
+mass = 100.0
 
 [node name="BodyPiv" type="Node3D" parent="." unique_id=934816624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68711245, 0)
@@ -29,6 +35,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68711245, 0)
 [node name="ShakerWrapper" type="Node3D" parent="BodyPiv/HeadPiv" unique_id=377982921]
 
 [node name="Camera3D" type="Camera3D" parent="BodyPiv/HeadPiv/ShakerWrapper" unique_id=1335987393]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BodyPiv" unique_id=1450814439]
+transform = Transform3D(1, 0, 0, 0, -1.0924388e-06, -1, 0, 24.992086, -4.371139e-08, 0, -0.68711245, 0)
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_ib480")
+skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1455552595]
 shape = SubResource("CapsuleShape3D_mllbw")

@@ -6,6 +6,7 @@
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/basis.hpp"
+#include "godot_cpp/variant/transform3d.hpp"
 #include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
@@ -30,6 +31,8 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_piv_body", "piv_body"), &RigidPlayer::set_piv_body);
     ClassDB::bind_method(D_METHOD("get_piv_head"), &RigidPlayer::get_piv_head);
     ClassDB::bind_method(D_METHOD("set_piv_head", "piv_head"), &RigidPlayer::set_piv_head);
+    ClassDB::bind_method(D_METHOD("get_camrea_wrapper"), &RigidPlayer::get_camrea_wrapper);
+    ClassDB::bind_method(D_METHOD("set_camrea_wrapper", "camrea_wrapper"), &RigidPlayer::set_camrea_wrapper);
     ClassDB::bind_method(D_METHOD("ToggleCursor"), &RigidPlayer::ToggleCursor);
     ClassDB::bind_method(D_METHOD("UI_Mode"), &RigidPlayer::UI_Mode);
     ClassDB::bind_method(D_METHOD("Game_Mode"), &RigidPlayer::Game_Mode);
@@ -65,21 +68,61 @@ void RigidPlayer::_bind_methods(){
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
+    ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camrea_wrapper", PROPERTY_HINT_NODE_TYPE),"set_camrea_wrapper","get_camrea_wrapper" );
 
 }
 
 
 void RigidPlayer::_ready(){
     input = Input::get_singleton();
-    this->set_process_input(true);
 
+    LastGravitydir = this->get_gravity().normalized();
 
     CurrentHeadRot = piv_head->get_rotation().y;
+
+        Basis BodyBasis = this->get_basis();
+        Vector3 Gravitydir = this->get_gravity();
+        Gravitydir.normalize();
+        LastGravitydir = Gravitydir;
+        LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
+        LastGravityRight.normalize();
+        LastGravityForward = LastGravityRight.cross(-Gravitydir);
+        Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
+        NewBodyBasis.orthogonalize();
+        this->set_basis(NewBodyBasis);
+
+    this->set_process_input(true);
+
 
 }
 
 
 void RigidPlayer::_process(double delta){
+    
+    auto test = this->get_gravity();
+    test.normalize();
+    if(piv_body!=nullptr && test != LastGravitydir){
+        
+        Basis BodyBasis = this->get_basis();
+        Vector3 Gravitydir = this->get_gravity();
+        Gravitydir.normalize();
+        LastGravitydir = Gravitydir;
+        LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
+        LastGravityRight.normalize();
+        LastGravityForward = LastGravityRight.cross(-Gravitydir);
+        Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
+        NewBodyBasis.orthogonalize();
+        this->set_basis(NewBodyBasis);
+        //piv_body->set_basis(NewBodyBasis);
+
+
+
+        
+    }
+
+    Vector3 Testing  = this->get_basis().get_column(1);
+    test.normalize();
+
 
 }
 
@@ -100,7 +143,7 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
             // need to do planer rots
-            apply_central_force((Wishdir*this->get_mass())*Acceleration);
+            apply_central_force(((Wishdir*this->get_mass())*Acceleration)*delta);
 
         }else{
             bisinputing = false;
@@ -134,11 +177,19 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
 void RigidPlayer::jump(){
     Vector3 GravityDir = (this->get_gravity()*-1.0f);
     GravityDir.normalize();
-    this->apply_central_impulse( (GravityDir*this->get_mass()) * (jumppower*.03) );
-    print_line((GravityDir*this->get_mass()) * (jumppower*.03) );
+    this->apply_central_impulse( (GravityDir*this->get_mass()) * jumppower );
 }
 
 void RigidPlayer::orbitcamtoggle(){
+
+    if(camrea_wrapper!= nullptr){
+        Vector3 camloc = camrea_wrapper->get_position();
+        if(camloc == Vector3 (0.0f,0.0f,0.0f)){
+            camrea_wrapper->set_position(Vector3(0,0,10));
+        }else{
+            camrea_wrapper->set_position(Vector3 (0.0f,0.0f,0.0f));
+        }
+    }
     return;
 }
 
@@ -170,7 +221,7 @@ void RigidPlayer::debuginput(){
     if (input->is_action_just_released("toggle_focus")){
         ToggleCursor();
     }
-    return;
+
     if(input->is_action_just_released("toggle_orbit_cam")){
         orbitcamtoggle();
     }

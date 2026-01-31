@@ -29,6 +29,8 @@ class RigidPlayer : public RigidBody3D{
 
     private:
 
+        void debuginput();
+        void orbitcamtoggle();
     
     public:
         void _ready() override;
@@ -42,8 +44,6 @@ class RigidPlayer : public RigidBody3D{
         void UI_Mode();
         void Game_Mode();
 
-        void debuginput();
-        void orbitcamtoggle();
 
     RigidPlayer() = default;
 	~RigidPlayer() override = default;
@@ -54,7 +54,7 @@ class RigidPlayer : public RigidBody3D{
     private:
         godot::Node3D* piv_body = nullptr;
         godot::Node3D* piv_head = nullptr;
-        godot::Node3D* piv_camrea_shake = nullptr;
+        godot::Node3D* camrea_wrapper = nullptr;
 
         Input* input = nullptr;
 
@@ -78,6 +78,9 @@ class RigidPlayer : public RigidBody3D{
         bool mousecursor_show = true;
 
         float CurrentHeadRot = 0;
+        Vector3 LastGravitydir = Vector3(0,-1,0);
+        Vector3 LastGravityForward = Vector3(1,0,0);
+        Vector3 LastGravityRight;
 
         
 
@@ -95,8 +98,8 @@ class RigidPlayer : public RigidBody3D{
         void set_aircontrol(float n){aircontrol = n;}
 	    float get_aircontrol(){return aircontrol;}
 
-        void  set_acceleration(float n){Acceleration = n;}
-	    float get_acceleration(){return Acceleration;}
+        void  set_acceleration(float n){Acceleration = n*100.0f;}
+	    float get_acceleration(){return Acceleration/100.0f;}
 
         void  set_maxSpeed(float n){MaxSpeed = n;}
 	    float get_maxSpeed(){return MaxSpeed;}
@@ -112,6 +115,9 @@ class RigidPlayer : public RigidBody3D{
 
 	    void set_piv_head(Node3D* n){piv_head = n;}
 	    Node3D* get_piv_head(){return piv_head;}
+
+	    void set_camrea_wrapper(Node3D* n){camrea_wrapper = n;}
+	    Node3D* get_camrea_wrapper(){return camrea_wrapper;}
 
         void set_forward_action_map(String n){MoveForwardActionMappping = n;}
         String get_forward_action_map(){return MoveForwardActionMappping;}
