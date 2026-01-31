@@ -14,19 +14,14 @@ using namespace godot;
 void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_acceleration"), &RigidPlayer::get_acceleration);
     ClassDB::bind_method(D_METHOD("set_acceleration", "acceleration"), &RigidPlayer::set_acceleration);
-
     ClassDB::bind_method(D_METHOD("get_maxSpeed"), &RigidPlayer::get_maxSpeed);
-    ClassDB::bind_method(D_METHOD("set_maxSpeed", "maxSpeed"), &RigidPlayer::set_maxSpeed);
-    
+    ClassDB::bind_method(D_METHOD("set_maxSpeed", "maxSpeed"), &RigidPlayer::set_maxSpeed);  
     ClassDB::bind_method(D_METHOD("get_aircontrol"), &RigidPlayer::get_aircontrol);
     ClassDB::bind_method(D_METHOD("set_aircontrol", "aircontrol"), &RigidPlayer::set_aircontrol);
-
     ClassDB::bind_method(D_METHOD("get_jumppower"), &RigidPlayer::get_jumppower);
     ClassDB::bind_method(D_METHOD("set_jumppower", "jumppower"), &RigidPlayer::set_jumppower);
-
     ClassDB::bind_method(D_METHOD("get_maxjumps"), &RigidPlayer::get_maxjumps);
     ClassDB::bind_method(D_METHOD("set_maxjumps", "maxjumps"), &RigidPlayer::set_maxjumps);
-
     ClassDB::bind_method(D_METHOD("get_friction"), &RigidPlayer::get_friction);
     ClassDB::bind_method(D_METHOD("set_friction", "friction"), &RigidPlayer::set_friction);
     ClassDB::bind_method(D_METHOD("get_sensitivity"), &RigidPlayer::get_sensitivity);

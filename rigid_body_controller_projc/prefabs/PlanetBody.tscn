@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://blmlgupipfgy1"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_nr6gg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h250m"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.9138679, 0.60018694, 0.51887304, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6tm8e"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ivkol"]
+
+[node name="Planatoid" type="Node3D" unique_id=447789922]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1813156668]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
+mesh = SubResource("SphereMesh_nr6gg")
+surface_material_override/0 = SubResource("StandardMaterial3D_h250m")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1594362623]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1465133043]
+shape = SubResource("SphereShape3D_6tm8e")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1193623608]
+gravity_space_override = 3
+gravity_point = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=510958167]
+transform = Transform3D(13, 0, 0, 0, 13, 0, 0, 0, 13, 0, 0, 0)
+shape = SubResource("SphereShape3D_ivkol")
