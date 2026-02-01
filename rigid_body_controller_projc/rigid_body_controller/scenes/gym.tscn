@@ -1,0 +1,282 @@
+[gd_scene format=3 uid="uid://baj612uhf6cmp"]
+
+[ext_resource type="PackedScene" uid="uid://cx4ndp6hx7ngy" path="res://prefabs/RigidPlayerPawn.tscn" id="1_ei5cv"]
+[ext_resource type="Shader" uid="uid://dvbivicsqayx1" path="res://rigid_body_controller/grid.gdshader" id="3_irsd3"]
+[ext_resource type="PackedScene" uid="uid://blmlgupipfgy1" path="res://prefabs/PlanetBody.tscn" id="3_r8w6l"]
+[ext_resource type="PackedScene" uid="uid://cycjle4jwmyxu" path="res://prefabs/Block.tscn" id="4_r8w6l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2y7ey"]
+render_priority = 0
+shader = ExtResource("3_irsd3")
+shader_parameter/subdivisions = 100.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_irsd3"]
+render_priority = 0
+shader = ExtResource("3_irsd3")
+shader_parameter/subdivisions = 1.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_2y7ey"]
+data = PackedVector3Array(-100, -1, 100, -100, -1, -100, -100, 1, -100, 100, -1, -100, -100, -1, -100, -100, -1, 100, -100, 1, -100, -100, -1, -100, 100, -1, -100, -100, 1, -100, -100, 1, 100, -100, -1, 100, -100, -1, 100, -100, 1, 100, 100, 1, 100, 100, 1, 100, -100, 1, 100, -100, 1, -100, -100, -1, 100, 100, -1, 100, 100, -1, -100, 100, 1, 100, 100, -1, 100, -100, -1, 100, 100, -1, -100, 100, -1, 100, 100, 1, 100, 100, -1, -100, 100, 1, -100, -100, 1, -100, -100, 1, -100, 100, 1, -100, 100, 1, 100, 100, 1, 100, 100, 1, -100, 100, -1, -100)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_irsd3"]
+data = PackedVector3Array(-0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_r8w6l"]
+data = PackedVector3Array(-0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_oqrnv"]
+data = PackedVector3Array(-0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_s0fi8"]
+data = PackedVector3Array(-0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_54tkj"]
+data = PackedVector3Array(-0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_15vk6"]
+data = PackedVector3Array(-0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2y7ey"]
+
+[sub_resource type="Sky" id="Sky_s0fi8"]
+sky_material = SubResource("ProceduralSkyMaterial_2y7ey")
+
+[sub_resource type="Environment" id="Environment_54tkj"]
+background_mode = 2
+background_energy_multiplier = 0.22
+sky = SubResource("Sky_s0fi8")
+
+[sub_resource type="GDScript" id="GDScript_irsd3"]
+resource_name = "RaylieghSky"
+script/source = "extends DirectionalLight3D
+
+func kelvin_to_rgb(temp_kelvin: float) -> Color:
+	var temperature = temp_kelvin / 100.0
+
+	var red: float
+	var green: float
+	var blue: float
+
+	# Calculate red
+	if temperature <= 66.0:
+		red = 255.0
+	else:
+		red = temperature - 60.0
+		red = 329.698727446 * pow(red, -0.1332047592)
+		red = clamp(red, 0.0, 255.0)
+
+	# Calculate green
+	if temperature <= 66.0:
+		green = 99.4708025861 * log(temperature) - 161.1195681661
+		green = clamp(green, 0.0, 255.0)
+	else:
+		green = temperature - 60.0
+		green = 288.1221695283 * pow(green, -0.0755148492)
+		green = clamp(green, 0.0, 255.0)
+
+	# Calculate blue
+	if temperature >= 66.0:
+		blue = 255.0
+	elif temperature <= 19.0:
+		blue = 0.0
+	else:
+		blue = temperature - 10.0
+		blue = 138.5177312231 * log(blue) - 305.0447927307
+		blue = clamp(blue, 0.0, 255.0)
+
+	# Convert to normalized RGB (0.0 to 1.0)
+	return Color(red / 255.0, green / 255.0, blue / 255.0)
+
+func sun_dir_ray() -> Vector3:
+	return global_basis.z.normalized()
+
+func _process(delta: float) -> void:
+	# Transform the light
+	#rotate_y(delta * 0.05)
+	#rotate_x(delta * 0.05)
+	
+	# Update color
+	var weight: float = sun_dir_ray().dot(Vector3.UP)
+	var energy = smoothstep(-0.1, -0.05, weight)
+	weight = pow(clamp(weight, 0.0, 1.0), 0.5)
+	var sun_color = kelvin_to_rgb(lerpf(2000, 6500, weight))
+	light_color = sun_color
+	light_energy = energy
+"
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_o65kj"]
+data = PackedVector3Array(-10.067657, -0.5, 6.1542664, -10.067657, -0.5, -6.1542664, -10.067657, 0.5, -6.1542664, 10.067657, -0.5, -6.1542664, -10.067657, -0.5, -6.1542664, -10.067657, -0.5, 6.1542664, -10.067657, 0.5, -6.1542664, -10.067657, -0.5, -6.1542664, 10.067657, -0.5, -6.1542664, -10.067657, 0.5, -6.1542664, -10.067657, 0.5, 6.1542664, -10.067657, -0.5, 6.1542664, -10.067657, -0.5, 6.1542664, -10.067657, 0.5, 6.1542664, 10.067657, 0.5, 6.1542664, 10.067657, 0.5, 6.1542664, -10.067657, 0.5, 6.1542664, -10.067657, 0.5, -6.1542664, -10.067657, -0.5, 6.1542664, 10.067657, -0.5, 6.1542664, 10.067657, -0.5, -6.1542664, 10.067657, 0.5, 6.1542664, 10.067657, -0.5, 6.1542664, -10.067657, -0.5, 6.1542664, 10.067657, -0.5, -6.1542664, 10.067657, -0.5, 6.1542664, 10.067657, 0.5, 6.1542664, 10.067657, -0.5, -6.1542664, 10.067657, 0.5, -6.1542664, -10.067657, 0.5, -6.1542664, -10.067657, 0.5, -6.1542664, 10.067657, 0.5, -6.1542664, 10.067657, 0.5, 6.1542664, 10.067657, 0.5, 6.1542664, 10.067657, 0.5, -6.1542664, 10.067657, -0.5, -6.1542664)
+
+[node name="Gym" type="Node3D" unique_id=566124272]
+
+[node name="PlayerPawns" type="Node" parent="." unique_id=740704057]
+
+[node name="RigidPlayerPawn" parent="PlayerPawns" unique_id=170371887 instance=ExtResource("1_ei5cv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7625055, 0)
+
+[node name="WorldCSG" type="Node" parent="." unique_id=558763903]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="WorldCSG" unique_id=1718452967]
+size = Vector3(200, 2, 200)
+material = SubResource("ShaderMaterial_2y7ey")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="WorldCSG" unique_id=922756027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.496161, 1.5023079, -1.5109279)
+material = SubResource("ShaderMaterial_irsd3")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="WorldCSG" unique_id=1773156271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.496161, 1.5, -4.504633)
+material = SubResource("ShaderMaterial_irsd3")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="WorldCSG" unique_id=1212187508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.496161, 2.5, -4.504633)
+material = SubResource("ShaderMaterial_irsd3")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="WorldCSG" unique_id=467061604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.496, 1.5, -4.504633)
+material = SubResource("ShaderMaterial_irsd3")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="WorldCSG" unique_id=894353896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.496, 2.5, -4.504633)
+material = SubResource("ShaderMaterial_irsd3")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="WorldCSG" unique_id=1027189766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.496, 3.5, -4.505)
+material = SubResource("ShaderMaterial_irsd3")
+
+[node name="Cols" type="Node" parent="." unique_id=2009087572]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Cols" unique_id=955847686]
+
+[node name="CSGBakedCollisionShape3D2" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=1275242938]
+shape = SubResource("ConcavePolygonShape3D_2y7ey")
+
+[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=2034078305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.496161, 1.5023079, -1.5109279)
+shape = SubResource("ConcavePolygonShape3D_irsd3")
+
+[node name="CSGBakedCollisionShape3D3" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=709565675]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.496161, 1.5, -4.504633)
+shape = SubResource("ConcavePolygonShape3D_r8w6l")
+
+[node name="CSGBakedCollisionShape3D4" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=1204664435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.496161, 2.5, -4.504633)
+shape = SubResource("ConcavePolygonShape3D_oqrnv")
+
+[node name="CSGBakedCollisionShape3D5" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=167699880]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.496, 3.5, -4.505)
+shape = SubResource("ConcavePolygonShape3D_s0fi8")
+
+[node name="CSGBakedCollisionShape3D6" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=1602247874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.496, 1.5, -4.504633)
+shape = SubResource("ConcavePolygonShape3D_54tkj")
+
+[node name="CSGBakedCollisionShape3D7" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=1663286625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.496, 2.5, -4.504633)
+shape = SubResource("ConcavePolygonShape3D_15vk6")
+
+[node name="Visuals" type="Node" parent="." unique_id=956391145]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Visuals" unique_id=923002009]
+environment = SubResource("Environment_54tkj")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Visuals" unique_id=1660840011]
+transform = Transform3D(-0.9994398, 0.033469077, -6.1478147e-09, 0.032031465, 0.9565104, 0.28993416, 0.0097038355, 0.28977174, -0.9570466, 0, 5.5015264, 0)
+shadow_enabled = true
+directional_shadow_mode = 0
+script = SubResource("GDScript_irsd3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Visuals/DirectionalLight3D" unique_id=408464668]
+transform = Transform3D(-0.56531864, 0.6309781, -0.5313018, -0.54641867, 0.19605623, 0.8142412, 0.6179334, 0.75061893, 0.23394392, 1.4901161e-07, 5.5015273, -1.1920929e-07)
+light_color = Color(0.83583015, 0.7145123, 0.6375834, 1)
+shadow_enabled = true
+directional_shadow_mode = 0
+script = SubResource("GDScript_irsd3")
+
+[node name="Hints" type="Node" parent="." unique_id=840241110]
+
+[node name="Label3D" type="Label3D" parent="Hints" unique_id=876906010]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 9.940362, 1.4714341, -1.5112202)
+text = "1 Meter
+     x
+1 Meter"
+
+[node name="Label3D2" type="Label3D" parent="Hints" unique_id=249148989]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 9.940362, 2.0261748, -4.4962025)
+text = "1 Meter
+     x
+2 Meter
+  AKA
+Base
+Player
+Height"
+
+[node name="Label3D3" type="Label3D" parent="Hints" unique_id=1184592538]
+transform = Transform3D(0.9999092, 0, 0.01347346, 0, 1, 0, -0.01347346, 0, 0.9999092, 11.511833, 2.0261748, -4.4962025)
+text = "Very 
+Tight 
+Fit"
+font_size = 44
+
+[node name="Planatoid" parent="Hints" unique_id=447789922 instance=ExtResource("3_r8w6l")]
+transform = Transform3D(8.135, 0, 0, 0, 8.135, 0, 0, 0, 8.135, 158.72588, -12.459426, -6.4511156)
+
+[node name="Planatoid2" parent="Hints" unique_id=357674920 instance=ExtResource("3_r8w6l")]
+transform = Transform3D(104.735, 0, 0, 0, 104.735, 0, 0, 0, 104.735, 893.8885, -156.6234, 570.0691)
+
+[node name="Toys" type="Node" parent="." unique_id=640673038]
+
+[node name="Block" parent="Toys" unique_id=448699955 instance=ExtResource("4_r8w6l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 1.5, 0.45218325)
+mass = 100.0
+
+[node name="Block2" parent="Toys" unique_id=588834250 instance=ExtResource("4_r8w6l")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 18.53078, 4.4175987, 0.45218325)
+mass = 200.0
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=180734472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161.02318, 21.022585, -4.1618624)
+size = Vector3(20.135315, 1, 12.308533)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="CSGBox3D" unique_id=744609868]
+
+[node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/StaticBody3D" unique_id=987644761]
+shape = SubResource("ConcavePolygonShape3D_o65kj")

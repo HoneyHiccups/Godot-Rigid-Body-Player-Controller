@@ -53,6 +53,8 @@ class RigidPlayer : public RigidBody3D{
 
         void jump();
         Vector3 GetWishDir(){return Wishdir;}
+        void AlineToGravity();
+        void set_gravity_aline_vector(Vector3 Gravitydir);
 
         void ToggleCursor();
         void UI_Mode();
@@ -87,6 +89,7 @@ class RigidPlayer : public RigidBody3D{
         float sensitivity = 1;
         float aircontrol = 0.f;
         float jumppower = 300;
+        float obit_cam_dist = 7;
         int maxjumps = 1;
 
         bool mousecursor_show = true;
@@ -97,6 +100,7 @@ class RigidPlayer : public RigidBody3D{
         Vector3 LastGravityRight;
 
         Vector3 Wishdir;
+        bool bisOrienttoGravity = false;
 
         
 
@@ -105,8 +109,16 @@ class RigidPlayer : public RigidBody3D{
         
     public: //setters and getters
         
+        void set_allow_align_with_gravity(bool n){bisOrienttoGravity = n;}
+	    bool get_allow_align_with_gravity(){return bisOrienttoGravity;}
+
         void set_maxjumps(int n){maxjumps = n;}
 	    int get_maxjumps(){return maxjumps;}
+
+
+        void set_orbit_cam_dist(float n){obit_cam_dist = n;}
+	    float get_orbit_cam_dist(){return obit_cam_dist;}
+
 
         void set_jumppower(float n){jumppower = n;}
 	    float get_jumppower(){return jumppower;}

@@ -5,10 +5,15 @@
 
 using namespace godot;
 void RigidPlayer::_bind_methods(){
+    ClassDB::bind_method(D_METHOD("get_allow_align_with_gravity"),                 &RigidPlayer::get_allow_align_with_gravity);
+    ClassDB::bind_method(D_METHOD("set_allow_align_with_gravity", "bisOrienttoGravity"), &RigidPlayer::set_allow_align_with_gravity);
+    ClassDB::bind_method(D_METHOD("set_gravity_aline_vector", "GravityVector"), &RigidPlayer::set_gravity_aline_vector);
     ClassDB::bind_method(D_METHOD("get_acceleration"), &RigidPlayer::get_acceleration);
     ClassDB::bind_method(D_METHOD("set_acceleration", "acceleration"), &RigidPlayer::set_acceleration);
     ClassDB::bind_method(D_METHOD("get_maxSpeed"), &RigidPlayer::get_maxSpeed);
     ClassDB::bind_method(D_METHOD("set_maxSpeed", "maxSpeed"), &RigidPlayer::set_maxSpeed);  
+    ClassDB::bind_method(D_METHOD("get_orbit_cam_dist"),                  &RigidPlayer::get_orbit_cam_dist);
+    ClassDB::bind_method(D_METHOD("set_orbit_cam_dist", "obit_cam_dist"), &RigidPlayer::set_orbit_cam_dist);  
     ClassDB::bind_method(D_METHOD("get_aircontrol"), &RigidPlayer::get_aircontrol);
     ClassDB::bind_method(D_METHOD("set_aircontrol", "aircontrol"), &RigidPlayer::set_aircontrol);
     ClassDB::bind_method(D_METHOD("get_jumppower"), &RigidPlayer::get_jumppower);
@@ -50,6 +55,8 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::INT, "maxjumps"), "set_maxjumps", "get_maxjumps");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "friction"), "set_friction", "get_friction");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "sensitivity"), "set_sensitivity", "get_sensitivity");
+    
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "obit_cam_dist"), "set_orbit_cam_dist", "get_orbit_cam_dist");
 
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Forward Action Map"), "set_forward_action_map","get_forward_action_map");
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Back Action Map"), "set_backward_action_map","get_backward_action_map");
@@ -88,27 +95,37 @@ void RigidPlayer::_ready(){
 
 }
 
+void RigidPlayer::set_gravity_aline_vector(Vector3 Gravitydir){
+    Basis BodyBasis = this->get_basis();
+    Gravitydir.normalize();
+    LastGravitydir = Gravitydir;
+    LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
+    LastGravityRight.normalize();
+    LastGravityForward = LastGravityRight.cross(-Gravitydir);
+    Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
+    NewBodyBasis.orthogonalize();
+    this->set_basis(NewBodyBasis);
+}
+
+void RigidPlayer::AlineToGravity(){
+    Basis BodyBasis = this->get_basis();
+    Vector3 Gravitydir = this->get_gravity();
+    Gravitydir.normalize();
+    LastGravitydir = Gravitydir;
+    LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
+    LastGravityRight.normalize();
+    LastGravityForward = LastGravityRight.cross(-Gravitydir);
+    Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
+    NewBodyBasis.orthogonalize();
+    this->set_basis(NewBodyBasis);
+}
 
 void RigidPlayer::_process(double delta){
     
     auto test = this->get_gravity();
     test.normalize();
-    if(piv_body!=nullptr && test != LastGravitydir ){
-        Basis BodyBasis = this->get_basis();
-        Vector3 Gravitydir = this->get_gravity();
-        Gravitydir.normalize();
-        LastGravitydir = Gravitydir;
-        LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
-        LastGravityRight.normalize();
-        LastGravityForward = LastGravityRight.cross(-Gravitydir);
-        Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
-        NewBodyBasis.orthogonalize();
-        this->set_basis(NewBodyBasis);
-        //piv_body->set_basis(NewBodyBasis);
-
-
-
-        
+    if(piv_body!=nullptr && test != LastGravitydir && bisOrienttoGravity == true){
+        AlineToGravity();
     }
 
     Vector3 Testing  = this->get_basis().get_column(1);
@@ -180,7 +197,7 @@ void RigidPlayer::orbitcamtoggle(){
     if(camrea_wrapper!= nullptr){
         Vector3 camloc = camrea_wrapper->get_position();
         if(camloc == Vector3 (0.0f,0.0f,0.0f)){
-            camrea_wrapper->set_position(Vector3(0,0,50));
+            camrea_wrapper->set_position(Vector3(0,0,obit_cam_dist));
         }else{
             camrea_wrapper->set_position(Vector3 (0.0f,0.0f,0.0f));
         }

@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://blmlgupipfgy1"]
 
+[ext_resource type="Script" uid="uid://d3x2jjmfcy73j" path="res://area_3d.gd" id="1_h250m"]
+
 [sub_resource type="SphereMesh" id="SphereMesh_nr6gg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h250m"]
@@ -26,7 +28,11 @@ shape = SubResource("SphereShape3D_6tm8e")
 gravity_space_override = 3
 gravity_point = true
 gravity = 13.0
+script = ExtResource("1_h250m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=510958167]
 transform = Transform3D(16.495, 0, 0, 0, 16.495, 0, 0, 0, 16.495, 0, 0, 0)
 shape = SubResource("SphereShape3D_ivkol")
+
+[connection signal="body_shape_entered" from="Area3D" to="Area3D" method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="Area3D" to="Area3D" method="_on_body_shape_exited"]
