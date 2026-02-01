@@ -94,7 +94,6 @@ void RigidPlayer::_process(double delta){
     auto test = this->get_gravity();
     test.normalize();
     if(piv_body!=nullptr && test != LastGravitydir ){
-        
         Basis BodyBasis = this->get_basis();
         Vector3 Gravitydir = this->get_gravity();
         Gravitydir.normalize();
