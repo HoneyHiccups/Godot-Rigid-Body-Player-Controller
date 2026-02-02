@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://jwnnaq5r1vgb"
+path="res://.godot/imported/RingSideCol.obj-e467acb6e412bc82f65dc8c096ec6aad.mesh"
+
+[deps]
+
+files=["res://.godot/imported/RingSideCol.obj-e467acb6e412bc82f65dc8c096ec6aad.mesh"]
+
+source_file="res://RingTest/RingSideCol.obj"
+dest_files=["res://.godot/imported/RingSideCol.obj-e467acb6e412bc82f65dc8c096ec6aad.mesh", "res://.godot/imported/RingSideCol.obj-e467acb6e412bc82f65dc8c096ec6aad.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

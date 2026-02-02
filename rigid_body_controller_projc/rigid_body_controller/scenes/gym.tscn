@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://dvbivicsqayx1" path="res://rigid_body_controller/grid.gdshader" id="3_irsd3"]
 [ext_resource type="PackedScene" uid="uid://blmlgupipfgy1" path="res://prefabs/PlanetBody.tscn" id="3_r8w6l"]
 [ext_resource type="PackedScene" uid="uid://cycjle4jwmyxu" path="res://prefabs/Block.tscn" id="4_r8w6l"]
+[ext_resource type="PackedScene" uid="uid://cmbclf4x60ne8" path="res://prefabs/RingPlant.tscn" id="5_oqrnv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2y7ey"]
 render_priority = 0
@@ -272,6 +273,10 @@ mass = 100.0
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 18.53078, 4.4175987, 0.45218325)
 mass = 200.0
 
+[node name="Block3" parent="Toys" unique_id=67001128 instance=ExtResource("4_r8w6l")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -84.11845, 4.4175987, 83.12573)
+mass = 200.0
+
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=180734472]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161.02318, 21.022585, -4.1618624)
 size = Vector3(20.135315, 1, 12.308533)
@@ -280,3 +285,6 @@ size = Vector3(20.135315, 1, 12.308533)
 
 [node name="CSGBakedCollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/StaticBody3D" unique_id=987644761]
 shape = SubResource("ConcavePolygonShape3D_o65kj")
+
+[node name="Node3D" parent="." unique_id=1349669363 instance=ExtResource("5_oqrnv")]
+transform = Transform3D(31.745, 0, 0, 0, -2.9924815e-06, -31.745, 0, 68.46, -1.3876181e-06, -140.96269, 183.5008, 379.31244)

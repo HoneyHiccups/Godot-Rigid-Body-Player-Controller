@@ -84,4 +84,6 @@ toggle_orbit_cam={
 common/physics_ticks_per_second=90
 common/physics_jitter_fix=0.0
 3d/physics_engine="Jolt Physics"
+3d/default_gravity=0.0
+3d/default_gravity_vector=Vector3(0, 0, 0)
 common/physics_interpolation=true

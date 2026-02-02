@@ -1,6 +1,10 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
+#include "godot_cpp/classes/time.hpp"
 #include "godot_cpp/core/class_db.hpp"
+#include "godot_cpp/core/print_string.hpp"
+#include "godot_cpp/variant/basis.hpp"
+#include "godot_cpp/variant/vector3.hpp"
 
 
 using namespace godot;
@@ -88,6 +92,7 @@ void RigidPlayer::_ready(){
         LastGravityForward = LastGravityRight.cross(-Gravitydir);
         Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
         NewBodyBasis.orthogonalize();
+        Targetbasis = NewBodyBasis;
         this->set_basis(NewBodyBasis);
 
     this->set_process_input(true);
@@ -102,36 +107,61 @@ void RigidPlayer::set_gravity_aline_vector(Vector3 Gravitydir){
     LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
     LastGravityRight.normalize();
     LastGravityForward = LastGravityRight.cross(-Gravitydir);
-    Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
-    NewBodyBasis.orthogonalize();
-    this->set_basis(NewBodyBasis);
+    Targetbasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
+    Targetbasis.orthogonalize();
+    this->set_basis(Targetbasis);
 }
 
 void RigidPlayer::AlineToGravity(){
     Basis BodyBasis = this->get_basis();
     Vector3 Gravitydir = this->get_gravity();
+    if(Gravitydir.is_zero_approx()){
+        return;
+    }
     Gravitydir.normalize();
     LastGravitydir = Gravitydir;
     LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
     LastGravityRight.normalize();
     LastGravityForward = LastGravityRight.cross(-Gravitydir);
-    Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
-    NewBodyBasis.orthogonalize();
-    this->set_basis(NewBodyBasis);
+    Targetbasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
+    Targetbasis.orthogonalize();
+    if(SlerpGravityOrientaions == true){
+        float dot = RigidBodyUtilitys::dot_basis(this->get_basis(), Targetbasis);
+        //print_line(dot);
+        if(dot>= 0.99){
+            //this->set_basis(Targetbasis);
+            // not sure what I am doing wrong here 
+            // snapping just felt like dog shit so
+            // I turned it off
+        }else{
+            
+        }
+        this->set_basis(BodyBasis.slerp(Targetbasis,dot*.06f)); 
+        
+    }else{
+        this->set_basis(Targetbasis);
+    }
+    
+    
 }
 
-void RigidPlayer::_process(double delta){
+void RigidPlayer::handle_gravity_ort_logic(){
     
-    auto test = this->get_gravity();
+    Vector3 test = this->get_gravity();
     test.normalize();
-    if(piv_body!=nullptr && test != LastGravitydir && bisOrienttoGravity == true){
+    if(test != LastGravitydir && bisOrienttoGravity == true){
+        AlineToGravity();
+    }else if (!(Targetbasis.is_equal_approx(this->get_basis())) && bisOrienttoGravity == true) {
         AlineToGravity();
     }
 
     Vector3 Testing  = this->get_basis().get_column(1);
     test.normalize();
 
+}
 
+void RigidPlayer::_process(double delta){
+    
 }
 
 void RigidPlayer::_physics_process(double delta){
@@ -166,6 +196,8 @@ void RigidPlayer::_physics_process(double delta){
         }
         debuginput();
     }
+
+    handle_gravity_ort_logic();
     
 }
 

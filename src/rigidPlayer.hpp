@@ -55,7 +55,7 @@ class RigidPlayer : public RigidBody3D{
         Vector3 GetWishDir(){return Wishdir;}
         void AlineToGravity();
         void set_gravity_aline_vector(Vector3 Gravitydir);
-
+        void handle_gravity_ort_logic();
         void ToggleCursor();
         void UI_Mode();
         void Game_Mode();
@@ -99,8 +99,11 @@ class RigidPlayer : public RigidBody3D{
         Vector3 LastGravityForward = Vector3(1,0,0);
         Vector3 LastGravityRight;
 
+        Basis Targetbasis;
         Vector3 Wishdir;
         bool bisOrienttoGravity = false;
+        bool keepskewedGravityOrientaions = true;
+        bool SlerpGravityOrientaions = true;
 
         
 
