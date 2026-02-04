@@ -2,6 +2,7 @@
 #include "RigidBodyUtilitys.h"
 #include "godot_cpp/classes/time.hpp"
 #include "godot_cpp/core/class_db.hpp"
+#include "godot_cpp/core/math.hpp"
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/variant/basis.hpp"
 #include "godot_cpp/variant/vector3.hpp"
@@ -166,6 +167,11 @@ void RigidPlayer::_process(double delta){
 
 void RigidPlayer::_physics_process(double delta){
     if(input != nullptr && piv_body != nullptr){
+        CurrentSpeed = (this->get_linear_velocity().x+
+        this->get_linear_velocity().y+
+        this->get_linear_velocity().z
+        );
+
         Vector2 InputDir = Vector2(
             input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
             //0.0f,
@@ -174,7 +180,7 @@ void RigidPlayer::_physics_process(double delta){
 
         if(InputDir.is_zero_approx()== false){
             bisinputing = true;
-            //
+            
             InputDir.normalize();
             Basis BodyBasis = piv_body->get_global_transform().get_basis();
             //
@@ -182,9 +188,21 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 RightVec = BodyBasis.get_column(0);
             Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
-            // need to do planer rots
-            apply_central_force(((Wishdir*this->get_mass())*Acceleration)*delta);
+            Vector3 linVel = this->get_linear_velocity();
+            linVel.normalize();
+            float mass = this->get_mass(); //this is so that its ez to read force formula
+            // Creates an amount to reduce speed
+            float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
+            //creates a new accel power to avoid goining light speed
+            float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
+            // jazzhands gives us bost moving in perpducular movments from base move dir
+            float jazzhands = MappedDotProduct(linVel, Wishdir);
 
+
+            /*I need to rotate the wishdir to corspond to walking angles*/
+            Vector3 Force = Wishdir * jazzhands * mass * effectiveAccel * delta;
+            // need to do planer rots
+            apply_central_force(Force);
 
         }else{
             bisinputing = false;
@@ -270,4 +288,18 @@ void RigidPlayer::debuginput(){
         orbitcamtoggle();
     }
     
+}
+
+float RigidPlayer::MappedDotProduct(Vector3 x , Vector3 y) {
+    float out = x.dot(y);
+    //0 for aligned vectors // changed to .33
+    //1 for perpendicular
+    //2 for opposite directions // changed to 1.33
+    if (out > 0) {
+        return Math::lerp(0.33f, 1.f,1 - out);
+
+    }
+    else {
+        return Math::lerp(1.0f, 1.33f, -out);
+    }
 }

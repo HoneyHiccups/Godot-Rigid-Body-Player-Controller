@@ -15,6 +15,7 @@ absorbent = true
 acceleration = 30.0
 maxSpeed = 30.0
 jumppower = 5.0
+obit_cam_dist = 45.0
 "Forward Action Map" = "Forward"
 "Back Action Map" = "Back"
 "Left Action Map" = "Left"

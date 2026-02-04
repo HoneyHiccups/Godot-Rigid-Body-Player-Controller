@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://cn3i3f6ye30qq"]
+
+[sub_resource type="GDScript" id="GDScript_14vt6"]
+resource_name = "TestSpeed"
+script/source = "extends Node3D
+
+@onready var speedMeterLable : Label3D = $SpeedMeter
+
+var time = 0.0;
+var startimmer : bool = false
+func _process(delta: float) -> void:
+	if ( startimmer == true):
+		time = delta + time;
+
+func _on_enter_aera_body_shape_entered(body_rid: RID, body: Node3D, body_shape_index: int, local_shape_index: int) -> void:
+	if ( body is RigidPlayer):
+		startimmer = true;
+		time = 0;
+
+
+func _on_exit_aera_body_shape_entered(body_rid: RID, body: Node3D, body_shape_index: int, local_shape_index: int) -> void:
+	if ( body is RigidPlayer):
+		startimmer = false;
+		time = time/2;
+		var math = 1/time;
+		var out : String = \"1 meter in \" + str(time) + \" seconds \\n or \" + str(1*math) + \" meters per second\";
+		speedMeterLable.text = out;
+"
+
+[sub_resource type="BoxMesh" id="BoxMesh_14vt6"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_25bps"]
+size = Vector3(0.01, 2.06, 2.02)
+
+[node name="Speedmeter" type="Node3D" unique_id=1188220596]
+script = SubResource("GDScript_14vt6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1343706027]
+transform = Transform3D(0.062, 0, 0, 0, 2, 0, 0, 0, 2, 1, 1.055, 0)
+mesh = SubResource("BoxMesh_14vt6")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1069651690]
+transform = Transform3D(0.062, 0, 0, 0, 2, 0, 0, 0, 2, -1, 1.055, 0)
+mesh = SubResource("BoxMesh_14vt6")
+
+[node name="EnterAera" type="Area3D" parent="." unique_id=431141153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1.036, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnterAera" unique_id=1969262731]
+shape = SubResource("BoxShape3D_25bps")
+
+[node name="ExitAera" type="Area3D" parent="." unique_id=863550068]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.01, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitAera" unique_id=1617374749]
+shape = SubResource("BoxShape3D_25bps")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=2012737748]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.163772, 1.3275695, 0)
+billboard = 1
+text = "Enter
+"
+
+[node name="Label3D2" type="Label3D" parent="." unique_id=1929624688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2137543, 1.6946931, 0)
+billboard = 1
+text = "Exit
+"
+
+[node name="SpeedMeter" type="Label3D" parent="." unique_id=1482997939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4636719, 1.1262071, 0)
+billboard = 1
+text = "
+"
+
+[connection signal="body_shape_entered" from="EnterAera" to="." method="_on_enter_aera_body_shape_entered"]
+[connection signal="body_shape_entered" from="ExitAera" to="." method="_on_exit_aera_body_shape_entered"]

@@ -2,7 +2,7 @@ extends Node3D
 
 
 @onready var Player : RigidPlayer = $".."
-@export var DebugDraw:bool = false
+@export var DebugDraw:bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
