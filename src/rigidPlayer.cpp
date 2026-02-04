@@ -17,6 +17,10 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_acceleration", "acceleration"), &RigidPlayer::set_acceleration);
     ClassDB::bind_method(D_METHOD("get_maxSpeed"), &RigidPlayer::get_maxSpeed);
     ClassDB::bind_method(D_METHOD("set_maxSpeed", "maxSpeed"), &RigidPlayer::set_maxSpeed);  
+    ClassDB::bind_method(D_METHOD("get_pd_dampiningPower"),                      &RigidPlayer::get_pd_dampiningPower);
+    ClassDB::bind_method(D_METHOD("set_pd_dampiningPower", "pd_dampiningPower"), &RigidPlayer::set_pd_dampiningPower); 
+    ClassDB::bind_method(D_METHOD("get_strafe_jumpAddPower"),                        &RigidPlayer::get_strafe_jumpAddPower);
+    ClassDB::bind_method(D_METHOD("set_strafe_jumpAddPower", "strafe_jumpAddPower"), &RigidPlayer::set_strafe_jumpAddPower); 
     ClassDB::bind_method(D_METHOD("get_orbit_cam_dist"),                  &RigidPlayer::get_orbit_cam_dist);
     ClassDB::bind_method(D_METHOD("set_orbit_cam_dist", "obit_cam_dist"), &RigidPlayer::set_orbit_cam_dist);  
     ClassDB::bind_method(D_METHOD("get_aircontrol"), &RigidPlayer::get_aircontrol);
@@ -60,9 +64,9 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::INT, "maxjumps"), "set_maxjumps", "get_maxjumps");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "friction"), "set_friction", "get_friction");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "sensitivity"), "set_sensitivity", "get_sensitivity");
-    
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "PD_DampiningPower"), "set_pd_dampiningPower", "get_pd_dampiningPower");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "strafe_jumpAddPower"), "set_strafe_jumpAddPower", "get_strafe_jumpAddPower");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "obit_cam_dist"), "set_orbit_cam_dist", "get_orbit_cam_dist");
-
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Forward Action Map"), "set_forward_action_map","get_forward_action_map");
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Back Action Map"), "set_backward_action_map","get_backward_action_map");
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Left Action Map"), "set_left_action_map","get_left_action_map");
@@ -166,7 +170,7 @@ void RigidPlayer::_process(double delta){
 }
 
 void RigidPlayer::_physics_process(double delta){
-    if(input != nullptr && piv_body != nullptr){
+    if(input != nullptr && piv_body != nullptr && bisGrounded){
         CurrentSpeed = (this->get_linear_velocity().x+
         this->get_linear_velocity().y+
         this->get_linear_velocity().z
@@ -188,6 +192,7 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 RightVec = BodyBasis.get_column(0);
             Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
+            // will do math later to make this not include the body of other rigids
             Vector3 linVel = this->get_linear_velocity();
             linVel.normalize();
             float mass = this->get_mass(); //this is so that its ez to read force formula
@@ -196,17 +201,34 @@ void RigidPlayer::_physics_process(double delta){
             //creates a new accel power to avoid goining light speed
             float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
             // jazzhands gives us bost moving in perpducular movments from base move dir
-            float jazzhands = MappedDotProduct(linVel, Wishdir);
+            float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
 
 
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = Wishdir * jazzhands * mass * effectiveAccel * delta;
+            Vector3 Force = Wishdir * jazzhands * mass * effectiveAccel * delta - (linVel * mass * PD_DampiningPower * delta);
             // need to do planer rots
             apply_central_force(Force);
 
         }else{
             bisinputing = false;
-            Wishdir = Vector3(0,0,0);
+            if ( autoslow == true){                 
+                Wishdir = this->get_linear_velocity();
+                if(!Wishdir.is_zero_approx()){
+                    Wishdir.normalize();
+                    Wishdir = Wishdir*-1.f;
+                    Vector3 linVel = this->get_linear_velocity();
+                    linVel.normalize();
+                    float mass = this->get_mass();
+                    float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
+                    float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
+                    float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
+                    Vector3 Force = Wishdir * jazzhands * mass * effectiveAccel * delta - (linVel * mass * PD_DampiningPower * delta);
+                    Force = Force*autoslowPower;
+                    this->apply_central_force(Force);
+                }
+
+            }
+
         }
 
         if(input->is_action_just_pressed(JumpActionMappping)){

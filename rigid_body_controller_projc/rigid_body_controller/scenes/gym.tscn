@@ -268,7 +268,7 @@ transform = Transform3D(8.135, 0, 0, 0, 8.135, 0, 0, 0, 8.135, 158.72588, -12.45
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 158.72588, -12.459426, -150.60593)
 
 [node name="Planatoid2" parent="Hints" unique_id=357674920 instance=ExtResource("3_r8w6l")]
-transform = Transform3D(104.735, 0, 0, 0, 104.735, 0, 0, 0, 104.735, 893.8885, -156.6234, 570.0691)
+transform = Transform3D(104.735, 0, 0, 0, 104.735, 0, 0, 0, 104.735, 1076.1528, -156.6234, 570.0691)
 
 [node name="Toys" type="Node" parent="." unique_id=640673038]
 
@@ -286,6 +286,9 @@ mass = 200.0
 
 [node name="Speedmeter" parent="Toys" unique_id=1188220596 instance=ExtResource("4_s0fi8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.869421, 1.0000005, -31.341957)
+
+[node name="Speedmeter2" parent="Toys" unique_id=1640044172 instance=ExtResource("4_s0fi8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -120.775566, -122.96854, 325.66656)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=180734472]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 161.02318, 21.022585, -4.1618624)

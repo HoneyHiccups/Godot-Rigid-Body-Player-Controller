@@ -77,6 +77,7 @@ class RigidPlayer : public RigidBody3D{
         Input* input = nullptr;
 
         bool allowDebugFeatuers = true;
+        
 
         String MoveForwardActionMappping = "empty";
         String MoveBackWardActionMappping = "empty";
@@ -85,6 +86,8 @@ class RigidPlayer : public RigidBody3D{
         String JumpActionMappping = "empty";
         String DuckActionMappping = "empty";
 
+        float PD_DampiningPower = .8f;
+        float StrafeJumpAddPower = 0.f;
         float Acceleration = 10;
         float MaxSpeed = 10;
         float friction = 10;
@@ -93,6 +96,8 @@ class RigidPlayer : public RigidBody3D{
         float jumppower = 300;
         float obit_cam_dist = 7;
         int maxjumps = 1;
+        bool bisGrounded = true;
+        float autoslowPower = 1.0f;
 
 
         float CurrentSpeed;
@@ -110,6 +115,8 @@ class RigidPlayer : public RigidBody3D{
         bool keepskewedGravityOrientaions = true;
         bool SlerpGravityOrientaions = true;
         bool isOverSlooped = false;
+        bool autoslow = false; // needs grounded check to work
+        
 
 
         
@@ -125,10 +132,14 @@ class RigidPlayer : public RigidBody3D{
         void set_maxjumps(int n){maxjumps = n;}
 	    int get_maxjumps(){return maxjumps;}
 
-
         void set_orbit_cam_dist(float n){obit_cam_dist = n;}
 	    float get_orbit_cam_dist(){return obit_cam_dist;}
 
+        void set_pd_dampiningPower(float n){PD_DampiningPower = n;}
+	    float get_pd_dampiningPower(){return PD_DampiningPower;}
+
+        void set_strafe_jumpAddPower(float n){StrafeJumpAddPower = n;}
+	    float get_strafe_jumpAddPower(){return StrafeJumpAddPower;}
 
         void set_jumppower(float n){jumppower = n;}
 	    float get_jumppower(){return jumppower;}
