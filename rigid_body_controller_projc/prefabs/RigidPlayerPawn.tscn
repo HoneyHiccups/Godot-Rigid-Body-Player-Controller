@@ -13,7 +13,8 @@ absorbent = true
 
 [node name="RigidPlayerPawn" type="RigidPlayer" unique_id=170371887 node_paths=PackedStringArray("piv_body", "piv_head", "camrea_wrapper")]
 acceleration = 30.95
-maxSpeed = 4.015
+maxSpeed = 15.0
+aircontrol = 7.0
 jumppower = 5.0
 PD_DampiningPower = 3.66
 obit_cam_dist = 45.0

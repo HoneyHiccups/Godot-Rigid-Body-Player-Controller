@@ -63,6 +63,9 @@ class RigidPlayer : public RigidBody3D{
         void ToggleCursor();
         void UI_Mode();
         void Game_Mode();
+        void Just_Landed();
+        void rez_jump();
+        void just_stopped_moving();
 
 
     RigidPlayer() = default;
@@ -88,18 +91,23 @@ class RigidPlayer : public RigidBody3D{
         String JumpActionMappping = "empty";
         String DuckActionMappping = "empty";
 
-        float PD_DampiningPower = .8f;
+        float PD_DampiningPower = 0.8f;
         float StrafeJumpAddPower = 0.f;
         float Acceleration = 10;
         float MaxSpeed = 10;
         float friction = 10;
         float sensitivity = 1;
-        float aircontrol = 0.3f;
+        float aircontrol = 3.0f;
         float jumppower = 300;
         float obit_cam_dist = 7;
         int maxjumps = 1;
+        int currentjumps = maxjumps;
         bool bisGrounded = true;
-        float autoslowPower = 1.0f;
+        float autoslowPower = 0.4f;
+        float FrictionBurnPower = .66f;
+        float CoyoteTime = .15f;
+        float airtime = 0;
+        bool toonjump = true;
 
         u_int8_t MaxContactReportCount = 4;
 

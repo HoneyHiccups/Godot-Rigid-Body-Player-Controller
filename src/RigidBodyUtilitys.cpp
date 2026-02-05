@@ -29,3 +29,4 @@ float RigidBodyUtilitys::dot_basis(const godot::Basis &b1,const godot::Basis &b2
 
 
 }
+

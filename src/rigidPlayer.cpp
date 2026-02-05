@@ -139,7 +139,6 @@ void RigidPlayer::AlineToGravity(){
     Targetbasis.orthogonalize();
     if(SlerpGravityOrientaions == true){
         float dot = RigidBodyUtilitys::dot_basis(this->get_basis(), Targetbasis);
-        //print_line(dot);
         if(dot>= 0.99){
             //this->set_basis(Targetbasis);
             // not sure what I am doing wrong here 
@@ -177,32 +176,39 @@ void RigidPlayer::_process(double delta){
 }
 
 void RigidPlayer::_physics_process(double delta){
-   // not getting anything with this ColidingBodys = this->get_colliding_bodies();
     int contanct = this->get_contact_count();
     
     if(contanct == 0 /* && lintrace is hitting nothing*/){
         bisGrounded = false;
+        airtime = airtime+delta;
+        // to britle
     }else{
+        if(bisGrounded == false){
+            Just_Landed();
+        }
         bisGrounded = true;
+        airtime = 0;
     }
-    //print_line(bisGrounded);
 
     CurrentSpeed = (this->get_linear_velocity().x+
     this->get_linear_velocity().y+
     this->get_linear_velocity().z
     );
 
+    CurrentSpeed = Math::abs(CurrentSpeed);
     Vector2 InputDir = Vector2(
     input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
     //0.0f,
     input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
     );
 
+    float FrictionBurn = Math::clamp(MaxSpeed - CurrentSpeed, 0.33f, 9999.0f);
+    FrictionBurn = friction/(FrictionBurn*FrictionBurnPower);
 
     if(input != nullptr && piv_body != nullptr){
         if(InputDir.is_zero_approx()== false && bisGrounded == true){
+            // on ground and inputing
             bisinputing = true;
-            
             InputDir.normalize();
             Basis BodyBasis = piv_body->get_global_transform().get_basis();
             //
@@ -220,10 +226,10 @@ void RigidPlayer::_physics_process(double delta){
             // jazzhands gives us bost moving in perpducular movments from base move dir
             float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
 
-
             /*I need to rotate the wishdir to corspond to walking angles*/
             Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
+            Force = Force/FrictionBurn;
             apply_central_force(Force);
 
         }else if (InputDir.is_zero_approx()== true && bisGrounded == true){
@@ -241,7 +247,16 @@ void RigidPlayer::_physics_process(double delta){
                     float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
                     Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
                     Force = Force*autoslowPower;
-                    this->apply_central_force(Force);
+                    Force = Force/FrictionBurn;
+
+                    if(contanct < 2 &&Force.is_equal_approx(Vector3(0,0,0)) || this->get_linear_velocity().is_zero_approx() || this->get_linear_velocity().abs() < Vector3(.3,.3,.3)){
+                        this->set_linear_velocity(Vector3(0,0,0));
+                        just_stopped_moving();
+                    }else{
+                        this->apply_central_force(Force);
+                        
+                    }
+
                 }
 
             }
@@ -262,7 +277,8 @@ void RigidPlayer::_physics_process(double delta){
             float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
             float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
             float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
-            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * aircontrol * PD_DampiningPower * delta);
+            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Force = Force/aircontrol;
             apply_central_force(Force);
         }
         if (piv_body != nullptr && bisGrounded == false && isOverSlooped == true){
@@ -297,6 +313,10 @@ void RigidPlayer::_physics_process(double delta){
     
 }
 
+void RigidPlayer::just_stopped_moving(){
+
+}
+
 void RigidPlayer::_input(const Ref<InputEvent> &event){
     Ref<InputEventMouseMotion> MouseEvent = event;
 
@@ -315,9 +335,22 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
 }
 
 void RigidPlayer::jump(){
+    if(currentjumps == 0 || airtime>CoyoteTime)
+        return;
     Vector3 GravityDir = (this->get_gravity()*-1.0f);
     GravityDir.normalize();
-    this->apply_central_impulse( (GravityDir*this->get_mass()) * jumppower );
+    Vector3 ToonJumpPower = this->get_linear_velocity()*GravityDir;
+    ToonJumpPower = ToonJumpPower.clamp(Vector3(0,0,0), ToonJumpPower); // not working fix later;
+    this->apply_central_impulse( (GravityDir*this->get_mass()) * jumppower  );
+    currentjumps = currentjumps-1;
+}
+
+void RigidPlayer::Just_Landed(){
+    rez_jump();
+}
+
+void RigidPlayer::rez_jump(){
+    currentjumps = maxjumps;
 }
 
 void RigidPlayer::orbitcamtoggle(){
