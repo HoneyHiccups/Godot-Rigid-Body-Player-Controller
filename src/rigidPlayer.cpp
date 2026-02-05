@@ -235,7 +235,7 @@ void RigidPlayer::_physics_process(double delta){
         }else if (InputDir.is_zero_approx()== true && bisGrounded == true){
             //this is auto slow no di;
             bisinputing = false;
-            if ( autoslow == true && bisGrounded == true){                 
+            if ( autoslow == true && bisGrounded == true && input->is_action_pressed(JumpActionMappping) == false){                 
                 Wishdir = this->get_linear_velocity();
                 if(!Wishdir.is_zero_approx()){
                     Wishdir.normalize();
