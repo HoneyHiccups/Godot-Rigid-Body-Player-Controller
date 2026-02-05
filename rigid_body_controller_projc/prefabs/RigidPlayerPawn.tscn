@@ -4,7 +4,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ib480"]
 friction = 0.3
-bounce = 0.2
+bounce = 1.0
 absorbent = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mllbw"]
