@@ -5,7 +5,9 @@
 #include "godot_cpp/core/math.hpp"
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/variant/basis.hpp"
+#include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/variant/vector3.hpp"
+#include <cstdint>
 
 
 using namespace godot;
@@ -101,6 +103,11 @@ void RigidPlayer::_ready(){
         this->set_basis(NewBodyBasis);
 
     this->set_process_input(true);
+    this->set_contact_monitor(true);
+    this->set_max_contacts_reported(MaxContactReportCount);
+    this->set_use_continuous_collision_detection(true);
+    this->set_sleeping(true);
+    this->set_sleeping(false);
 
 
 }
@@ -170,19 +177,30 @@ void RigidPlayer::_process(double delta){
 }
 
 void RigidPlayer::_physics_process(double delta){
-    if(input != nullptr && piv_body != nullptr && bisGrounded){
-        CurrentSpeed = (this->get_linear_velocity().x+
-        this->get_linear_velocity().y+
-        this->get_linear_velocity().z
-        );
+   // not getting anything with this ColidingBodys = this->get_colliding_bodies();
+    int contanct = this->get_contact_count();
+    
+    if(contanct == 0 /* && lintrace is hitting nothing*/){
+        bisGrounded = false;
+    }else{
+        bisGrounded = true;
+    }
+    //print_line(bisGrounded);
 
-        Vector2 InputDir = Vector2(
-            input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
-            //0.0f,
-            input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
-        );
+    CurrentSpeed = (this->get_linear_velocity().x+
+    this->get_linear_velocity().y+
+    this->get_linear_velocity().z
+    );
 
-        if(InputDir.is_zero_approx()== false){
+    Vector2 InputDir = Vector2(
+    input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
+    //0.0f,
+    input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
+    );
+
+
+    if(input != nullptr && piv_body != nullptr){
+        if(InputDir.is_zero_approx()== false && bisGrounded == true){
             bisinputing = true;
             
             InputDir.normalize();
@@ -195,7 +213,6 @@ void RigidPlayer::_physics_process(double delta){
             // will do math later to make this not include the body of other rigids
             Vector3 linVel = this->get_linear_velocity();
             linVel.normalize();
-            float mass = this->get_mass(); //this is so that its ez to read force formula
             // Creates an amount to reduce speed
             float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
             //creates a new accel power to avoid goining light speed
@@ -205,30 +222,69 @@ void RigidPlayer::_physics_process(double delta){
 
 
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = Wishdir * jazzhands * mass * effectiveAccel * delta - (linVel * mass * PD_DampiningPower * delta);
+            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
             apply_central_force(Force);
 
-        }else{
+        }else if (InputDir.is_zero_approx()== true && bisGrounded == true){
+            //this is auto slow no di;
             bisinputing = false;
-            if ( autoslow == true){                 
+            if ( autoslow == true && bisGrounded == true){                 
                 Wishdir = this->get_linear_velocity();
                 if(!Wishdir.is_zero_approx()){
                     Wishdir.normalize();
                     Wishdir = Wishdir*-1.f;
                     Vector3 linVel = this->get_linear_velocity();
                     linVel.normalize();
-                    float mass = this->get_mass();
                     float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
                     float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
                     float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
-                    Vector3 Force = Wishdir * jazzhands * mass * effectiveAccel * delta - (linVel * mass * PD_DampiningPower * delta);
+                    Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
                     Force = Force*autoslowPower;
                     this->apply_central_force(Force);
                 }
 
             }
 
+        }
+        
+        if (piv_body != nullptr && bisGrounded == false && isOverSlooped == false){
+            // in air not sliding
+            bisinputing = true;
+            InputDir.normalize();
+            Basis BodyBasis = piv_body->get_global_transform().get_basis();
+            Vector3 ForwardVec = BodyBasis.get_column(2);
+            Vector3 RightVec = BodyBasis.get_column(0);
+            Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
+            Wishdir.normalize();
+            Vector3 linVel = this->get_linear_velocity();
+            linVel.normalize();
+            float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
+            float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
+            float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
+            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * aircontrol * PD_DampiningPower * delta);
+            apply_central_force(Force);
+        }
+        if (piv_body != nullptr && bisGrounded == false && isOverSlooped == true){
+            // in air not sliding
+
+            // over slooped
+            /*
+            bisinputing = true;
+            InputDir.normalize();
+            Basis BodyBasis = piv_body->get_global_transform().get_basis();
+            Vector3 ForwardVec = BodyBasis.get_column(2);
+            Vector3 RightVec = BodyBasis.get_column(0);
+            Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
+            Wishdir.normalize();
+            Vector3 linVel = this->get_linear_velocity();
+            linVel.normalize();
+            float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
+            float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
+            float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
+            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * aircontrol * PD_DampiningPower * delta);
+            apply_central_force(Force);
+            */
         }
 
         if(input->is_action_just_pressed(JumpActionMappping)){

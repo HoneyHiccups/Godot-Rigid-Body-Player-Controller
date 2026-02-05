@@ -155,7 +155,7 @@ size = Vector3(200, 100, 200)
 [node name="PlayerPawns" type="Node" parent="." unique_id=740704057]
 
 [node name="RigidPlayerPawn" parent="PlayerPawns" unique_id=170371887 instance=ExtResource("1_ei5cv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7625055, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40.663548, 0)
 
 [node name="WorldCSG" type="Node" parent="." unique_id=558763903]
 

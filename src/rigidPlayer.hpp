@@ -4,6 +4,7 @@
 #include "godot_cpp/classes/rigid_body3d.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
 #include "godot_cpp/variant/string.hpp"
+#include "godot_cpp/variant/typed_array.hpp"
 #include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/classes/node3d.hpp"
 #include "godot_cpp/classes/input.hpp"
@@ -23,6 +24,7 @@
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
+#include <sys/types.h>
 
 
 
@@ -92,12 +94,14 @@ class RigidPlayer : public RigidBody3D{
         float MaxSpeed = 10;
         float friction = 10;
         float sensitivity = 1;
-        float aircontrol = 0.f;
+        float aircontrol = 0.3f;
         float jumppower = 300;
         float obit_cam_dist = 7;
         int maxjumps = 1;
         bool bisGrounded = true;
         float autoslowPower = 1.0f;
+
+        u_int8_t MaxContactReportCount = 4;
 
 
         float CurrentSpeed;
@@ -115,8 +119,9 @@ class RigidPlayer : public RigidBody3D{
         bool keepskewedGravityOrientaions = true;
         bool SlerpGravityOrientaions = true;
         bool isOverSlooped = false;
-        bool autoslow = false; // needs grounded check to work
-        
+        bool autoslow = true; // needs grounded check to work
+
+
 
 
         
