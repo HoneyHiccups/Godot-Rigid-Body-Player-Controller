@@ -177,7 +177,8 @@ void RigidPlayer::_process(double delta){
 
 void RigidPlayer::_physics_process(double delta){
     int contanct = this->get_contact_count();
-    print_line("Is this working");
+    
+    print_line("Is this working %f ",delta);
     
     if(contanct == 0 /* && lintrace is hitting nothing*/){
         bisGrounded = false;
