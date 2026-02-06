@@ -25,6 +25,8 @@
 #include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
 #include <sys/types.h>
+#include <godot_cpp/core/binder_common.hpp>
+#include <godot_cpp/core/gdvirtual.gen.inc>
 
 
 
@@ -40,7 +42,14 @@ class RigidPlayer : public RigidBody3D{
     
     protected:
         static void _bind_methods();
-    
+        GDVIRTUAL1(_extern_procces, double );
+        GDVIRTUAL1(_extern_physics_process, double );
+        GDVIRTUAL0(_extern_just_jumped);
+        GDVIRTUAL0(_extern_just_landed);
+        //void _extern_procces_default(double delta);
+        //void _extern_physics_process_default(double delta);
+        //void _extern_just_jumped_default();
+        //void _extern_just_landed_default();
 
     private:
 
@@ -66,6 +75,7 @@ class RigidPlayer : public RigidBody3D{
         void Just_Landed();
         void rez_jump();
         void just_stopped_moving();
+        bool is_ipnuting();
 
 
     RigidPlayer() = default;
@@ -141,7 +151,12 @@ class RigidPlayer : public RigidBody3D{
         bool bisinputing = false;
         
     public: //setters and getters
-        
+        bool is_inputing(){return bisinputing;}
+        bool is_grounded(){return bisGrounded;}
+        bool is_oversloped(){return isOverSlooped;}
+        float get_airtime(){return airtime;}
+        int get_current_jumps(){return currentjumps;}
+
         void set_allow_align_with_gravity(bool n){bisOrienttoGravity = n;}
 	    bool get_allow_align_with_gravity(){return bisOrienttoGravity;}
 

@@ -57,6 +57,20 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_duck_action_map", "DuckActionMappping"), &RigidPlayer::set_duck_action_map);
     ClassDB::bind_method(D_METHOD("get_duck_action_map"), &RigidPlayer::get_duck_action_map);
     ClassDB::bind_method(D_METHOD("get_wish_dir"), &RigidPlayer::GetWishDir);
+    ClassDB::bind_method(D_METHOD("is_inputing"), &RigidPlayer::is_inputing);
+    ClassDB::bind_method(D_METHOD("is_grounded"), &RigidPlayer::is_grounded);
+    ClassDB::bind_method(D_METHOD("is_oversloped"), &RigidPlayer::is_oversloped);
+    ClassDB::bind_method(D_METHOD("get_airtime"), &RigidPlayer::get_airtime);
+    ClassDB::bind_method(D_METHOD("get_current_jumps"), &RigidPlayer::get_current_jumps);
+
+    //ClassDB::bind_method(D_METHOD("_extern_procces", "delta"), 
+    //                     &RigidPlayer::_extern_procces_default);
+    //ClassDB::bind_method(D_METHOD("_extern_physics_process", "delta"), 
+    //                     &RigidPlayer::_extern_physics_process_default); 
+    //ClassDB::bind_method(D_METHOD("_extern_just_jumped"), 
+    //                     &RigidPlayer::_extern_just_jumped_default);
+    //ClassDB::bind_method(D_METHOD("_extern_just_landed"), 
+    //                     &RigidPlayer::_extern_just_landed_default);
 
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
@@ -79,6 +93,9 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camrea_wrapper", PROPERTY_HINT_NODE_TYPE),"set_camrea_wrapper","get_camrea_wrapper" );
+
+
+
 
 }
 
@@ -172,12 +189,16 @@ void RigidPlayer::handle_gravity_ort_logic(){
 }
 
 void RigidPlayer::_process(double delta){
-    
+
+
+    _gdvirtual__extern_procces_call(delta);
 }
+
+
 
 void RigidPlayer::_physics_process(double delta){
     int contanct = this->get_contact_count();
-       
+    
     if(contanct == 0 /* && lintrace is hitting nothing*/){
         bisGrounded = false;
         airtime = airtime+delta;
@@ -260,7 +281,7 @@ void RigidPlayer::_physics_process(double delta){
                 }
 
             }
-
+            _gdvirtual__extern_physics_process_call(delta);
         }
         
         if (piv_body != nullptr && bisGrounded == false && isOverSlooped == false){
@@ -343,10 +364,12 @@ void RigidPlayer::jump(){
     ToonJumpPower = ToonJumpPower.clamp(Vector3(0,0,0), ToonJumpPower); // not working fix later;
     this->apply_central_impulse( (GravityDir*this->get_mass()) * jumppower  );
     currentjumps = currentjumps-1;
+    _gdvirtual__extern_just_jumped_call();
 }
 
 void RigidPlayer::Just_Landed(){
     rez_jump();
+    _gdvirtual__extern_just_landed_call();
 }
 
 void RigidPlayer::rez_jump(){
