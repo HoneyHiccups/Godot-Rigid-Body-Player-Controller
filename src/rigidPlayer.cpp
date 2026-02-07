@@ -9,6 +9,7 @@
 #include "godot_cpp/variant/vector3.hpp"
 #include <cstdint>
 
+//vitrual calls not work
 
 using namespace godot;
 void RigidPlayer::_bind_methods(){
