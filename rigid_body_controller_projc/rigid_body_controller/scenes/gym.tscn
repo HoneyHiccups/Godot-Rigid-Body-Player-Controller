@@ -281,6 +281,10 @@ transform = Transform3D(104.735, 0, 0, 0, 104.735, 0, 0, 0, 104.735, 1076.1528, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 1.5, 0.45218325)
 mass = 100.0
 
+[node name="Block4" parent="Toys" unique_id=695920058 instance=ExtResource("4_r8w6l")]
+transform = Transform3D(0.235, 0, 0, 0, 0.235, 0, 0, 0, 0.235, 16.11547, 1.5, 2.9720924)
+mass = 100.0
+
 [node name="Block2" parent="Toys" unique_id=588834250 instance=ExtResource("4_r8w6l")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 18.53078, 4.4175987, 0.45218325)
 mass = 200.0
@@ -312,8 +316,63 @@ mesh = SubResource("TorusMesh_s0fi8")
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
 [node name="Block" parent="Toys/Ancor" unique_id=754519155 instance=ExtResource("4_r8w6l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6831284, 0)
+mass = 100.0
+
+[node name="Ancor3" type="Node3D" parent="Toys" unique_id=251608199]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.261885, 6.9469385, -4.306085)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Toys/Ancor3" unique_id=1597861184]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("TorusMesh_s0fi8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Toys/Ancor3/MeshInstance3D" unique_id=726838960]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Ancor3/MeshInstance3D/StaticBody3D" unique_id=4847793]
+shape = SubResource("ConcavePolygonShape3D_2tlil")
+
+[node name="Block" parent="Toys/Ancor3" unique_id=271453114 instance=ExtResource("4_r8w6l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2305045, 0)
+mass = 100.0
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Toys/Ancor3" unique_id=1133305509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.8196669, 0)
+node_a = NodePath("../MeshInstance3D/StaticBody3D")
+node_b = NodePath("../Block")
+linear_limit_x/upper_distance = 2.0
+linear_limit_x/lower_distance = -2.0
+linear_limit_y/upper_distance = 2.0
+linear_limit_y/lower_distance = -2.0
+linear_limit_z/upper_distance = 2.0
+linear_limit_z/lower_distance = -2.0
+linear_spring_x/enabled = true
+linear_spring_x/stiffness = 10.0
+linear_spring_y/enabled = true
+linear_spring_y/stiffness = 10.0
+linear_spring_z/enabled = true
+linear_spring_z/stiffness = 10.0
+
+[node name="Ancor2" type="Node3D" parent="Toys" unique_id=260107211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17736101, 8.224129, -10.024712)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Toys/Ancor2" unique_id=1320728271]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("TorusMesh_s0fi8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Toys/Ancor2/MeshInstance3D" unique_id=1205476961]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Ancor2/MeshInstance3D/StaticBody3D" unique_id=924848766]
+shape = SubResource("ConcavePolygonShape3D_2tlil")
+
+[node name="Block" parent="Toys/Ancor2" unique_id=1807155874 instance=ExtResource("4_r8w6l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.3083153, 0)
 mass = 100.0
+
+[node name="SliderJoint3D" type="SliderJoint3D" parent="Toys/Ancor2" unique_id=1396613330]
+node_a = NodePath("../MeshInstance3D/StaticBody3D")
+node_b = NodePath("../Block")
+linear_limit/upper_distance = 3.0
+linear_limit/lower_distance = -3.0
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=180734472]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 179.70465, 21.022585, -4.1618624)

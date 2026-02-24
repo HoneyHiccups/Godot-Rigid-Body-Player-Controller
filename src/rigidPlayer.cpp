@@ -274,8 +274,9 @@ void RigidPlayer::_physics_process(double delta){
                     if(contanct < 2 &&Force.is_equal_approx(Vector3(0,0,0)) || this->get_linear_velocity().is_zero_approx() || this->get_linear_velocity().abs() < Vector3(.3,.3,.3)){
                         this->set_linear_velocity(Vector3(0,0,0));
                         just_stopped_moving();
-                        //need to ad exceptions to when standing on rigid bodys for both
+                            //need to ad exceptions to when standing on rigid bodys for both
                     }else{
+
                         this->apply_central_force(Force);
                         
                     }
