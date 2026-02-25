@@ -101,6 +101,9 @@ class RigidPlayer : public RigidBody3D{
         String JumpActionMappping = "empty";
         String DuckActionMappping = "empty";
 
+        float playerwidith = .5;
+        float playerHieght = 2.0f;
+
         float PD_DampiningPower = 0.8f;
         float StrafeJumpAddPower = 0.f;
         float Acceleration = 10;
@@ -187,8 +190,14 @@ class RigidPlayer : public RigidBody3D{
 	    void set_friction(float n){friction = n;}
 	    float get_friction(){return friction;}
 
-	    void set_sensitivity(float n){sensitivity = n;}
+        void set_sensitivity(float n){sensitivity = n;}
 	    float get_sensitivity(){return sensitivity;}
+
+	    void set_body_width(float n){playerwidith = n;}
+	    float get_body_width(){return playerwidith;}
+
+	    void set_body_height(float n){playerHieght = n;}
+	    float get_body_height(){return playerHieght;}
 
 	    void set_piv_body(Node3D* n){piv_body = n;}
 	    Node3D* get_piv_body(){return piv_body;}

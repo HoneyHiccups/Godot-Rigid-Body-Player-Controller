@@ -62,8 +62,11 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("is_grounded"), &RigidPlayer::is_grounded);
     ClassDB::bind_method(D_METHOD("is_oversloped"), &RigidPlayer::is_oversloped);
     ClassDB::bind_method(D_METHOD("get_airtime"), &RigidPlayer::get_airtime);
-    ClassDB::bind_method(D_METHOD("get_current_jumps"), &RigidPlayer::get_current_jumps);
-
+    ClassDB::bind_method(D_METHOD("get_current_jumps"), &RigidPlayer::get_current_jumps);  
+    ClassDB::bind_method(D_METHOD("get_body_width"), &RigidPlayer::get_body_width);
+    ClassDB::bind_method(D_METHOD("set_body_width", "body_width"), &RigidPlayer::set_body_width);
+    ClassDB::bind_method(D_METHOD("get_body_height"), &RigidPlayer::get_body_height);
+    ClassDB::bind_method(D_METHOD("set_body_height", "body_height"), &RigidPlayer::set_body_height);
     //ClassDB::bind_method(D_METHOD("_extern_procces", "delta"), 
     //                     &RigidPlayer::_extern_procces_default);
     //ClassDB::bind_method(D_METHOD("_extern_physics_process", "delta"), 
@@ -90,6 +93,10 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Right Action Map"), "set_right_action_map","get_right_action_map");
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Jump Action Map"), "set_jump_action_map","get_jump_action_map");
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Duck Action Map"), "set_duck_action_map","get_duck_action_map");
+
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_height"), "set_body_height", "get_body_height");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_width"),  "set_body_width", "get_body_width");
+
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
