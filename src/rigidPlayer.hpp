@@ -1,6 +1,7 @@
 #pragma once
 
 #include "godot_cpp/classes/node3d.hpp"
+#include "godot_cpp/classes/ray_cast3d.hpp"
 #include "godot_cpp/classes/rigid_body3d.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
 #include "godot_cpp/variant/string.hpp"
@@ -101,6 +102,7 @@ class RigidPlayer : public RigidBody3D{
         String JumpActionMappping = "empty";
         String DuckActionMappping = "empty";
 
+        RayCast3D* GroundRay = nullptr;
         float playerwidith = .5;
         float playerHieght = 2.0f;
 

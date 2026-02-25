@@ -1,8 +1,10 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
+#include "godot_cpp/classes/ray_cast3d.hpp"
 #include "godot_cpp/classes/time.hpp"
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/core/math.hpp"
+#include "godot_cpp/core/memory.hpp"
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/variant/basis.hpp"
 #include "godot_cpp/variant/variant.hpp"
@@ -93,7 +95,6 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Right Action Map"), "set_right_action_map","get_right_action_map");
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Jump Action Map"), "set_jump_action_map","get_jump_action_map");
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Duck Action Map"), "set_duck_action_map","get_duck_action_map");
-
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_height"), "set_body_height", "get_body_height");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_width"),  "set_body_width", "get_body_width");
 
@@ -134,6 +135,10 @@ void RigidPlayer::_ready(){
     this->set_sleeping(true);
     this->set_sleeping(false);
 
+    GroundRay = memnew(RayCast3D);
+    GroundRay->set_position(Vector3(0,0,0));
+    this->add_child(GroundRay);
+    GroundRay->set_target_position(Vector3(0,-1*playerHieght,0));
 
 }
 
@@ -206,6 +211,16 @@ void RigidPlayer::_process(double delta){
 
 void RigidPlayer::_physics_process(double delta){
     int contanct = this->get_contact_count();
+    Vector3 HitNoraml = Vector3(0,0,0);
+    float StandingAngle  = 0;
+    if(GroundRay->is_colliding()){
+        HitNoraml = GroundRay->get_collision_normal();
+        float SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
+        StandingAngle = SlopeRadins * 180 / 3.14;
+        print_line( StandingAngle);
+    }
+    
+    
       
     if(contanct == 0 /* && lintrace is hitting nothing*/){
         bisGrounded = false;
