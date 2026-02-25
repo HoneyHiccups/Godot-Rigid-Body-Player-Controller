@@ -213,20 +213,31 @@ void RigidPlayer::_physics_process(double delta){
     int contanct = this->get_contact_count();
     Vector3 HitNoraml = Vector3(0,0,0);
     float StandingAngle  = 0;
+    float RayHitDist = -1;
+    Raybisgrounded = false;
+    isOverSlooped = true;
     if(GroundRay->is_colliding()){
         HitNoraml = GroundRay->get_collision_normal();
         float SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
         StandingAngle = SlopeRadins * 180 / 3.14;
-        print_line( StandingAngle);
+        RayHitDist = GroundRay->get_collision_point().distance_to(this->get_global_position());
+        RayHitDist = RayHitDist- playerHieght/2;
+        RayHitDist = Math::absf(RayHitDist);
+        if(StandingAngle<MaxStandAngle){
+            isOverSlooped = false;
+        }
+        if(RayHitDist<0.22f){
+            Raybisgrounded = !isOverSlooped; // looks werid but trust me
+        }
     }
     
     
       
-    if(contanct == 0 /* && lintrace is hitting nothing*/){
+    if(contanct == 0 || Raybisgrounded == false){
         bisGrounded = false;
         airtime = airtime+delta;
         // to britle
-    }else{
+    }if ( contanct >0 && Raybisgrounded == true){
         if(bisGrounded == false){
             Just_Landed();
         }
