@@ -163,6 +163,9 @@ class RigidPlayer : public RigidBody3D{
         float get_airtime(){return airtime;}
         int get_current_jumps(){return currentjumps;}
 
+        void set_max_walk_angle(float n){MaxStandAngle = n;}
+	    float get_max_walk_angle(){return MaxStandAngle;}
+
         void set_allow_align_with_gravity(bool n){bisOrienttoGravity = n;}
 	    bool get_allow_align_with_gravity(){return bisOrienttoGravity;}
 

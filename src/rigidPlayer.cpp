@@ -69,6 +69,8 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_body_width", "body_width"), &RigidPlayer::set_body_width);
     ClassDB::bind_method(D_METHOD("get_body_height"), &RigidPlayer::get_body_height);
     ClassDB::bind_method(D_METHOD("set_body_height", "body_height"), &RigidPlayer::set_body_height);
+    ClassDB::bind_method(D_METHOD("get_max_walk_angle"),                &RigidPlayer::get_max_walk_angle);
+    ClassDB::bind_method(D_METHOD("set_max_walk_angle", "max_walk_angle"), &RigidPlayer::set_max_walk_angle);
     //ClassDB::bind_method(D_METHOD("_extern_procces", "delta"), 
     //                     &RigidPlayer::_extern_procces_default);
     //ClassDB::bind_method(D_METHOD("_extern_physics_process", "delta"), 
@@ -97,6 +99,7 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo( Variant::STRING, "Duck Action Map"), "set_duck_action_map","get_duck_action_map");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_height"), "set_body_height", "get_body_height");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_width"),  "set_body_width", "get_body_width");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "max_walk_angle"),  "set_max_walk_angle", "get_max_walk_angle");
 
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
