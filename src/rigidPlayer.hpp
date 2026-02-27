@@ -123,6 +123,7 @@ class RigidPlayer : public RigidBody3D{
         float CoyoteTime = .15f;
         float airtime = 0;
         bool toonjump = true;
+        Plane walkingPlane;
 
         int MaxContactReportCount = 4;
         // cant use a u_int here cuss microsoft and there dword or whatever i guess

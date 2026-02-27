@@ -207,7 +207,7 @@ void RigidPlayer::handle_gravity_ort_logic(){
 void RigidPlayer::_process(double delta){
 
 
-    _gdvirtual__extern_procces_call(delta);
+    //_gdvirtual__extern_procces_call(delta);
 }
 
 
@@ -228,10 +228,13 @@ void RigidPlayer::_physics_process(double delta){
         RayHitDist = Math::absf(RayHitDist);
         if(StandingAngle<MaxStandAngle){
             isOverSlooped = false;
+            walkingPlane.set_normal(HitNoraml);
+        }else{
+            walkingPlane.set_normal(Vector3(0,0,0));
         }
         if(RayHitDist<0.22f){
             Raybisgrounded = !isOverSlooped; // looks werid but trust me
-        }
+        } 
     }
     
     
@@ -283,6 +286,9 @@ void RigidPlayer::_physics_process(double delta){
             float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
             // jazzhands gives us bost moving in perpducular movments from base move dir
             float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
+
+            //wishdir getting shifted
+            Wishdir = walkingPlane.project(Wishdir);
 
             /*I need to rotate the wishdir to corspond to walking angles*/
             Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
