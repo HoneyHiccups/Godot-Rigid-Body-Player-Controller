@@ -214,7 +214,7 @@ void RigidPlayer::_process(double delta){
 
 void RigidPlayer::_physics_process(double delta){
     int contanct = this->get_contact_count();
-    Vector3 HitNoraml = LastGravitydir;
+    Vector3 HitNoraml = this->get_basis().get_column(1);
     float StandingAngle  = 0;
     float RayHitDist = -1;
     Raybisgrounded = false;
@@ -329,8 +329,9 @@ void RigidPlayer::_physics_process(double delta){
             _gdvirtual__extern_physics_process_call(delta);
         }
         
-        if (piv_body != nullptr && bisGrounded == false && isOverSlooped == false){
+        if (piv_body != nullptr && bisGrounded == false ){
             // in air not sliding
+            print_line("I am doing air control");
             bisinputing = true;
             InputDir.normalize();
             Basis BodyBasis = piv_body->get_global_transform().get_basis();
