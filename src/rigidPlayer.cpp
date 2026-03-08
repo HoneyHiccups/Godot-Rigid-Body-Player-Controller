@@ -214,7 +214,7 @@ void RigidPlayer::_process(double delta){
 
 void RigidPlayer::_physics_process(double delta){
     int contanct = this->get_contact_count();
-    Vector3 HitNoraml = Vector3(0,0,0);
+    Vector3 HitNoraml = LastGravitydir;
     float StandingAngle  = 0;
     float RayHitDist = -1;
     Raybisgrounded = false;
