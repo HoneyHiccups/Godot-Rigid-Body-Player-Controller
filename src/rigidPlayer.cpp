@@ -331,7 +331,6 @@ void RigidPlayer::_physics_process(double delta){
         
         if (piv_body != nullptr && bisGrounded == false ){
             // in air not sliding
-            print_line("I am doing air control");
             bisinputing = true;
             InputDir.normalize();
             Basis BodyBasis = piv_body->get_global_transform().get_basis();
