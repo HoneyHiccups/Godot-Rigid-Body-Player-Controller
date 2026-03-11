@@ -93,7 +93,7 @@ class RigidPlayer : public RigidBody3D{
         Input* input = nullptr;
 
         bool allowDebugFeatuers = true;
-        
+        bool allowToonJumping = true;
 
         String MoveForwardActionMappping = "empty";
         String MoveBackWardActionMappping = "empty";
@@ -141,7 +141,7 @@ class RigidPlayer : public RigidBody3D{
         Vector3 LastGravityRight;
 
         Basis Targetbasis;
-        Vector3 Wishdir;
+        Vector3 Wishdir = Vector3(0,0,0);
         bool bisOrienttoGravity = false;
         bool keepskewedGravityOrientaions = true;
         bool SlerpGravityOrientaions = true;
@@ -166,6 +166,9 @@ class RigidPlayer : public RigidBody3D{
 
         void set_max_walk_angle(float n){MaxStandAngle = n;}
 	    float get_max_walk_angle(){return MaxStandAngle;}
+
+        void set_allow_toon_jumping(bool n){allowToonJumping = n;}
+        bool get_allow_toon_jumping(){return allowToonJumping;}
 
         void set_allow_align_with_gravity(bool n){bisOrienttoGravity = n;}
 	    bool get_allow_align_with_gravity(){return bisOrienttoGravity;}

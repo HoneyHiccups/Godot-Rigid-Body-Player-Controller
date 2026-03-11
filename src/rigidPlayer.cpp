@@ -71,6 +71,10 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_body_height", "body_height"), &RigidPlayer::set_body_height);
     ClassDB::bind_method(D_METHOD("get_max_walk_angle"),                &RigidPlayer::get_max_walk_angle);
     ClassDB::bind_method(D_METHOD("set_max_walk_angle", "max_walk_angle"), &RigidPlayer::set_max_walk_angle);
+
+    ClassDB::bind_method(D_METHOD("get_allow_toon_jumping"),                       &RigidPlayer::get_allow_toon_jumping);
+    ClassDB::bind_method(D_METHOD("set_allow_toon_jumping", "allow_toon_jumping"), &RigidPlayer::set_allow_toon_jumping);
+
     //ClassDB::bind_method(D_METHOD("_extern_procces", "delta"), 
     //                     &RigidPlayer::_extern_procces_default);
     //ClassDB::bind_method(D_METHOD("_extern_physics_process", "delta"), 
@@ -100,7 +104,7 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_height"), "set_body_height", "get_body_height");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_width"),  "set_body_width", "get_body_width");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "max_walk_angle"),  "set_max_walk_angle", "get_max_walk_angle");
-
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "allow_toon_jumping"),  "set_allow_toon_jumping", "get_allow_toon_jumping");
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
@@ -281,7 +285,10 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 RightVec = BodyBasis.get_column(0);
             Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
-            // will do math later to make this not include the body of other rigids
+ 
+            // im going to do rots to mke sure the player is not just walking forward forever
+            // in flax I used a good physics engiene but godots is worse so I cant relie of physics mats
+
             Vector3 linVel = this->get_linear_velocity();
             linVel.normalize();
             // Creates an amount to reduce speed
@@ -407,11 +414,13 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
 void RigidPlayer::jump(){
     if(currentjumps == 0 || airtime>CoyoteTime)
         return;
-    Vector3 GravityDir = (this->get_gravity()*-1.0f);
+    Vector3 GravityDir = (this->get_gravity());
     GravityDir.normalize();
     Vector3 ToonJumpPower = this->get_linear_velocity()*GravityDir;
+    GravityDir = GravityDir * -1.f;
     ToonJumpPower = ToonJumpPower.clamp(Vector3(0,0,0), ToonJumpPower); // not working fix later;
-    this->apply_central_impulse( (GravityDir*this->get_mass()) * jumppower  );
+    ToonJumpPower = ToonJumpPower*float(allowToonJumping);
+    this->apply_central_impulse( (ToonJumpPower * this->get_mass()) + ((GravityDir*this->get_mass()) * jumppower)  );
     currentjumps = currentjumps-1;
     _gdvirtual__extern_just_jumped_call();
 }
@@ -478,11 +487,12 @@ float RigidPlayer::MappedDotProduct(Vector3 x , Vector3 y) {
     //0 for aligned vectors // changed to .33
     //1 for perpendicular
     //2 for opposite directions // changed to 1.33
+    float shifter = .12f;
     if (out > 0) {
-        return Math::lerp(0.33f, 1.f,1 - out);
+        return Math::lerp(0.33f - shifter, 1.f-shifter-shifter,1 - out);
 
     }
     else {
-        return Math::lerp(1.0f, 1.33f, -out);
+        return Math::lerp(1.0f-shifter-shifter, 1.33f-shifter, -out);
     }
 }

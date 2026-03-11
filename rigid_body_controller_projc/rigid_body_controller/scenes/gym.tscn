@@ -463,7 +463,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6831284, 0)
 mass = 100.0
 
 [node name="Ancor3" type="Node3D" parent="Toys" unique_id=251608199]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.261885, 6.9469385, -4.306085)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.261885, 6.0589457, -4.306085)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Toys/Ancor3" unique_id=1597861184]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
@@ -479,6 +479,39 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2305045, 0)
 mass = 100.0
 
 [node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Toys/Ancor3" unique_id=1133305509]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.8196669, 0)
+node_a = NodePath("../MeshInstance3D/StaticBody3D")
+node_b = NodePath("../Block")
+linear_limit_x/upper_distance = 2.0
+linear_limit_x/lower_distance = -2.0
+linear_limit_y/upper_distance = 2.0
+linear_limit_y/lower_distance = -2.0
+linear_limit_z/upper_distance = 2.0
+linear_limit_z/lower_distance = -2.0
+linear_spring_x/enabled = true
+linear_spring_x/stiffness = 10.0
+linear_spring_y/enabled = true
+linear_spring_y/stiffness = 10.0
+linear_spring_z/enabled = true
+linear_spring_z/stiffness = 10.0
+
+[node name="Ancor4" type="Node3D" parent="Toys" unique_id=276544021]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.909191, 6.0589457, -4.306085)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Toys/Ancor4" unique_id=1097657534]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+mesh = SubResource("TorusMesh_s0fi8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Toys/Ancor4/MeshInstance3D" unique_id=214040874]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Ancor4/MeshInstance3D/StaticBody3D" unique_id=1620384051]
+shape = SubResource("ConcavePolygonShape3D_2tlil")
+
+[node name="Block" parent="Toys/Ancor4" unique_id=306977505 instance=ExtResource("4_r8w6l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2305045, 0)
+mass = 100.0
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Toys/Ancor4" unique_id=1168667519]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.8196669, 0)
 node_a = NodePath("../MeshInstance3D/StaticBody3D")
 node_b = NodePath("../Block")
