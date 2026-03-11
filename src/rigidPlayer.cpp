@@ -251,10 +251,14 @@ void RigidPlayer::_physics_process(double delta){
         airtime = 0;
     }
 
-    CurrentSpeed = (this->get_linear_velocity().x+
-    this->get_linear_velocity().y+
-    this->get_linear_velocity().z
-    );
+    Vector3 temptesting = this->get_linear_velocity();
+    temptesting = walkingPlane.project(temptesting);
+    CurrentSpeed = temptesting.length();
+
+    //CurrentSpeed = (this->get_linear_velocity().x+
+    //this->get_linear_velocity().y+
+    //this->get_linear_velocity().z
+    //);
 
     CurrentSpeed = Math::abs(CurrentSpeed);
     Vector2 InputDir = Vector2(
