@@ -291,6 +291,11 @@ void RigidPlayer::_physics_process(double delta){
 
             Vector3 linVel = this->get_linear_velocity();
             linVel.normalize();
+            float rot_wishdir = Wishdir.dot(linVel);
+            //the goal here is to make a scaler that will rotate the wishdir
+            //so that the player dose not conserve forward speed as much as they do
+            //this will make it feel more arcady
+            //
             // Creates an amount to reduce speed
             float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
             //creates a new accel power to avoid goining light speed
