@@ -56,6 +56,7 @@ class RigidPlayer : public RigidBody3D{
 
         void debuginput();
         void orbitcamtoggle();
+        
     
     public:
         void _ready() override;
@@ -85,7 +86,32 @@ class RigidPlayer : public RigidBody3D{
 
     protected:
 
+        enum PlaylinCounterSteer{
+            Forward,
+            Backward,
+            ForwardLeft,
+            ForwardRight,
+            BackwardLeft,
+            BackwardRight,
+            NotMoving
+        };
+
+        enum PlayerWishDirState{
+            WishForward,
+            WishBackward,
+            WishLeft,
+            WishRight,
+            WishForwardLeft,
+            WishForwardRight,
+            WishBackwardLeft,
+            WishBackwardRight,
+            NoInput
+        };
+
     private:
+
+        PlayerWishDirState InputWishdirState;
+        PlaylinCounterSteer SteerSwitchKey;
         godot::Node3D* piv_body = nullptr;
         godot::Node3D* piv_head = nullptr;
         godot::Node3D* camrea_wrapper = nullptr;
@@ -156,6 +182,7 @@ class RigidPlayer : public RigidBody3D{
 
     public:
         bool bisinputing = false;
+        Vector3 CreateTwistedWishDir(PlaylinCounterSteer l ,PlayerWishDirState w, Vector3 wish);
         
     public: //setters and getters
         bool is_inputing(){return bisinputing;}

@@ -292,6 +292,68 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 linVel = this->get_linear_velocity();
             linVel.normalize();
             float rot_wishdir = Wishdir.dot(linVel);
+            Vector3 linvelFlat = walkingPlane.project(linVel);
+            linvelFlat.normalize();
+            SteerSwitchKey = NotMoving;
+            if(linvelFlat.dot(ForwardVec)<0){
+                // the player is moving forward
+                SteerSwitchKey = Forward;
+                if(linvelFlat.dot(RightVec)<0){
+                    //moivng forward left
+                    SteerSwitchKey = ForwardLeft;
+                }else{
+                    //movving forward right
+                    SteerSwitchKey = ForwardRight;
+                }
+            }else{
+                //player is moving backward
+                SteerSwitchKey = Backward;
+                if(linvelFlat.dot(RightVec)<0){
+                    //moivng backward left
+                    SteerSwitchKey = BackwardLeft;
+                }else{
+                    //movving backward right
+                    SteerSwitchKey = BackwardRight;
+
+                }
+            }
+            InputWishdirState = NoInput;
+            if(InputDir.x>0){
+                //print_line("Right");
+                InputWishdirState = WishRight;
+            }
+            if(InputDir.x<0){
+                //print_line("left");
+                InputWishdirState = WishLeft;
+            }
+            if(InputDir.y > 0){
+                //print_line("backwards");
+                InputWishdirState = WishBackward;
+            }
+            if(InputDir.y < 0){
+                //print_line("forwwards");
+                InputWishdirState = WishForward;
+            }
+            if(InputDir.x > 0 && InputDir.y > 0){
+                //print_line("back right");
+                InputWishdirState = WishBackwardRight;
+            }
+            if(InputDir.x < 0 && InputDir.y > 0){
+                //print_line("back left");
+                InputWishdirState = WishBackwardLeft;
+            }
+            if(InputDir.x < 0 && InputDir.y < 0){
+                //print_line("Forward Left");
+                InputWishdirState = WishForwardLeft;
+            }
+            if(InputDir.x > 0 && InputDir.y < 0){
+                //print_line("Forward Right");
+                InputWishdirState = WishForwardRight;
+            }
+            
+
+
+
             //the goal here is to make a scaler that will rotate the wishdir
             //so that the player dose not conserve forward speed as much as they do
             //this will make it feel more arcady
@@ -307,8 +369,9 @@ void RigidPlayer::_physics_process(double delta){
             //wishdir getting shifted
             Wishdir = walkingPlane.project(Wishdir);
 
+            Vector3 twistedwishdir = CreateTwistedWishDir(SteerSwitchKey,InputWishdirState,Wishdir);
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Vector3 Force = twistedwishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
             apply_central_force(Force);
@@ -394,6 +457,14 @@ void RigidPlayer::_physics_process(double delta){
 
     handle_gravity_ort_logic();
     
+}
+
+Vector3 RigidPlayer:: CreateTwistedWishDir(PlaylinCounterSteer l ,PlayerWishDirState w, Vector3 wish){
+    Vector3 out;
+
+    
+    out = wish;
+    return out;
 }
 
 void RigidPlayer::just_stopped_moving(){
