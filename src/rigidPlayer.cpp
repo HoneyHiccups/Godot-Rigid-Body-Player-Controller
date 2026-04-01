@@ -279,7 +279,7 @@ void RigidPlayer::_physics_process(double delta){
         InputDir.y = 0;
     }
 
-    print_line(InputDir);
+    //print_line(InputDir);
 
     float FrictionBurn = Math::clamp(MaxSpeed - CurrentSpeed, 0.33f, 9999.0f);
     FrictionBurn = friction/(FrictionBurn*FrictionBurnPower);
