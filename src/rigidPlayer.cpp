@@ -271,6 +271,16 @@ void RigidPlayer::_physics_process(double delta){
     input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
     );
 
+    if(Math::abs(InputDir.x)< 0.6){
+        InputDir.x = 0;
+    }
+
+    if(Math::abs(InputDir.y)< 0.6){
+        InputDir.y = 0;
+    }
+
+    print_line(InputDir);
+
     float FrictionBurn = Math::clamp(MaxSpeed - CurrentSpeed, 0.33f, 9999.0f);
     FrictionBurn = friction/(FrictionBurn*FrictionBurnPower);
 
