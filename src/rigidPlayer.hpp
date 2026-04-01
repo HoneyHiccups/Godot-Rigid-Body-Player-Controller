@@ -109,6 +109,7 @@ class RigidPlayer : public RigidBody3D{
         };
 
     private:
+    //
 
         PlayerWishDirState InputWishdirState;
         PlaylinCounterSteer SteerSwitchKey;
