@@ -168,6 +168,8 @@ void RigidPlayer::AlineToGravity(){
         return;
     }
     Gravitydir.normalize();
+
+
     LastGravitydir = Gravitydir;
     LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
     LastGravityRight.normalize();
@@ -176,6 +178,8 @@ void RigidPlayer::AlineToGravity(){
     Targetbasis.orthogonalize();
     if(SlerpGravityOrientaions == true){
         float dot = RigidBodyUtilitys::dot_basis(this->get_basis(), Targetbasis);
+        dot = +1;
+        dot = dot/2;
         if(dot>= 0.99){
             //this->set_basis(Targetbasis);
             // not sure what I am doing wrong here 
@@ -184,7 +188,7 @@ void RigidPlayer::AlineToGravity(){
         }else{
             
         }
-        this->set_basis(BodyBasis.slerp(Targetbasis,dot*.06f)); 
+        this->set_basis(BodyBasis.slerp(Targetbasis,dot*(dot*0.25))); 
         
     }else{
         this->set_basis(Targetbasis);
