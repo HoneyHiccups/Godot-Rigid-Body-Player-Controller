@@ -5,9 +5,12 @@
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/core/math.hpp"
 #include "godot_cpp/core/memory.hpp"
+#include "godot_cpp/core/object.hpp"
 #include "godot_cpp/core/print_string.hpp"
+#include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/basis.hpp"
 #include "godot_cpp/variant/variant.hpp"
+#include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
 #include <cstdint>
 
@@ -71,6 +74,10 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_body_height", "body_height"), &RigidPlayer::set_body_height);
     ClassDB::bind_method(D_METHOD("get_max_walk_angle"),                &RigidPlayer::get_max_walk_angle);
     ClassDB::bind_method(D_METHOD("set_max_walk_angle", "max_walk_angle"), &RigidPlayer::set_max_walk_angle);
+
+    ClassDB::bind_method(D_METHOD("get_allow_movment"),                       &RigidPlayer::get_allow_movment);
+    ClassDB::bind_method(D_METHOD("set_allow_movment", "allow_movment"),      &RigidPlayer::set_allow_movment);
+
 
     ClassDB::bind_method(D_METHOD("get_allow_toon_jumping"),                       &RigidPlayer::get_allow_toon_jumping);
     ClassDB::bind_method(D_METHOD("set_allow_toon_jumping", "allow_toon_jumping"), &RigidPlayer::set_allow_toon_jumping);
@@ -283,6 +290,9 @@ void RigidPlayer::_physics_process(double delta){
         InputDir.y = 0;
     }
 
+    if(allowMovmentInput == false){
+        InputDir = Vector2(0,0);
+    }
     //print_line(InputDir);
 
     float FrictionBurn = Math::clamp(MaxSpeed - CurrentSpeed, 0.33f, 9999.0f);

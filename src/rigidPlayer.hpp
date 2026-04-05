@@ -121,6 +121,7 @@ class RigidPlayer : public RigidBody3D{
 
         bool allowDebugFeatuers = true;
         bool allowToonJumping = true;
+        bool allowMovmentInput = true;
 
         String MoveForwardActionMappping = "empty";
         String MoveBackWardActionMappping = "empty";
@@ -190,6 +191,9 @@ class RigidPlayer : public RigidBody3D{
         bool is_oversloped(){return isOverSlooped;}
         float get_airtime(){return airtime;}
         int get_current_jumps(){return currentjumps;}
+
+        void set_allow_movment(bool n){allowMovmentInput = n;}
+        bool get_allow_movment(){return allowMovmentInput;}
 
         void set_max_walk_angle(float n){MaxStandAngle = n;}
 	    float get_max_walk_angle(){return MaxStandAngle;}
