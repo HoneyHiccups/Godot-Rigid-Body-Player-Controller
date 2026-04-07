@@ -319,62 +319,8 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 linvelFlat = walkingPlane.project(linVel);
             linvelFlat.normalize();
             SteerSwitchKey = NotMoving;
-            if(linvelFlat.dot(ForwardVec)<0){
-                // the player is moving forward
-                SteerSwitchKey = Forward;
-                if(linvelFlat.dot(RightVec)<0){
-                    //moivng forward left
-                    SteerSwitchKey = ForwardLeft;
-                }else{
-                    //movving forward right
-                    SteerSwitchKey = ForwardRight;
-                }
-            }else{
-                //player is moving backward
-                SteerSwitchKey = Backward;
-                if(linvelFlat.dot(RightVec)<0){
-                    //moivng backward left
-                    SteerSwitchKey = BackwardLeft;
-                }else{
-                    //movving backward right
-                    SteerSwitchKey = BackwardRight;
-
-                }
-            }
-            InputWishdirState = NoInput;
-            if(InputDir.x>0){
-                //print_line("Right");
-                InputWishdirState = WishRight;
-            }
-            if(InputDir.x<0){
-                //print_line("left");
-                InputWishdirState = WishLeft;
-            }
-            if(InputDir.y > 0){
-                //print_line("backwards");
-                InputWishdirState = WishBackward;
-            }
-            if(InputDir.y < 0){
-                //print_line("forwwards");
-                InputWishdirState = WishForward;
-            }
-            if(InputDir.x > 0 && InputDir.y > 0){
-                //print_line("back right");
-                InputWishdirState = WishBackwardRight;
-            }
-            if(InputDir.x < 0 && InputDir.y > 0){
-                //print_line("back left");
-                InputWishdirState = WishBackwardLeft;
-            }
-            if(InputDir.x < 0 && InputDir.y < 0){
-                //print_line("Forward Left");
-                InputWishdirState = WishForwardLeft;
-            }
-            if(InputDir.x > 0 && InputDir.y < 0){
-                //print_line("Forward Right");
-                InputWishdirState = WishForwardRight;
-            }
             
+            setsterringEnums(InputDir, linvelFlat, ForwardVec, RightVec);
 
 
 
@@ -481,6 +427,120 @@ void RigidPlayer::_physics_process(double delta){
 
     handle_gravity_ort_logic();
     
+}
+
+void RigidPlayer::setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forward, Vector3 &right){
+    if(lin.dot(forward)<0){
+                // the player is moving forward
+                SteerSwitchKey = Forward;
+                if(lin.dot(right)<0){
+                    //moivng forward left
+                    SteerSwitchKey = ForwardLeft;
+                }else{
+                    //movving forward right
+                    SteerSwitchKey = ForwardRight;
+                }
+            }else{
+                //player is moving backward
+                SteerSwitchKey = Backward;
+                if(lin.dot(right)<0){
+                    //moivng backward left
+                    SteerSwitchKey = BackwardLeft;
+                }else{
+                    //movving backward right
+                    SteerSwitchKey = BackwardRight;
+
+                }
+            }
+            InputWishdirState = NoInput;
+            if(input.x>0){
+                //print_line("Right");
+                InputWishdirState = WishRight;
+            }
+            if(input.x<0){
+                //print_line("left");
+                InputWishdirState = WishLeft;
+            }
+            if(input.y > 0){
+                //print_line("backwards");
+                InputWishdirState = WishBackward;
+            }
+            if(input.y < 0){
+                //print_line("forwwards");
+                InputWishdirState = WishForward;
+            }
+            if(input.x > 0 && input.y > 0){
+                //print_line("back right");
+                InputWishdirState = WishBackwardRight;
+            }
+            if(input.x < 0 && input.y > 0){
+                //print_line("back left");
+                InputWishdirState = WishBackwardLeft;
+            }
+            if(input.x < 0 && input.y < 0){
+                //print_line("Forward Left");
+                InputWishdirState = WishForwardLeft;
+            }
+            if(input.x > 0 && input.y < 0){
+                //print_line("Forward Right");
+                InputWishdirState = WishForwardRight;
+            }
+    
+    return;
+
+                switch (SteerSwitchKey) {
+                case 0:
+                    print_line("forward");
+                    break;
+                case 1:
+                    print_line("backward");
+                    break;
+                case 2:
+                    print_line("forward left");
+                    break;
+                case 3:
+                    print_line("forward Right");
+                    break;
+                case 4:
+                    print_line("backward left");
+                    break;
+                case 5:
+                    print_line("backward right");
+                    break;
+                case 6:
+                    print_line(" not moving;");
+            
+            }
+
+            switch (InputWishdirState){
+                case 0:
+                    print_line("WishForward");
+                    break;
+                case 1:
+                    print_line("wish backward");
+                    break;
+                case 2:
+                    print_line("wish left");
+                    break;
+                case 3:
+                    print_line("wish right");
+                    break;
+                case 4:
+                    print_line("wish forward left");
+                    break;
+                case 5:
+                    print_line("wish forward right");
+                    break;
+                case 6:
+                    print_line("wish backward left");
+                    break;
+                case 7:
+                    print_line("wish backward right");
+                    break;
+                case 8:
+                    print_line( "no input");
+
+            }
 }
 
 Vector3 RigidPlayer:: CreateTwistedWishDir(PlaylinCounterSteer l ,PlayerWishDirState w, Vector3 wish){

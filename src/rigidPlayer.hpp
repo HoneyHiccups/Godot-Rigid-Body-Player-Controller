@@ -184,7 +184,7 @@ class RigidPlayer : public RigidBody3D{
     public:
         bool bisinputing = false;
         Vector3 CreateTwistedWishDir(PlaylinCounterSteer l ,PlayerWishDirState w, Vector3 wish);
-        
+        void setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forward, Vector3 &right);
     public: //setters and getters
         bool is_inputing(){return bisinputing;}
         bool is_grounded(){return bisGrounded;}
