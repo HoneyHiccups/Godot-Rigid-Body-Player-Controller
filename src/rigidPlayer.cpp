@@ -240,6 +240,7 @@ void RigidPlayer::_physics_process(double delta){
         HitNoraml = GroundRay->get_collision_normal();
         if(dynamic_cast<RigidBody3D*>(GroundRay->get_collider()) ){
             StandingOnRigidBodyPtr = dynamic_cast<RigidBody3D*>(GroundRay->get_collider());
+            RayCastHitLoc = GroundRay->get_collision_point();
             //the goal here is to allow feedback on rigid bodys and also get current
             //In addastion we want to be able to grab the speed on these to subtract
                 //  //from the speed of the player and allow for snapping on to rigid elvators
@@ -360,6 +361,7 @@ void RigidPlayer::_physics_process(double delta){
             // need to do planer rots
             Force = Force/FrictionBurn;
             apply_central_force(Force);
+            CountershoveRigid(Force, RayCastHitLoc, StandingOnRigidBodyPtr);
 
         }else if (InputDir.is_zero_approx()== true && bisGrounded == true){
             //this is auto slow no di;
@@ -368,8 +370,13 @@ void RigidPlayer::_physics_process(double delta){
             if(StandingOnRigidBodyPtr != nullptr){
                 RigidVel = StandingOnRigidBodyPtr->get_linear_velocity();
             }
-            if ( autoslow == true && /**/  StandingOnRigidBodyPtr == nullptr && /**/ bisGrounded == true && input->is_action_pressed(JumpActionMappping) == false){                 
-                Wishdir = this->get_linear_velocity();
+            if ( autoslow == true && /*  StandingOnRigidBodyPtr == nullptr && */ bisGrounded == true && input->is_action_pressed(JumpActionMappping) == false){                 
+                if(RigidVel.is_zero_approx()){
+                    Wishdir = this->get_linear_velocity();
+                }else{
+                    Wishdir = this->get_linear_velocity()  - RigidVel;
+                }
+                
                 if(!Wishdir.is_zero_approx()  ){
                     Wishdir.normalize();
                     Wishdir = Wishdir*-1.f;
@@ -384,12 +391,13 @@ void RigidPlayer::_physics_process(double delta){
                     Force = Force/FrictionBurn;
 
                     if(contanct < 2 &&Force.is_equal_approx(Vector3(0,0,0)) || this->get_linear_velocity().is_zero_approx() || this->get_linear_velocity().abs() < Vector3(.1,.1,.1)){
-                        this->set_linear_velocity(Vector3(0,0,0));
+                        //this->set_linear_velocity(Vector3(0,0,0));
                         just_stopped_moving();
                             //need to ad exceptions to when standing on rigid bodys for both
                     }else{
 
                         this->apply_central_force(Force);
+                        CountershoveRigid(Force, RayCastHitLoc, StandingOnRigidBodyPtr);
                         
                     }
 
@@ -447,6 +455,13 @@ void RigidPlayer::_physics_process(double delta){
 
     handle_gravity_ort_logic();
     
+}
+
+void RigidPlayer::CountershoveRigid(Vector3 Force, Vector3 Loc, RigidBody3D* bodyptr){
+if(bodyptr != nullptr){
+   bodyptr->apply_force((Force*-.1),RayCastHitLoc);
+}
+
 }
 
 void RigidPlayer::setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forward, Vector3 &right){

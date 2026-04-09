@@ -65,7 +65,7 @@ class RigidPlayer : public RigidBody3D{
 	    void _input(const Ref<InputEvent> &event) override;
 
         float MappedDotProduct(Vector3 x , Vector3 y);
-
+        void CountershoveRigid(Vector3 Force, Vector3 Loc, RigidBody3D* bodyptr);
         void jump();
         Vector3 GetWishDir(){return Wishdir;}
         void AlineToGravity();
@@ -167,6 +167,7 @@ class RigidPlayer : public RigidBody3D{
         Vector3 LastGravitydir = Vector3(0,-1,0);
         Vector3 LastGravityForward = Vector3(1,0,0);
         Vector3 LastGravityRight;
+        Vector3 RayCastHitLoc = Vector3(0,0,0);
 
         Basis Targetbasis;
         Vector3 Wishdir = Vector3(0,0,0);
