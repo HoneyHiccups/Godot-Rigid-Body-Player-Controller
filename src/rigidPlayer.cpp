@@ -240,7 +240,10 @@ void RigidPlayer::_physics_process(double delta){
         HitNoraml = GroundRay->get_collision_normal();
         if(dynamic_cast<RigidBody3D*>(GroundRay->get_collider()) ){
             StandingOnRigidBodyPtr = dynamic_cast<RigidBody3D*>(GroundRay->get_collider());
-            //
+            //the goal here is to allow feedback on rigid bodys and also get current
+            //In addastion we want to be able to grab the speed on these to subtract
+                //  //from the speed of the player and allow for snapping on to rigid elvators
+            // should work with child of rigid bodys cuss dynamic cast;
         }
         float SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
         StandingAngle = SlopeRadins * 180 / 3.14;
