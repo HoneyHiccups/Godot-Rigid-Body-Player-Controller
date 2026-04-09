@@ -1,6 +1,7 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
 #include "godot_cpp/classes/ray_cast3d.hpp"
+#include "godot_cpp/classes/rigid_body3d.hpp"
 #include "godot_cpp/classes/time.hpp"
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/core/math.hpp"
@@ -228,6 +229,7 @@ void RigidPlayer::_process(double delta){
 
 
 void RigidPlayer::_physics_process(double delta){
+    RigidBody3D* StandingOnRigidBodyPtr = nullptr;
     int contanct = this->get_contact_count();
     Vector3 HitNoraml = this->get_basis().get_column(1);
     float StandingAngle  = 0;
@@ -236,6 +238,10 @@ void RigidPlayer::_physics_process(double delta){
     isOverSlooped = true;
     if(GroundRay->is_colliding()){
         HitNoraml = GroundRay->get_collision_normal();
+        if(dynamic_cast<RigidBody3D*>(GroundRay->get_collider()) ){
+            StandingOnRigidBodyPtr = dynamic_cast<RigidBody3D*>(GroundRay->get_collider());
+            //
+        }
         float SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
         StandingAngle = SlopeRadins * 180 / 3.14;
         RayHitDist = GroundRay->get_collision_point().distance_to(this->get_global_position());
@@ -322,13 +328,6 @@ void RigidPlayer::_physics_process(double delta){
             
             setsterringEnums(InputDir, linvelFlat, ForwardVec, RightVec);
 
-
-
-            //the goal here is to make a scaler that will rotate the wishdir
-            //so that the player dose not conserve forward speed as much as they do
-            //this will make it feel more arcady
-            //
-            //
             // Creates an amount to reduce speed
             float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
             //creates a new accel power to avoid goining light speed
@@ -336,12 +335,24 @@ void RigidPlayer::_physics_process(double delta){
             // jazzhands gives us bost moving in perpducular movments from base move dir
             float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
 
-            //wishdir getting shifted
-            Wishdir = walkingPlane.project(Wishdir);
 
-            Vector3 twistedwishdir = CreateTwistedWishDir(SteerSwitchKey,InputWishdirState,Wishdir);
+            //the goal here is to make a scaler that will rotate the wishdir
+            //so that the player dose not conserve forward speed as much as they do
+            //this will make it feel more arcady
+            //
+            //
+            
+
+
+
+            //wishdir getting shifted
+            
+            Wishdir = walkingPlane.project(Wishdir);
+            CreateTwistedWishDir(Wishdir , linvelFlat);
+            
+
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = twistedwishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
             apply_central_force(Force);
@@ -363,7 +374,7 @@ void RigidPlayer::_physics_process(double delta){
                     Force = Force*autoslowPower;
                     Force = Force/FrictionBurn;
 
-                    if(contanct < 2 &&Force.is_equal_approx(Vector3(0,0,0)) || this->get_linear_velocity().is_zero_approx() || this->get_linear_velocity().abs() < Vector3(.3,.3,.3)){
+                    if(contanct < 2 &&Force.is_equal_approx(Vector3(0,0,0)) || this->get_linear_velocity().is_zero_approx() || this->get_linear_velocity().abs() < Vector3(.1,.1,.1)){
                         this->set_linear_velocity(Vector3(0,0,0));
                         just_stopped_moving();
                             //need to ad exceptions to when standing on rigid bodys for both
@@ -543,12 +554,8 @@ void RigidPlayer::setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forwar
             }
 }
 
-Vector3 RigidPlayer:: CreateTwistedWishDir(PlaylinCounterSteer l ,PlayerWishDirState w, Vector3 wish){
-    Vector3 out;
+void RigidPlayer:: CreateTwistedWishDir(Vector3 &wish, Vector3 &Lin){
 
-    
-    out = wish;
-    return out;
 }
 
 void RigidPlayer::just_stopped_moving(){
