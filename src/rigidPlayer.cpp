@@ -244,6 +244,7 @@ void RigidPlayer::_physics_process(double delta){
             //In addastion we want to be able to grab the speed on these to subtract
                 //  //from the speed of the player and allow for snapping on to rigid elvators
             // should work with child of rigid bodys cuss dynamic cast;
+            //print_line("Standing on rigid");
         }
         float SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
         StandingAngle = SlopeRadins * 180 / 3.14;
@@ -363,12 +364,17 @@ void RigidPlayer::_physics_process(double delta){
         }else if (InputDir.is_zero_approx()== true && bisGrounded == true){
             //this is auto slow no di;
             bisinputing = false;
-            if ( autoslow == true && bisGrounded == true && input->is_action_pressed(JumpActionMappping) == false){                 
+            Vector3 RigidVel = Vector3(0,0,0);
+            if(StandingOnRigidBodyPtr != nullptr){
+                RigidVel = StandingOnRigidBodyPtr->get_linear_velocity();
+            }
+            if ( autoslow == true && /**/  StandingOnRigidBodyPtr == nullptr && /**/ bisGrounded == true && input->is_action_pressed(JumpActionMappping) == false){                 
                 Wishdir = this->get_linear_velocity();
-                if(!Wishdir.is_zero_approx()){
+                if(!Wishdir.is_zero_approx()  ){
                     Wishdir.normalize();
                     Wishdir = Wishdir*-1.f;
-                    Vector3 linVel = this->get_linear_velocity();
+                    Vector3 linVel = walkingPlane.project(this->get_linear_velocity());
+                    Wishdir = walkingPlane.project(Wishdir);
                     linVel.normalize();
                     float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
                     float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
@@ -390,7 +396,7 @@ void RigidPlayer::_physics_process(double delta){
                 }
 
             }
-            _gdvirtual__extern_physics_process_call(delta);
+            //_gdvirtual__extern_physics_process_call(delta);
         }
         
         if (piv_body != nullptr && bisGrounded == false ){
