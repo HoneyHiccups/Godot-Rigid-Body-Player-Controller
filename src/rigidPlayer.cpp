@@ -13,6 +13,7 @@
 #include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
+#include <cstddef>
 #include <cstdint>
 
 //vitrual calls not work
@@ -391,7 +392,16 @@ void RigidPlayer::_physics_process(double delta){
                     Force = Force/FrictionBurn;
 
                     if(contanct < 2 &&Force.is_equal_approx(Vector3(0,0,0)) || this->get_linear_velocity().is_zero_approx() || this->get_linear_velocity().abs() < Vector3(.1,.1,.1)){
-                        //this->set_linear_velocity(Vector3(0,0,0));
+                        // needs testing
+                        //dose not work right
+                        if(StandingOnRigidBodyPtr != nullptr){
+                            //this->set_linear_velocity(this->get_linear_velocity()*(LastGravitydir));
+                            // this is a comprisime and kinda sucks means that it wont clamp on rigids but
+                            // will on static
+                            //commeted the hi tech just using prim vers
+                            this->set_linear_velocity(Vector3(0,0,0));
+                        }
+                        
                         just_stopped_moving();
                             //need to ad exceptions to when standing on rigid bodys for both
                     }else{
@@ -459,7 +469,8 @@ void RigidPlayer::_physics_process(double delta){
 
 void RigidPlayer::CountershoveRigid(Vector3 Force, Vector3 Loc, RigidBody3D* bodyptr){
 if(bodyptr != nullptr){
-   bodyptr->apply_force((Force*-.1),RayCastHitLoc);
+    // not working
+    //bodyptr->apply_force((Force*-.1),RayCastHitLoc);
 }
 
 }
