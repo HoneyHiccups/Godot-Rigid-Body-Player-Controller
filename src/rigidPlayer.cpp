@@ -394,7 +394,7 @@ void RigidPlayer::_physics_process(double delta){
                     if(contanct < 2 &&Force.is_equal_approx(Vector3(0,0,0)) || this->get_linear_velocity().is_zero_approx() || this->get_linear_velocity().abs() < Vector3(.1,.1,.1)){
                         // needs testing
                         //dose not work right
-                        if(StandingOnRigidBodyPtr != nullptr){
+                        if(StandingOnRigidBodyPtr == nullptr){
                             //this->set_linear_velocity(this->get_linear_velocity()*(LastGravitydir));
                             // this is a comprisime and kinda sucks means that it wont clamp on rigids but
                             // will on static
