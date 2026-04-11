@@ -17,7 +17,12 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="rigid_body_controller_projc"
 run/main_scene="uid://baj612uhf6cmp"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+run/max_fps=144
 config/icon="res://icon.svg"
+
+[debug]
+
+settings/stdout/print_fps=true
 
 [debug_draw_3d]
 
@@ -27,6 +32,7 @@ settings/addon_root_folder="res://debug_draw_3d-1.6.0/addons/debug_draw_3d"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/vsync/vsync_mode=0
 
 [dotnet]
 
@@ -81,7 +87,7 @@ toggle_orbit_cam={
 
 [physics]
 
-common/physics_ticks_per_second=90
+common/physics_ticks_per_second=144
 common/physics_jitter_fix=0.0
 3d/physics_engine="Jolt Physics"
 3d/default_gravity=0.0
