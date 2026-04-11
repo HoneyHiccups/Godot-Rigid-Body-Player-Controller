@@ -4,6 +4,7 @@
 [ext_resource type="Material" uid="uid://bp6rmfg6213dn" path="res://rigid_body_controller/grid.tres" id="3_54tkj"]
 [ext_resource type="Shader" uid="uid://dvbivicsqayx1" path="res://rigid_body_controller/grid.gdshader" id="3_irsd3"]
 [ext_resource type="PackedScene" uid="uid://blmlgupipfgy1" path="res://prefabs/PlanetBody.tscn" id="3_r8w6l"]
+[ext_resource type="PackedScene" uid="uid://kgwcjocx12f3" path="res://prefabs/SprialStarcase.tscn" id="4_2tlil"]
 [ext_resource type="PackedScene" uid="uid://bhqulblmy7rkp" path="res://prefabs/Ball.tscn" id="4_15vk6"]
 [ext_resource type="PackedScene" uid="uid://cycjle4jwmyxu" path="res://prefabs/Block.tscn" id="4_r8w6l"]
 [ext_resource type="PackedScene" uid="uid://cn3i3f6ye30qq" path="res://prefabs/Speedmeter.tscn" id="4_s0fi8"]
@@ -218,7 +219,7 @@ size = Vector3(200, 102.203, 200)
 
 [node name="RigidPlayerPawn" parent="PlayerPawns" unique_id=170371887 instance=ExtResource("1_s0fi8")]
 obit_cam_dist = 10.0
-transform = Transform3D(-0.96806455, 0, -0.25070098, 0, 1, 0, 0.25070098, 0, -0.96806455, -79.80395, 6.7846756, 162.2676)
+transform = Transform3D(-0.96806455, 0, -0.25070098, 0, 1, 0, 0.25070098, 0, -0.96806455, 20.65902, 6.7846756, -1.4296861)
 
 [node name="WorldCSG" type="Node" parent="." unique_id=558763903]
 
@@ -314,6 +315,12 @@ material = ExtResource("3_54tkj")
 transform = Transform3D(1, 0, 0, 0, 0.25881898, -0.9659258, 0, 0.9659258, 0.25881898, -28.96272, -1.1219234, 21.672386)
 size = Vector3(6, 6, 6)
 material = ExtResource("3_54tkj")
+
+[node name="SprialStarcase" parent="WorldCSG" unique_id=1483195364 instance=ExtResource("4_2tlil")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.258537, -2.1391861, -26.017477)
+
+[node name="SprialStarcase2" parent="WorldCSG" unique_id=162928408 instance=ExtResource("4_2tlil")]
+transform = Transform3D(0.98063517, 0, -0.19584346, 0, 1, 0, 0.19584346, 0, 0.98063517, 21.258537, 2.7881486, -26.017477)
 
 [node name="Cols" type="Node" parent="." unique_id=2009087572]
 
