@@ -1,0 +1,107 @@
+[gd_scene format=3 uid="uid://dktl2epsy2yxu"]
+
+[sub_resource type="ZN_FastNoiseLite" id="ZN_FastNoiseLite_pmtp7"]
+seed = 3
+period = 53.5001
+
+[sub_resource type="ZN_FastNoiseLiteGradient" id="ZN_FastNoiseLiteGradient_5tgxl"]
+
+[sub_resource type="ZN_FastNoiseLite" id="ZN_FastNoiseLite_5tgxl"]
+period = 228.4001
+warp_noise = SubResource("ZN_FastNoiseLiteGradient_5tgxl")
+
+[sub_resource type="ZN_FastNoiseLite" id="ZN_FastNoiseLite_1f3ds"]
+noise_type = 4
+
+[sub_resource type="VoxelGeneratorGraph" id="VoxelGeneratorGraph_1xqci"]
+graph_data = {
+"connections": [[42, 0, 32, 0], [40, 0, 39, 0], [39, 0, 4, 0], [38, 0, 39, 1], [37, 0, 38, 0], [35, 0, 34, 0], [34, 0, 40, 1], [32, 0, 40, 0], [31, 0, 32, 1], [30, 0, 31, 0]],
+"nodes": {
+"30": {
+"auto_connect": true,
+"gui_position": Vector2(822.03253, 373.65115),
+"noise": SubResource("ZN_FastNoiseLite_1f3ds"),
+"type": "FastNoise3D",
+"x": 0.0,
+"y": 0.0,
+"z": 0.0
+},
+"31": {
+"auto_connect": false,
+"b": 1.0,
+"gui_position": Vector2(1040, 340),
+"type": "Multiply"
+},
+"32": {
+"auto_connect": false,
+"gui_position": Vector2(1240, 280),
+"type": "Add"
+},
+"34": {
+"auto_connect": false,
+"b": 20.0,
+"gui_position": Vector2(1080, 540),
+"type": "Multiply"
+},
+"35": {
+"auto_connect": true,
+"gui_position": Vector2(860, 560),
+"noise": SubResource("ZN_FastNoiseLite_5tgxl"),
+"type": "FastNoise3D",
+"x": 0.0,
+"y": 0.0,
+"z": 0.0
+},
+"37": {
+"auto_connect": true,
+"gui_position": Vector2(975.083, 793.6711),
+"noise": SubResource("ZN_FastNoiseLite_pmtp7"),
+"type": "FastNoise3D",
+"x": 0.0,
+"y": 0.0,
+"z": 0.0
+},
+"38": {
+"auto_connect": false,
+"b": 5.0,
+"gui_position": Vector2(1200, 780),
+"type": "Multiply"
+},
+"39": {
+"auto_connect": false,
+"gui_position": Vector2(1540, 520),
+"type": "Add"
+},
+"4": {
+"auto_connect": true,
+"gui_position": Vector2(1660, 240),
+"type": "OutputSDF"
+},
+"40": {
+"auto_connect": false,
+"gui_position": Vector2(1280, 480),
+"type": "Add"
+},
+"42": {
+"auto_connect": true,
+"gui_position": Vector2(940, 180),
+"radius": 1024.0,
+"type": "SdfSphere",
+"x": 0.0,
+"y": 0.0,
+"z": 0.0
+}
+},
+"version": 2
+}
+texture_mode = 1
+
+[sub_resource type="VoxelMesherTransvoxel" id="VoxelMesherTransvoxel_1xqci"]
+textures_ignore_air_voxels = true
+
+[node name="WorldOrgin" type="Node3D" unique_id=721503631]
+
+[node name="VoxelLodTerrain" type="VoxelLodTerrain" parent="." unique_id=1780822546]
+generator = SubResource("VoxelGeneratorGraph_1xqci")
+mesher = SubResource("VoxelMesherTransvoxel_1xqci")
+view_distance = 1024

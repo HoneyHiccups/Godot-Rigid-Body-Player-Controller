@@ -1,14 +1,13 @@
-[gd_scene format=3 uid="uid://baj612uhf6cmp"]
+[gd_scene format=3 uid="uid://bictynifw6uwv"]
 
-[ext_resource type="PackedScene" uid="uid://dnu21041rtmht" path="res://prefabs/RigidPlayerPawnModdedUp.tscn" id="1_s0fi8"]
-[ext_resource type="Material" uid="uid://bp6rmfg6213dn" path="res://rigid_body_controller/grid.tres" id="3_54tkj"]
-[ext_resource type="Shader" uid="uid://dvbivicsqayx1" path="res://rigid_body_controller/grid.gdshader" id="3_irsd3"]
-[ext_resource type="PackedScene" uid="uid://kgwcjocx12f3" path="res://prefabs/SprialStarcase.tscn" id="4_2tlil"]
-[ext_resource type="PackedScene" uid="uid://bhqulblmy7rkp" path="res://prefabs/Ball.tscn" id="4_15vk6"]
-[ext_resource type="PackedScene" uid="uid://cycjle4jwmyxu" path="res://prefabs/Block.tscn" id="4_r8w6l"]
-[ext_resource type="PackedScene" uid="uid://cn3i3f6ye30qq" path="res://prefabs/Speedmeter.tscn" id="4_s0fi8"]
-[ext_resource type="PackedScene" uid="uid://cmbclf4x60ne8" path="res://prefabs/RingPlant.tscn" id="5_oqrnv"]
-[ext_resource type="PackedScene" uid="uid://bmewepq4wxw3x" path="res://prefabs/Cylian.tscn" id="9_o65kj"]
+[ext_resource type="PackedScene" uid="uid://dnu21041rtmht" path="res://prefabs/RigidPlayerPawnModdedUp.tscn" id="1_djt5g"]
+[ext_resource type="Shader" uid="uid://dvbivicsqayx1" path="res://rigid_body_controller/grid.gdshader" id="2_dd8aj"]
+[ext_resource type="Material" uid="uid://bp6rmfg6213dn" path="res://rigid_body_controller/grid.tres" id="3_wus6r"]
+[ext_resource type="PackedScene" uid="uid://bhqulblmy7rkp" path="res://prefabs/Ball.tscn" id="4_vmhiq"]
+[ext_resource type="PackedScene" uid="uid://cycjle4jwmyxu" path="res://prefabs/Block.tscn" id="5_5vec5"]
+[ext_resource type="PackedScene" uid="uid://cn3i3f6ye30qq" path="res://prefabs/Speedmeter.tscn" id="6_kslns"]
+[ext_resource type="PackedScene" uid="uid://bmewepq4wxw3x" path="res://prefabs/Cylian.tscn" id="7_bh7bf"]
+[ext_resource type="PackedScene" uid="uid://cmbclf4x60ne8" path="res://prefabs/RingPlant.tscn" id="8_w60jt"]
 
 [sub_resource type="GDScript" id="GDScript_2tlil"]
 resource_name = "gameinsta"
@@ -30,7 +29,7 @@ func _physics_process(delta: float) -> void:
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2y7ey"]
 render_priority = 0
-shader = ExtResource("3_irsd3")
+shader = ExtResource("2_dd8aj")
 shader_parameter/subdivisions = 100.0
 shader_parameter/grid_width = 0.02
 shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
@@ -54,7 +53,7 @@ shader_parameter/in_dashed_count_y = 6.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_irsd3"]
 render_priority = 0
-shader = ExtResource("3_irsd3")
+shader = ExtResource("2_dd8aj")
 shader_parameter/subdivisions = 1.0
 shader_parameter/grid_width = 0.02
 shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
@@ -230,139 +229,14 @@ size = Vector3(0.91, 0.10517578, 0.97)
 [sub_resource type="BoxShape3D" id="BoxShape3D_s0fi8"]
 size = Vector3(200, 102.203, 200)
 
-[sub_resource type="ZN_FastNoiseLite" id="ZN_FastNoiseLite_pmtp7"]
-seed = 3
-period = 53.5001
-
-[sub_resource type="ZN_FastNoiseLiteGradient" id="ZN_FastNoiseLiteGradient_5tgxl"]
-
-[sub_resource type="ZN_FastNoiseLite" id="ZN_FastNoiseLite_5tgxl"]
-period = 228.4001
-warp_noise = SubResource("ZN_FastNoiseLiteGradient_5tgxl")
-
-[sub_resource type="ZN_FastNoiseLite" id="ZN_FastNoiseLite_1f3ds"]
-noise_type = 4
-
-[sub_resource type="VoxelGeneratorGraph" id="VoxelGeneratorGraph_1xqci"]
-graph_data = {
-"connections": [[42, 0, 32, 0], [40, 0, 39, 0], [39, 0, 4, 0], [38, 0, 39, 1], [37, 0, 38, 0], [35, 0, 34, 0], [34, 0, 40, 1], [32, 0, 40, 0], [31, 0, 32, 1], [30, 0, 31, 0]],
-"nodes": {
-"30": {
-"auto_connect": true,
-"gui_position": Vector2(822.03253, 373.65115),
-"noise": SubResource("ZN_FastNoiseLite_1f3ds"),
-"type": "FastNoise3D",
-"x": 0.0,
-"y": 0.0,
-"z": 0.0
-},
-"31": {
-"auto_connect": false,
-"b": 1.0,
-"gui_position": Vector2(1040, 340),
-"type": "Multiply"
-},
-"32": {
-"auto_connect": false,
-"gui_position": Vector2(1240, 280),
-"type": "Add"
-},
-"34": {
-"auto_connect": false,
-"b": 20.0,
-"gui_position": Vector2(1080, 540),
-"type": "Multiply"
-},
-"35": {
-"auto_connect": true,
-"gui_position": Vector2(860, 560),
-"noise": SubResource("ZN_FastNoiseLite_5tgxl"),
-"type": "FastNoise3D",
-"x": 0.0,
-"y": 0.0,
-"z": 0.0
-},
-"37": {
-"auto_connect": true,
-"gui_position": Vector2(975.083, 793.6711),
-"noise": SubResource("ZN_FastNoiseLite_pmtp7"),
-"type": "FastNoise3D",
-"x": 0.0,
-"y": 0.0,
-"z": 0.0
-},
-"38": {
-"auto_connect": false,
-"b": 5.0,
-"gui_position": Vector2(1200, 780),
-"type": "Multiply"
-},
-"39": {
-"auto_connect": false,
-"gui_position": Vector2(1540, 520),
-"type": "Add"
-},
-"4": {
-"auto_connect": true,
-"gui_position": Vector2(1660, 240),
-"type": "OutputSDF"
-},
-"40": {
-"auto_connect": false,
-"gui_position": Vector2(1280, 480),
-"type": "Add"
-},
-"42": {
-"auto_connect": true,
-"gui_position": Vector2(940, 180),
-"radius": 1024.0,
-"type": "SdfSphere",
-"x": 0.0,
-"y": 0.0,
-"z": 0.0
-}
-},
-"version": 2
-}
-texture_mode = 1
-
-[sub_resource type="VoxelMesherTransvoxel" id="VoxelMesherTransvoxel_1xqci"]
-textures_ignore_air_voxels = true
-
-[sub_resource type="Gradient" id="Gradient_o65kj"]
-offsets = PackedFloat32Array(0, 0.008163265, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.4332916, 0.39682257, 0.19057152, 1, 0.834071, 0.903298, 0.9466446, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2tlil"]
-noise_type = 2
-seed = 5
-frequency = 0.0191
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5coc1"]
-noise = SubResource("FastNoiseLite_2tlil")
-color_ramp = SubResource("Gradient_o65kj")
-seamless = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nya57"]
-albedo_color = Color(0.7204674, 0.7204675, 0.7204674, 1)
-albedo_texture = SubResource("NoiseTexture2D_5coc1")
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_ivkol"]
-
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_o65kj"]
-height = 98.4
-radius = 4.078
-
 [node name="Gym" type="Node3D" unique_id=566124272]
 script = SubResource("GDScript_2tlil")
 
 [node name="PlayerPawns" type="Node" parent="." unique_id=740704057]
 
-[node name="RigidPlayerPawn" parent="PlayerPawns" unique_id=170371887 instance=ExtResource("1_s0fi8")]
+[node name="RigidPlayerPawn" parent="PlayerPawns" unique_id=170371887 instance=ExtResource("1_djt5g")]
 obit_cam_dist = 10.0
 transform = Transform3D(-0.96806455, 0, -0.25070098, 0, 1, 0, 0.25070098, 0, -0.96806455, 22.41376, 6.7846756, -1.4296861)
-
-[node name="VoxelViewer" type="VoxelViewer" parent="PlayerPawns/RigidPlayerPawn" unique_id=1553575892]
 
 [node name="WorldCSG" type="Node" parent="." unique_id=558763903]
 
@@ -397,67 +271,67 @@ material = SubResource("ShaderMaterial_irsd3")
 [node name="CSGBox3D9" type="CSGBox3D" parent="WorldCSG" unique_id=1346315904]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0131595, 3.960707, 21.032337)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="WorldCSG" unique_id=958215941]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.047667, 3.960707, -21.024786)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="WorldCSG" unique_id=335592334]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.047667, 3.960707, -41.248413)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D19" type="CSGBox3D" parent="WorldCSG" unique_id=664176026]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.047667, 3.960707, -57.565575)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D20" type="CSGBox3D" parent="WorldCSG" unique_id=1508374048]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.06683, 3.960707, -57.565575)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D21" type="CSGBox3D" parent="WorldCSG" unique_id=598640632]
 transform = Transform3D(0.9790365, 0, 0, 0, 0.7169592, 0.69711506, 0, -0.69711506, 0.7169592, -47.06683, -0.6327907, -51.383194)
 size = Vector3(6, 15.188965, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="WorldCSG" unique_id=681588054]
 transform = Transform3D(1, 0, 0, 0, 0.9659258, -0.25881904, 0, 0.25881904, 0.9659258, -4.992509, 2.960707, 21.669329)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="WorldCSG" unique_id=456956910]
 transform = Transform3D(1, 0, 0, 0, 0.86602545, -0.50000006, 0, 0.50000006, 0.86602545, -10.993759, 2.091019, 22.136543)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="WorldCSG" unique_id=1257250768]
 transform = Transform3D(1, 0, 0, 0, 0.70710677, -0.7071068, 0, 0.7071068, 0.70710677, -16.992, 0.9289057, 22.216652)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="WorldCSG" unique_id=604024071]
 transform = Transform3D(1, 0, 0, 0, 0.49999994, -0.86602545, 0, 0.86602545, 0.49999994, -23.006725, -0.10903406, 22.102537)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="WorldCSG" unique_id=307355736]
 transform = Transform3D(1, 0, 0, 0, 0.49999994, -0.86602545, 0, 0.86602545, 0.49999994, -23.006725, -2.3663592, 44.176945)
 size = Vector3(18, 18, 18)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="WorldCSG" unique_id=1713242824]
 transform = Transform3D(1, 0, 0, 0, 0.25881898, -0.9659258, 0, 0.9659258, 0.25881898, -40.970894, -5.366359, 43.00276)
 size = Vector3(18, 18, 18)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="WorldCSG" unique_id=1471000450]
 transform = Transform3D(1, 0, 0, 0, 0.25881898, -0.9659258, 0, 0.9659258, 0.25881898, -28.96272, -1.1219234, 21.672386)
 size = Vector3(6, 6, 6)
-material = ExtResource("3_54tkj")
+material = ExtResource("3_wus6r")
 
 [node name="Cols" type="Node" parent="." unique_id=2009087572]
 
@@ -542,7 +416,7 @@ shape = SubResource("ConcavePolygonShape3D_myh01")
 transform = Transform3D(0.9790365, 0, 0, 0, 0.7169592, 0.69711506, 0, -0.69711506, 0.7169592, -47.06683, -0.6327907, -51.383194)
 shape = SubResource("ConcavePolygonShape3D_fx30h")
 
-[node name="Ball" parent="Cols/StaticBody3D" unique_id=1580252953 instance=ExtResource("4_15vk6")]
+[node name="Ball" parent="Cols/StaticBody3D" unique_id=1580252953 instance=ExtResource("4_vmhiq")]
 transform = Transform3D(3.72, 0, 0, 0, 3.72, 0, 0, 0, 3.72, -46.730488, 8.964041, -55.674084)
 mass = 750.0
 
@@ -627,7 +501,7 @@ font_size = 200
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.437132, 3.2525432, -5.038499)
 pixel_size = 0.01
 billboard = 1
-text = "Press 'End' key or 'Escape' to hide cursor and lock into the game."
+text = "Press 'End' key to hide cursor and lock into the game."
 
 [node name="Label3D11" type="Label3D" parent="Hints" unique_id=1259852434]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.437132, 2.8054812, -5.038499)
@@ -655,79 +529,79 @@ text = "Press 'Page Down' Key to toggle debugg third person."
 
 [node name="Toys" type="Node" parent="." unique_id=640673038]
 
-[node name="Block" parent="Toys" unique_id=448699955 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys" unique_id=448699955 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 1.5, 0.45218325)
 mass = 100.0
 
-[node name="Block5" parent="Toys" unique_id=1363252632 instance=ExtResource("4_r8w6l")]
+[node name="Block5" parent="Toys" unique_id=1363252632 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 1.5, -9.090237)
 mass = 100.0
 
-[node name="Block9" parent="Toys" unique_id=2071491908 instance=ExtResource("4_r8w6l")]
+[node name="Block9" parent="Toys" unique_id=2071491908 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 2.1230915, 11.484423)
 mass = 10.0
 
-[node name="Block10" parent="Toys" unique_id=1283747041 instance=ExtResource("4_r8w6l")]
+[node name="Block10" parent="Toys" unique_id=1283747041 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 3.2075834, 11.484423)
 mass = 10.0
 
-[node name="Block11" parent="Toys" unique_id=1750123171 instance=ExtResource("4_r8w6l")]
+[node name="Block11" parent="Toys" unique_id=1750123171 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 4.3496523, 11.484423)
 mass = 10.0
 
-[node name="Block12" parent="Toys" unique_id=1097621221 instance=ExtResource("4_r8w6l")]
+[node name="Block12" parent="Toys" unique_id=1097621221 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 5.4360113, 11.484423)
 mass = 10.0
 
-[node name="Block13" parent="Toys" unique_id=951883224 instance=ExtResource("4_r8w6l")]
+[node name="Block13" parent="Toys" unique_id=951883224 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 6.500985, 11.484423)
 mass = 10.0
 
-[node name="Block14" parent="Toys" unique_id=1250221043 instance=ExtResource("4_r8w6l")]
+[node name="Block14" parent="Toys" unique_id=1250221043 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 2.1230915, -0.86204886)
 mass = 10.0
 
-[node name="Block15" parent="Toys" unique_id=1107070810 instance=ExtResource("4_r8w6l")]
+[node name="Block15" parent="Toys" unique_id=1107070810 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 3.2075834, -0.86204886)
 mass = 10.0
 
-[node name="Block16" parent="Toys" unique_id=390519806 instance=ExtResource("4_r8w6l")]
+[node name="Block16" parent="Toys" unique_id=390519806 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 4.3496523, -0.86204886)
 mass = 10.0
 
-[node name="Block17" parent="Toys" unique_id=388383198 instance=ExtResource("4_r8w6l")]
+[node name="Block17" parent="Toys" unique_id=388383198 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 5.4360113, -0.86204886)
 mass = 10.0
 
-[node name="Block18" parent="Toys" unique_id=442564379 instance=ExtResource("4_r8w6l")]
+[node name="Block18" parent="Toys" unique_id=442564379 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 6.500985, -0.86204886)
 mass = 10.0
 
-[node name="Block6" parent="Toys" unique_id=2100358639 instance=ExtResource("4_r8w6l")]
+[node name="Block6" parent="Toys" unique_id=2100358639 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 3.4665804, -9.090237)
 mass = 100.0
 
-[node name="Block7" parent="Toys" unique_id=1370214660 instance=ExtResource("4_r8w6l")]
+[node name="Block7" parent="Toys" unique_id=1370214660 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 5.422846, -9.090237)
 mass = 100.0
 
-[node name="Block8" parent="Toys" unique_id=1919478228 instance=ExtResource("4_r8w6l")]
+[node name="Block8" parent="Toys" unique_id=1919478228 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 7.056953, -9.090237)
 mass = 100.0
 
-[node name="Block4" parent="Toys" unique_id=695920058 instance=ExtResource("4_r8w6l")]
+[node name="Block4" parent="Toys" unique_id=695920058 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.235, 0, 0, 0, 0.235, 0, 0, 0, 0.235, 16.11547, 1.5, 2.9720924)
 mass = 100.0
 
-[node name="Block2" parent="Toys" unique_id=588834250 instance=ExtResource("4_r8w6l")]
+[node name="Block2" parent="Toys" unique_id=588834250 instance=ExtResource("5_5vec5")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 18.53078, 4.4175987, 0.45218325)
 mass = 200.0
 
-[node name="Block3" parent="Toys" unique_id=67001128 instance=ExtResource("4_r8w6l")]
+[node name="Block3" parent="Toys" unique_id=67001128 instance=ExtResource("5_5vec5")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -84.11845, 4.4175987, 83.12573)
 mass = 200.0
 
-[node name="Speedmeter" parent="Toys" unique_id=1188220596 instance=ExtResource("4_s0fi8")]
+[node name="Speedmeter" parent="Toys" unique_id=1188220596 instance=ExtResource("6_kslns")]
 transform = Transform3D(1, 0, 0, 0, 2.745, 0, 0, 0, 5.295, -12.869421, 1.0000005, -31.341957)
 
 [node name="Ancor" type="Node3D" parent="Toys" unique_id=594152482]
@@ -747,7 +621,7 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Ancor/MeshInstance3D/StaticBody3D" unique_id=1007167876]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Ancor" unique_id=754519155 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Ancor" unique_id=754519155 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.6831284, 0)
 mass = 100.0
 
@@ -763,7 +637,7 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Ancor3/MeshInstance3D/StaticBody3D" unique_id=4847793]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Ancor3" unique_id=271453114 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Ancor3" unique_id=271453114 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2305045, 0)
 mass = 100.0
 
@@ -796,7 +670,7 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Ancor4/MeshInstance3D/StaticBody3D" unique_id=1620384051]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Ancor4" unique_id=306977505 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Ancor4" unique_id=306977505 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2305045, 0)
 mass = 100.0
 
@@ -829,211 +703,211 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Ancor2/MeshInstance3D/StaticBody3D" unique_id=924848766]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Ancor2" unique_id=1807155874 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Ancor2" unique_id=1807155874 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6.3083153, 0)
 mass = 100.0
 
-[node name="Block2" parent="Toys/Ancor2" unique_id=1272943733 instance=ExtResource("4_r8w6l")]
+[node name="Block2" parent="Toys/Ancor2" unique_id=1272943733 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.5593624, 0, 0, 0, -0.000740451, 12.9640665, 0, -0.25868315, -0.03710816, -36.956978, -0.3353262, 4.161695)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block5" parent="Toys/Ancor2" unique_id=1851908965 instance=ExtResource("4_r8w6l")]
+[node name="Block5" parent="Toys/Ancor2" unique_id=1851908965 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.5593624, 0, 0, 0, -0.000740451, 12.9640665, 0, -0.25868315, -0.03710816, -27.526306, 5.391946, -33.06329)
 mass = 1000.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block3" parent="Toys/Ancor2" unique_id=1306601595 instance=ExtResource("4_r8w6l")]
+[node name="Block3" parent="Toys/Ancor2" unique_id=1306601595 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.5593634, 0, 0, 0, -1.1307449e-08, -12.964124, 0, 0.25868428, -5.6667983e-07, -46.85043, -0.3353262, 4.161695)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block4" parent="Toys/Ancor2" unique_id=76819019 instance=ExtResource("4_r8w6l")]
+[node name="Block4" parent="Toys/Ancor2" unique_id=76819019 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.468875, 0.042819712, 0.006142498, 0, -0.0007404511, 12.964068, 1.0857686, -0.2551146, -0.03659625, -46.85043, -0.3353262, 10.345587)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block6" parent="Toys/Ancor2" unique_id=187730776 instance=ExtResource("4_r8w6l")]
+[node name="Block6" parent="Toys/Ancor2" unique_id=187730776 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.1246767, 0.092602596, 0.0132838655, -1.7814458e-10, -0.0007404511, 12.964068, 2.3480997, -0.24154034, -0.034649022, -48.738197, -0.3353262, 14.87488)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block7" parent="Toys/Ancor2" unique_id=1621484967 instance=ExtResource("4_r8w6l")]
+[node name="Block7" parent="Toys/Ancor2" unique_id=1621484967 instance=ExtResource("5_5vec5")]
 transform = Transform3D(4.3254046, 0.19447044, 0.027896833, -8.911508e-10, -0.0007404512, 12.96407, 4.9311366, -0.17058203, -0.024470035, -51.75744, -0.3353262, 19.698391)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block8" parent="Toys/Ancor2" unique_id=1263249485 instance=ExtResource("4_r8w6l")]
+[node name="Block8" parent="Toys/Ancor2" unique_id=1263249485 instance=ExtResource("5_5vec5")]
 transform = Transform3D(3.1221075, 0.22750087, 0.032635055, 6.899958e-10, -0.00074045116, 12.96407, 5.768681, -0.12312731, -0.017662644, -56.22854, -0.33532715, 21.795473)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block9" parent="Toys/Ancor2" unique_id=677740999 instance=ExtResource("4_r8w6l")]
+[node name="Block9" parent="Toys/Ancor2" unique_id=677740999 instance=ExtResource("5_5vec5")]
 transform = Transform3D(3.4898047, 0.21903293, 0.031420328, 6.899957e-10, -0.00074045104, 12.964068, 5.5539618, -0.13762826, -0.01974281, -61.05921, -0.33532715, 23.404829)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block10" parent="Toys/Ancor2" unique_id=1703934496 instance=ExtResource("4_r8w6l")]
+[node name="Block10" parent="Toys/Ancor2" unique_id=1703934496 instance=ExtResource("5_5vec5")]
 transform = Transform3D(5.078435, 0.16372263, 0.023486052, 1.9831283e-09, -0.0007404512, 12.96407, 4.151473, -0.20027944, -0.028730135, -64.58961, -0.3353281, 26.70049)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block11" parent="Toys/Ancor2" unique_id=14710533 instance=ExtResource("4_r8w6l")]
+[node name="Block11" parent="Toys/Ancor2" unique_id=14710533 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.211294, 0.0831467, 0.011927414, 2.5743359e-09, -0.0007404512, 12.96407, 2.1083293, -0.24495628, -0.035139035, -67.08507, -0.3353281, 31.27691)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block12" parent="Toys/Ancor2" unique_id=1486746311 instance=ExtResource("4_r8w6l")]
+[node name="Block12" parent="Toys/Ancor2" unique_id=1486746311 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.308158, -0.070903346, -0.0101711005, 2.9358809e-09, -0.0007404512, 12.96407, -1.7978783, -0.24877632, -0.035687022, -68.048836, -0.3353281, 36.875313)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block15" parent="Toys/Ancor2" unique_id=240374571 instance=ExtResource("4_r8w6l")]
+[node name="Block15" parent="Toys/Ancor2" unique_id=240374571 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.3583245, 0.06355317, 0.0091167195, 2.9358809e-09, -0.0007404512, 12.96407, 1.6115012, -0.2507547, -0.035970822, -73.284645, -0.3353281, 41.009445)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block16" parent="Toys/Ancor2" unique_id=449207446 instance=ExtResource("4_r8w6l")]
+[node name="Block16" parent="Toys/Ancor2" unique_id=449207446 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.3583245, 0.06355317, 0.0091167195, 2.9358809e-09, -0.0007404512, 12.96407, 1.6115012, -0.2507547, -0.035970822, -77.096954, -0.3353281, 48.4219)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block17" parent="Toys/Ancor2" unique_id=212605832 instance=ExtResource("4_r8w6l")]
+[node name="Block17" parent="Toys/Ancor2" unique_id=212605832 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.559068, 0.0024470314, 0.00035103224, 2.9307774e-09, -0.00074045116, 12.96407, 0.062048316, -0.25867146, -0.037106484, -78.280876, -0.3353281, 57.76837)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block18" parent="Toys/Ancor2" unique_id=158993515 instance=ExtResource("4_r8w6l")]
+[node name="Block18" parent="Toys/Ancor2" unique_id=158993515 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.246725, -0.078910515, -0.011319728, 2.9401925e-09, -0.0007404511, 12.96407, -2.0009148, -0.24635348, -0.035339467, -76.12441, -0.3353281, 67.08894)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block19" parent="Toys/Ancor2" unique_id=840720413 instance=ExtResource("4_r8w6l")]
+[node name="Block19" parent="Toys/Ancor2" unique_id=840720413 instance=ExtResource("5_5vec5")]
 transform = Transform3D(4.3702354, -0.19290516, -0.027672287, 3.769674e-09, -0.0007404509, 12.964068, -4.8914495, -0.17234996, -0.024723649, -69.38242, -0.3353281, 74.93358)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block20" parent="Toys/Ancor2" unique_id=1452518696 instance=ExtResource("4_r8w6l")]
+[node name="Block20" parent="Toys/Ancor2" unique_id=1452518696 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1.6299162, -0.2505695, -0.035944253, 3.2002339e-09, -0.00074045087, 12.964067, -6.3536296, -0.06427939, -0.009220899, -61.194298, -0.3353281, 78.989975)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block21" parent="Toys/Ancor2" unique_id=532896209 instance=ExtResource("4_r8w6l")]
+[node name="Block21" parent="Toys/Ancor2" unique_id=532896209 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-0.1235193, -0.25863716, -0.03710156, 3.5893923e-09, -0.0007404509, 12.9640665, -6.5581985, 0.004871238, 0.00069877785, -51.435036, -0.3353281, 78.989975)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block38" parent="Toys/Ancor2" unique_id=1204939696 instance=ExtResource("4_r8w6l")]
+[node name="Block38" parent="Toys/Ancor2" unique_id=1204939696 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-2.8650794e-07, -0.015787032, 12.9566555, -9.650118e-09, 0.4687343, 0.43638182, -6.5589995, -3.5162513e-14, -5.6660997e-07, -90.65373, -7.6111765, 121.98504)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block39" parent="Toys/Ancor2" unique_id=1350300490 instance=ExtResource("4_r8w6l")]
+[node name="Block39" parent="Toys/Ancor2" unique_id=1350300490 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-2.8732094e-07, -0.08575819, 12.74543, 3.3225283e-09, 0.46109277, 2.3705096, -6.559, 3.99026e-09, -5.571204e-07, -89.30832, -18.1011, 125.51364)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block40" parent="Toys/Ancor2" unique_id=507547574 instance=ExtResource("4_r8w6l")]
+[node name="Block40" parent="Toys/Ancor2" unique_id=507547574 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-2.86703e-07, -0.1756905, 12.020011, 0, 0.43484923, 4.8564, -6.559, 7.679676e-09, -5.254114e-07, -86.44629, -27.78344, 127.81611)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block41" parent="Toys/Ancor2" unique_id=1710275902 instance=ExtResource("4_r8w6l")]
+[node name="Block41" parent="Toys/Ancor2" unique_id=1710275902 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-2.86703e-07, -0.25199354, 10.933726, 0, 0.39555058, 6.9655523, -6.559, 1.1014987e-08, -4.779283e-07, -81.96282, -38.3192, 131.4581)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block42" parent="Toys/Ancor2" unique_id=2030825190 instance=ExtResource("4_r8w6l")]
+[node name="Block42" parent="Toys/Ancor2" unique_id=2030825190 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-2.86703e-07, -0.25199354, 10.933726, 0, 0.39555058, 6.9655523, -6.559, 1.1014987e-08, -4.779283e-07, -76.372246, -46.60587, 136.57028)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block22" parent="Toys/Ancor2" unique_id=667348736 instance=ExtResource("4_r8w6l")]
+[node name="Block22" parent="Toys/Ancor2" unique_id=667348736 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-0.1235193, -0.25863716, -0.03710156, 3.5893923e-09, -0.0007404509, 12.9640665, -6.5581985, 0.004871238, 0.00069877785, -41.416718, -0.3353281, 79.4445)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block23" parent="Toys/Ancor2" unique_id=907614120 instance=ExtResource("4_r8w6l")]
+[node name="Block23" parent="Toys/Ancor2" unique_id=907614120 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-3.2895901, -0.2238, -0.03210416, 3.5129162e-09, -0.000740451, 12.9640665, -5.674842, 0.12973231, 0.01861013, -32.329807, -0.3353281, 79.00849)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block24" parent="Toys/Ancor2" unique_id=643589098 instance=ExtResource("4_r8w6l")]
+[node name="Block24" parent="Toys/Ancor2" unique_id=643589098 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-3.2895901, -0.2238, -0.03210416, 3.5129162e-09, -0.000740451, 12.9640665, -5.674842, 0.12973231, 0.01861013, -25.381493, -0.3353281, 74.073944)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block25" parent="Toys/Ancor2" unique_id=1968898121 instance=ExtResource("4_r8w6l")]
+[node name="Block25" parent="Toys/Ancor2" unique_id=1968898121 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-2.8803725, -0.23240767, -0.033338934, 3.4076368e-09, -0.0007404509, 12.964065, -5.893104, 0.113593906, 0.01629507, -19.872536, -0.3353281, 69.802124)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block26" parent="Toys/Ancor2" unique_id=1985638672 instance=ExtResource("4_r8w6l")]
+[node name="Block26" parent="Toys/Ancor2" unique_id=1985638672 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-2.8803725, -0.23240767, -0.033338934, 3.4076368e-09, -0.0007404509, 12.964065, -5.893104, 0.113593906, 0.01629507, -12.671276, -0.3353281, 66.84642)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block27" parent="Toys/Ancor2" unique_id=1338069642 instance=ExtResource("4_r8w6l")]
+[node name="Block27" parent="Toys/Ancor2" unique_id=1338069642 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-5.453719, -0.14372785, -0.020617794, 3.4076366e-09, -0.00074045087, 12.964064, -3.644472, 0.21507955, 0.030853208, -7.438033, -0.3353281, 61.828537)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block28" parent="Toys/Ancor2" unique_id=1326897086 instance=ExtResource("4_r8w6l")]
+[node name="Block28" parent="Toys/Ancor2" unique_id=1326897086 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-5.453719, -0.14372785, -0.020617794, 3.4076366e-09, -0.00074045087, 12.964064, -3.644472, 0.21507955, 0.030853208, -2.4804573, -0.3353281, 54.11668)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block29" parent="Toys/Ancor2" unique_id=1556730137 instance=ExtResource("4_r8w6l")]
+[node name="Block29" parent="Toys/Ancor2" unique_id=1556730137 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-6.135754, -0.09145483, -0.013119218, 3.4076364e-09, -0.0007404508, 12.964063, -2.3189974, 0.2419771, 0.034711666, 1.4746408, -0.3353281, 48.048126)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block30" parent="Toys/Ancor2" unique_id=1937102823 instance=ExtResource("4_r8w6l")]
+[node name="Block30" parent="Toys/Ancor2" unique_id=1937102823 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-6.231782, -0.0807271, -0.011580324, 3.9475694e-09, -0.00074045075, 12.964061, -2.046977, 0.24576417, 0.035254914, 4.426223, -0.3353281, 42.83072)
 mass = 9000.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block33" parent="Toys/Ancor2" unique_id=1168609367 instance=ExtResource("4_r8w6l")]
+[node name="Block33" parent="Toys/Ancor2" unique_id=1168609367 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-5.003729, -0.16726187, -0.023993753, 4.3103072e-09, -0.00074045087, 12.964063, -4.241218, 0.19733316, 0.028307473, 8.856691, -0.3353281, 42.70924)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block34" parent="Toys/Ancor2" unique_id=568359644 instance=ExtResource("4_r8w6l")]
+[node name="Block34" parent="Toys/Ancor2" unique_id=568359644 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-5.003729, -0.16726187, -0.023993753, 4.3103072e-09, -0.00074045087, 12.964063, -4.241218, 0.19733316, 0.028307473, 15.615025, -0.3353281, 42.021954)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block35" parent="Toys/Ancor2" unique_id=174851900 instance=ExtResource("4_r8w6l")]
+[node name="Block35" parent="Toys/Ancor2" unique_id=174851900 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-5.003729, -0.16726187, -0.023993753, 4.3103072e-09, -0.00074045087, 12.964063, -4.241218, 0.19733316, 0.028307473, 21.43512, -0.3353281, 40.847332)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block36" parent="Toys/Ancor2" unique_id=2009032056 instance=ExtResource("4_r8w6l")]
+[node name="Block36" parent="Toys/Ancor2" unique_id=2009032056 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-5.654409, -0.13111255, -0.018808123, 3.727796e-09, -0.00074045075, 12.964061, -3.3245888, 0.22299418, 0.031988554, 25.837172, -0.3353281, 38.512367)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block37" parent="Toys/Ancor2" unique_id=254729308 instance=ExtResource("4_r8w6l")]
+[node name="Block37" parent="Toys/Ancor2" unique_id=254729308 instance=ExtResource("5_5vec5")]
 transform = Transform3D(-6.4083557, -0.05518671, -0.007916547, 4.1120063e-09, -0.00074045075, 12.964061, -1.3993564, 0.25272775, 0.03625384, 28.005331, -0.3353281, 34.02124)
 mass = 7000.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block31" parent="Toys/Ancor2" unique_id=1246853356 instance=ExtResource("4_r8w6l")]
+[node name="Block31" parent="Toys/Ancor2" unique_id=1246853356 instance=ExtResource("5_5vec5")]
 transform = Transform3D(2.0680516, 0.024150621, -4.6033306, 0, 0.25018117, 3.296531, 0.8162954, -0.061184622, 11.662353, 10.664259, -5.319652, 26.73546)
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block32" parent="Toys/Ancor2" unique_id=531680506 instance=ExtResource("4_r8w6l")]
+[node name="Block32" parent="Toys/Ancor2" unique_id=531680506 instance=ExtResource("5_5vec5")]
 transform = Transform3D(2.2001271, 0.00947736, -1.8064718, 1.2163749e-08, 0.25018117, 3.2965312, 0.3203364, -0.06509216, 12.407166, 28.039688, -5.319652, 14.703112)
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block13" parent="Toys/Ancor2" unique_id=465563920 instance=ExtResource("4_r8w6l")]
+[node name="Block13" parent="Toys/Ancor2" unique_id=465563920 instance=ExtResource("5_5vec5")]
 transform = Transform3D(5.6743813, -0.12976359, -0.018614616, 2.9358809e-09, -0.0007404512, 12.96407, -3.2903824, -0.22378191, -0.032101568, -65.2844, -0.3353281, 41.788055)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
-[node name="Block14" parent="Toys/Ancor2" unique_id=1527924112 instance=ExtResource("4_r8w6l")]
+[node name="Block14" parent="Toys/Ancor2" unique_id=1527924112 instance=ExtResource("5_5vec5")]
 transform = Transform3D(4.478244, -0.18901321, -0.027113989, 2.9358804e-09, -0.0007404511, 12.964068, -4.7927604, -0.17660956, -0.025334682, -61.873215, -0.3353281, 45.56189)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
@@ -1044,7 +918,7 @@ node_b = NodePath("../Block")
 linear_limit/upper_distance = 3.0
 linear_limit/lower_distance = -3.0
 
-[node name="RigidBody3D" parent="Toys/Ancor2" unique_id=1969554158 instance=ExtResource("9_o65kj")]
+[node name="RigidBody3D" parent="Toys/Ancor2" unique_id=1969554158 instance=ExtResource("7_bh7bf")]
 transform = Transform3D(3.4265372e-07, 9.778124, 5.479012, -2.3949522e-07, 10.386459, -5.158106, -7.525, 1.1468484e-07, 4.136539e-07, -63.97477, -46.843895, 132.93912)
 
 [node name="Big Ancor" type="Node3D" parent="Toys" unique_id=1363195306]
@@ -1064,29 +938,8 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor/MeshInstance3D/StaticBody3D" unique_id=2108805229]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Big Ancor" unique_id=1503718683 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Big Ancor" unique_id=1503718683 instance=ExtResource("5_5vec5")]
 transform = Transform3D(4.061922, 0, 0, 0, 0.3381434, 0, 0, 0, 4.0315814, 0, -3.6831284, 0)
-mass = 300.0
-
-[node name="Big Ancor7" type="Node3D" parent="Toys" unique_id=1814244692]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.1693325, -87.48036, -160.96248)
-
-[node name="PinJoint3D" type="PinJoint3D" parent="Toys/Big Ancor7" unique_id=1880302859]
-transform = Transform3D(0.451, 0, 0, 0, 1, 0, 0, 0, 0.451, 0, 0, 0)
-node_a = NodePath("../MeshInstance3D/StaticBody3D")
-node_b = NodePath("../Block")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Toys/Big Ancor7" unique_id=1094828478]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-mesh = SubResource("TorusMesh_s0fi8")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Toys/Big Ancor7/MeshInstance3D" unique_id=2086436844]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor7/MeshInstance3D/StaticBody3D" unique_id=1863371369]
-shape = SubResource("ConcavePolygonShape3D_2tlil")
-
-[node name="Block" parent="Toys/Big Ancor7" unique_id=576709478 instance=ExtResource("4_r8w6l")]
-transform = Transform3D(4.061922, 0, 0, 0, 0.3381434, 0, 0, 0, 4.0315814, 0, -14.816063, 0)
 mass = 300.0
 
 [node name="Big Ancor3" type="Node3D" parent="Toys" unique_id=557550431]
@@ -1106,7 +959,7 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor3/MeshInstance3D/StaticBody3D" unique_id=233558647]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Big Ancor3" unique_id=1048582678 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Big Ancor3" unique_id=1048582678 instance=ExtResource("5_5vec5")]
 transform = Transform3D(4.061922, 0, 0, 0, 0.3381434, 0, 0, 0, 4.0315814, 0, -3.6831284, 0)
 mass = 300.0
 
@@ -1118,70 +971,6 @@ gravity = 3.0
 script = SubResource("GDScript_54tkj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor3/Block/Area3D" unique_id=1619096914]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0, 0.6972513, 0)
-shape = SubResource("BoxShape3D_54tkj")
-
-[node name="Big Ancor8" type="Node3D" parent="Toys" unique_id=1500592676]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5705395, -93.016846, -184.28261)
-
-[node name="PinJoint3D" type="PinJoint3D" parent="Toys/Big Ancor8" unique_id=180057506]
-transform = Transform3D(0.451, 0, 0, 0, 1, 0, 0, 0, 0.451, 0, 0, 0)
-node_a = NodePath("../MeshInstance3D/StaticBody3D")
-node_b = NodePath("../Block")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Toys/Big Ancor8" unique_id=639554159]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-mesh = SubResource("TorusMesh_s0fi8")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Toys/Big Ancor8/MeshInstance3D" unique_id=713918541]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor8/MeshInstance3D/StaticBody3D" unique_id=1310664369]
-shape = SubResource("ConcavePolygonShape3D_2tlil")
-
-[node name="Block" parent="Toys/Big Ancor8" unique_id=1785908992 instance=ExtResource("4_r8w6l")]
-transform = Transform3D(4.061922, 0, 0, 0, 0.3381434, 0, 0, 0, 4.0315814, 0, -10.959732, 0)
-mass = 300.0
-
-[node name="Area3D" type="Area3D" parent="Toys/Big Ancor8/Block" unique_id=812722309]
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 0, 0)
-gravity_direction = Vector3(0, 0, 0)
-gravity = 3.0
-script = SubResource("GDScript_54tkj")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor8/Block/Area3D" unique_id=849571790]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0, 0.6972513, 0)
-shape = SubResource("BoxShape3D_54tkj")
-
-[node name="Big Ancor6" type="Node3D" parent="Toys" unique_id=755638206]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.505595, -88.34406, -130.56845)
-
-[node name="PinJoint3D" type="PinJoint3D" parent="Toys/Big Ancor6" unique_id=1281608240]
-transform = Transform3D(0.451, 0, 0, 0, 1, 0, 0, 0, 0.451, 0, 0, 0)
-node_a = NodePath("../MeshInstance3D/StaticBody3D")
-node_b = NodePath("../Block")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Toys/Big Ancor6" unique_id=1683057211]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
-mesh = SubResource("TorusMesh_s0fi8")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Toys/Big Ancor6/MeshInstance3D" unique_id=1016479676]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor6/MeshInstance3D/StaticBody3D" unique_id=56712252]
-shape = SubResource("ConcavePolygonShape3D_2tlil")
-
-[node name="Block" parent="Toys/Big Ancor6" unique_id=49035442 instance=ExtResource("4_r8w6l")]
-transform = Transform3D(9.377, 0, 0, 0, 0.255, 0, 0, 0, 9.308, 0, -6.360672, 0)
-mass = 600.0
-
-[node name="Area3D" type="Area3D" parent="Toys/Big Ancor6/Block" unique_id=1606554106]
-gravity_space_override = 1
-gravity_point_center = Vector3(0, 0, 0)
-gravity_direction = Vector3(0, 0, 0)
-gravity = 3.0
-script = SubResource("GDScript_54tkj")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor6/Block/Area3D" unique_id=540361574]
 transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0, 0.6972513, 0)
 shape = SubResource("BoxShape3D_54tkj")
 
@@ -1202,7 +991,7 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor4/MeshInstance3D/StaticBody3D" unique_id=1075692848]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Big Ancor4" unique_id=404704698 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Big Ancor4" unique_id=404704698 instance=ExtResource("5_5vec5")]
 transform = Transform3D(4.061922, 0, 0, 0, 0.3381434, 0, 0, 0, 4.0315814, 0, -3.6831284, 0)
 mass = 300.0
 
@@ -1234,7 +1023,7 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor5/MeshInstance3D/StaticBody3D" unique_id=687744100]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Big Ancor5" unique_id=1485255797 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Big Ancor5" unique_id=1485255797 instance=ExtResource("5_5vec5")]
 transform = Transform3D(4.061922, 0, 0, 0, 0.3381434, 0, 0, 0, 4.0315814, 0, -3.6831284, 0)
 mass = 300.0
 
@@ -1266,11 +1055,11 @@ mesh = SubResource("TorusMesh_s0fi8")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Toys/Big Ancor2/MeshInstance3D/StaticBody3D" unique_id=304137448]
 shape = SubResource("ConcavePolygonShape3D_2tlil")
 
-[node name="Block" parent="Toys/Big Ancor2" unique_id=579228454 instance=ExtResource("4_r8w6l")]
+[node name="Block" parent="Toys/Big Ancor2" unique_id=579228454 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.6146474, 0, 0, 0, 0.3381434, 0, 0, 0, 6.723428, 0, -3.6831284, 0)
 mass = 1000.0
 
-[node name="Node3D" parent="." unique_id=1349669363 instance=ExtResource("5_oqrnv")]
+[node name="Node3D" parent="." unique_id=1349669363 instance=ExtResource("8_w60jt")]
 transform = Transform3D(8, 0, 0, 0, -7.854936e-07, -8, 0, 17.97, -3.496911e-07, -19.93863, 3.9275665, 134.46976)
 
 [node name="Area3D" type="Area3D" parent="." unique_id=465929545]
@@ -1280,145 +1069,13 @@ gravity_space_override = 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 51.184742, 0)
 shape = SubResource("BoxShape3D_s0fi8")
 
-[node name="RigidBody3D" parent="." unique_id=1338217806 instance=ExtResource("9_o65kj")]
+[node name="RigidBody3D" parent="." unique_id=1338217806 instance=ExtResource("7_bh7bf")]
 transform = Transform3D(0.30680725, 1.6125991, -0.5617984, -1.5204202, -0.001903303, -0.83578956, -0.7774426, 0.6401129, 1.4128212, 10.730874, 1.9999995, 16.97142)
 mass = 3000.0
 
-[node name="RigidBody3D2" parent="." unique_id=718655400 instance=ExtResource("9_o65kj")]
+[node name="RigidBody3D2" parent="." unique_id=718655400 instance=ExtResource("7_bh7bf")]
 transform = Transform3D(0.12036307, 1.7164109, -0.2228662, -1.5204202, -0.0019033129, -0.8357895, -0.8270794, 0.25328442, 1.5039985, 28.169025, 1.9999995, 4.9575205)
 mass = 3000.0
 
-[node name="RigidBody3D3" parent="." unique_id=1351479223 instance=ExtResource("4_15vk6")]
+[node name="RigidBody3D3" parent="." unique_id=1351479223 instance=ExtResource("4_vmhiq")]
 transform = Transform3D(4.775, 0, 0, 0, 4.775, 0, 0, 0, 4.775, -77.835785, -42.71983, 125.75582)
-
-[node name="WorldOrgin" type="Node3D" parent="." unique_id=721503631]
-transform = Transform3D(-4.371139e-08, -1, 0, -1, 4.371139e-08, 8.742278e-08, -8.742278e-08, 3.821371e-15, -1, 7.726, -1136.851, -112.363)
-
-[node name="VoxelLodTerrain" type="VoxelLodTerrain" parent="WorldOrgin" unique_id=1780822546]
-generator = SubResource("VoxelGeneratorGraph_1xqci")
-mesher = SubResource("VoxelMesherTransvoxel_1xqci")
-view_distance = 1024
-material = SubResource("StandardMaterial3D_nya57")
-
-[node name="Planatoid2" type="Node3D" parent="WorldOrgin/VoxelLodTerrain" unique_id=447789922]
-transform = Transform3D(131.23, 0, 0, 0, 131.23, 0, 0, 0, 131.23, 0, 0, 0)
-
-[node name="Area3D" type="Area3D" parent="WorldOrgin/VoxelLodTerrain/Planatoid2" unique_id=1193623608]
-gravity_space_override = 3
-gravity_point = true
-gravity_point_center = Vector3(0, 0, 0)
-gravity_direction = Vector3(0, 0, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldOrgin/VoxelLodTerrain/Planatoid2/Area3D" unique_id=510958167]
-transform = Transform3D(16.495, 0, 0, 0, 16.495, 0, 0, 0, 16.495, 0, 0, 0)
-shape = SubResource("SphereShape3D_ivkol")
-
-[node name="WrapperForstars" type="Node3D" parent="WorldOrgin" unique_id=907166101]
-
-[node name="SprialStarcase" parent="WorldOrgin/WrapperForstars" unique_id=1483195364 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -1019.17126, 15, 0)
-
-[node name="Area3D" type="Area3D" parent="WorldOrgin/WrapperForstars/SprialStarcase" unique_id=1923759653]
-transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 8.583069e-06, 94.32976, 7.6293945e-06)
-gravity_space_override = 1
-gravity = 4.0
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldOrgin/WrapperForstars/SprialStarcase/Area3D" unique_id=1536829981]
-transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -16.794067, 4.7683716e-07, 0)
-shape = SubResource("CylinderShape3D_o65kj")
-
-[node name="SprialStarcase2" parent="WorldOrgin/WrapperForstars" unique_id=1967672962 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.98329306, -4.2981103e-08, -0.18202959, 0.18202959, -7.956766e-09, 0.98329306, -1024.0253, 15, 0)
-
-[node name="SprialStarcase3" parent="WorldOrgin/WrapperForstars" unique_id=1946509159 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.96396554, -4.213627e-08, -0.26602724, 0.26602724, -1.162842e-08, 0.96396554, -1028.9446, 15, 0)
-
-[node name="SprialStarcase4" parent="WorldOrgin/WrapperForstars" unique_id=864252744 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.89943576, -3.9315584e-08, -0.43705297, 0.43705297, -1.9104192e-08, 0.89943576, -1033.7988, 15, 0)
-
-[node name="SprialStarcase5" parent="WorldOrgin/WrapperForstars" unique_id=72427121 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.7900373, -3.4533628e-08, -0.6130588, 0.6130588, -2.6797649e-08, 0.7900373, -1038.6445, 15, 0)
-
-[node name="SprialStarcase6" parent="WorldOrgin/WrapperForstars" unique_id=1510486385 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.6652433, -2.9078711e-08, -0.7466266, 0.7466266, -3.2636088e-08, 0.6652433, -1043.4985, 15, 0)
-
-[node name="SprialStarcase7" parent="WorldOrgin/WrapperForstars" unique_id=1249015375 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.59847844, -2.6160325e-08, -0.80113894, 0.80113894, -3.50189e-08, 0.59847844, -1048.4177, 15, 0)
-
-[node name="SprialStarcase8" parent="WorldOrgin/WrapperForstars" unique_id=1723055395 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.44264865, -1.9348782e-08, -0.89669514, 0.89669514, -3.9195783e-08, 0.44264865, -1053.2717, 15, 0)
-
-[node name="SprialStarcase9" parent="WorldOrgin/WrapperForstars" unique_id=1197073656 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, 0.26346907, -1.15165975e-08, -0.9646679, 0.9646679, -4.2166974e-08, 0.26346907, -1058.0803, 15, 0)
-
-[node name="SprialStarcase10" parent="WorldOrgin/WrapperForstars" unique_id=194798364 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.3711385e-08, -1, 1.1254649e-15, 0.08346918, -3.6485543e-09, -0.9965104, 0.9965104, -4.355885e-08, 0.08346918, -1062.9343, 15, 0)
-
-[node name="SprialStarcase11" parent="WorldOrgin/WrapperForstars" unique_id=298170683 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, -2.21691e-16, -0.0026528537, 1.15959686e-10, -0.9999965, 0.9999965, -4.3711236e-08, -0.0026528537, -1067.8538, 15, 0)
-
-[node name="SprialStarcase12" parent="WorldOrgin/WrapperForstars" unique_id=703686468 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.3711385e-08, -1, -3.3692893e-16, -0.18463749, 8.0707645e-09, -0.98280674, 0.98280674, -4.2959847e-08, -0.18463749, -1072.7078, 15, 0)
-
-[node name="SprialStarcase13" parent="WorldOrgin/WrapperForstars" unique_id=490344765 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.38324782, 1.6752288e-08, -0.9236456, 0.9236456, -4.0373823e-08, -0.38324782, -1077.5535, 15, 0)
-
-[node name="SprialStarcase14" parent="WorldOrgin/WrapperForstars" unique_id=391488584 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 3.1168744e-15, -0.54497564, 2.3821642e-08, -0.83845186, 0.83845186, -3.6649897e-08, -0.54497564, -1082.4075, 15, 0)
-
-[node name="SprialStarcase15" parent="WorldOrgin/WrapperForstars" unique_id=1874485025 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.3711385e-08, -1, -3.4137238e-15, -0.61515254, 2.6889168e-08, -0.7884082, 0.7884082, -3.4462413e-08, -0.61515254, -1087.3267, 15, 0)
-
-[node name="SprialStarcase16" parent="WorldOrgin/WrapperForstars" unique_id=1344754656 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.74838877, 3.2713103e-08, -0.6632604, 0.6632604, -2.8992027e-08, -0.74838877, -1092.1807, 15, 0)
-
-[node name="SprialStarcase17" parent="WorldOrgin/WrapperForstars" unique_id=573517965 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.88853717, 3.8839197e-08, -0.4588046, 0.4588046, -2.0054987e-08, -0.88853717, -1097.0739, 15, 0)
-
-[node name="SprialStarcase18" parent="WorldOrgin/WrapperForstars" unique_id=115308813 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.95720845, 4.1840906e-08, -0.28939936, 0.28939936, -1.26500455e-08, -0.95720845, -1101.9279, 15, 0)
-
-[node name="SprialStarcase19" parent="WorldOrgin/WrapperForstars" unique_id=1639589130 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.9785737, 4.277482e-08, -0.20589675, 0.20589675, -9.000033e-09, -0.9785737, -1106.8472, 15, 0)
-
-[node name="SprialStarcase20" parent="WorldOrgin/WrapperForstars" unique_id=1671396290 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.999704, 4.3698453e-08, -0.024327487, 0.024327487, -1.0633894e-09, -0.999704, -1111.7014, 15, 0)
-
-[node name="SprialStarcase21" parent="WorldOrgin/WrapperForstars" unique_id=719093786 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 1.5350265e-15, -0.98325175, 4.29793e-08, 0.18225276, -0.18225276, 7.966516e-09, -0.98325175, -1116.5471, 15, 0)
-
-[node name="SprialStarcase22" parent="WorldOrgin/WrapperForstars" unique_id=500674764 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.3711392e-08, -1, 2.3168602e-15, -0.9336492, 4.0811106e-08, 0.35818887, -0.35818887, 1.565693e-08, -0.9336492, -1121.4011, 15, 0)
-
-[node name="SprialStarcase23" parent="WorldOrgin/WrapperForstars" unique_id=890658481 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.89933664, 3.9311253e-08, 0.437257, -0.437257, 1.9113113e-08, -0.89933664, -1126.3203, 15, 0)
-
-[node name="SprialStarcase24" parent="WorldOrgin/WrapperForstars" unique_id=242172827 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.80471766, 3.517532e-08, 0.59365773, -0.59365773, 2.5949593e-08, -0.80471766, -1131.1743, 15, 0)
-
-[node name="SprialStarcase25" parent="WorldOrgin/WrapperForstars" unique_id=908340303 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, -1.6366917e-15, -0.67669606, 2.9579326e-08, 0.7362624, -0.7362624, 3.2183053e-08, -0.67669606, -1135.9829, 15, 0)
-
-[node name="SprialStarcase26" parent="WorldOrgin/WrapperForstars" unique_id=199134725 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371138e-08, -1, 1.3160609e-15, -0.5313691, 2.3226878e-08, 0.8471405, -0.8471405, 3.7029682e-08, -0.5313691, -1140.8369, 15, 0)
-
-[node name="SprialStarcase27" parent="WorldOrgin/WrapperForstars" unique_id=247377496 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, -4.4267633e-16, -0.45644587, 1.9951885e-08, 0.8897512, -0.8897512, 3.8892264e-08, -0.45644587, -1145.7563, 15, 0)
-
-[node name="SprialStarcase28" parent="WorldOrgin/WrapperForstars" unique_id=1400055255 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371138e-08, -1, -6.494493e-16, -0.286859, 1.2539e-08, 0.95797276, -0.95797276, 4.1874323e-08, -0.286859, -1150.6104, 15, 0)
-
-[node name="SprialStarcase29" parent="WorldOrgin/WrapperForstars" unique_id=1811811418 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.371139e-08, -1, 0, -0.08324294, 3.6386671e-09, 0.9965293, -0.9965293, 4.355967e-08, -0.08324294, -1155.456, 15, 0)
-
-[node name="SprialStarcase30" parent="WorldOrgin/WrapperForstars" unique_id=1753334022 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.3711392e-08, -1, 8.627033e-15, 0.09954557, -4.351267e-09, 0.995033, -0.995033, 4.3494286e-08, 0.09954557, -1160.31, 15, 0)
-
-[node name="SprialStarcase31" parent="WorldOrgin/WrapperForstars" unique_id=206424581 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.3711385e-08, -1, -2.1493472e-15, 0.18486056, -8.080507e-09, 0.98276484, -0.98276484, 4.2958018e-08, 0.18486056, -1165.2292, 15, 0)
-
-[node name="SprialStarcase32" parent="WorldOrgin/WrapperForstars" unique_id=720827568 instance=ExtResource("4_2tlil")]
-transform = Transform3D(-4.3711392e-08, -1, -3.3691701e-15, 0.36066425, -1.5765135e-08, 0.93269575, -0.93269575, 4.0769415e-08, 0.36066425, -1170.0833, 15, 0)
-
-[connection signal="body_shape_entered" from="WorldOrgin/VoxelLodTerrain/Planatoid2/Area3D" to="WorldOrgin/VoxelLodTerrain/Planatoid2/Area3D" method="_on_body_shape_entered"]
-[connection signal="body_shape_exited" from="WorldOrgin/VoxelLodTerrain/Planatoid2/Area3D" to="WorldOrgin/VoxelLodTerrain/Planatoid2/Area3D" method="_on_body_shape_exited"]
