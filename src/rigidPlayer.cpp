@@ -16,6 +16,8 @@
 #include <cstddef>
 #include <cstdint>
 
+
+
 //vitrual calls not work
 
 using namespace godot;
@@ -119,7 +121,9 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "camrea_wrapper", PROPERTY_HINT_NODE_TYPE),"set_camrea_wrapper","get_camrea_wrapper" );
 
-
+    ADD_SIGNAL(MethodInfo("FootStep"));
+    ADD_SIGNAL(MethodInfo("Jumped"));
+    ADD_SIGNAL(MethodInfo("JustLanded"));
 
 
 }
@@ -223,11 +227,21 @@ void RigidPlayer::handle_gravity_ort_logic(){
 
 void RigidPlayer::_process(double delta){
 
-
+    // prob will unovride this in a bit its not used
     //_gdvirtual__extern_procces_call(delta);
 }
 
+void RigidPlayer::acumalatesteps(Vector3 &force){
+    float addedfootstepacummalation = (force.length()/4) * (CurrentSpeed/MaxSpeed);
+    FootStepAccumalation = addedfootstepacummalation + FootStepAccumalation;
+    if(FootStepAccumalation > FootStepAccumalationThreashold){
+        FootStepAccumalation = 0;
+        // signal for footstep
+        emit_signal("FootStep");
+    }
 
+    return;
+}
 
 void RigidPlayer::_physics_process(double delta){
     RigidBody3D* StandingOnRigidBodyPtr = nullptr;
@@ -313,6 +327,7 @@ void RigidPlayer::_physics_process(double delta){
     if(input != nullptr && piv_body != nullptr){
         if(InputDir.is_zero_approx()== false && bisGrounded == true){
             // on ground and inputing
+            currentjumps = maxjumps; //max sure we dont deadjump
             bisinputing = true;
             InputDir.normalize();
             Basis BodyBasis = piv_body->get_global_transform().get_basis();
@@ -321,9 +336,7 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 RightVec = BodyBasis.get_column(0);
             Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
- 
-            // im going to do rots to mke sure the player is not just walking forward forever
-            // in flax I used a good physics engiene but godots is worse so I cant relie of physics mats
+
 
             Vector3 linVel = this->get_linear_velocity();
             linVel.normalize();
@@ -363,6 +376,8 @@ void RigidPlayer::_physics_process(double delta){
             Force = Force/FrictionBurn;
             apply_central_force(Force);
             CountershoveRigid(Force, RayCastHitLoc, StandingOnRigidBodyPtr);
+            acumalatesteps(Force);
+
 
         }else if (InputDir.is_zero_approx()== true && bisGrounded == true){
             //this is auto slow no di;
@@ -408,6 +423,7 @@ void RigidPlayer::_physics_process(double delta){
 
                         this->apply_central_force(Force);
                         CountershoveRigid(Force, RayCastHitLoc, StandingOnRigidBodyPtr);
+                        acumalatesteps(Force);
                         
                     }
 
@@ -468,6 +484,8 @@ void RigidPlayer::_physics_process(double delta){
 }
 
 void RigidPlayer::CountershoveRigid(Vector3 Force, Vector3 Loc, RigidBody3D* bodyptr){
+    return;
+
 if(bodyptr != nullptr){
     // not working
     //bodyptr->apply_force((Force*-.1),RayCastHitLoc);
@@ -625,12 +643,13 @@ void RigidPlayer::jump(){
     ToonJumpPower = ToonJumpPower*float(allowToonJumping);
     this->apply_central_impulse( (ToonJumpPower * this->get_mass()) + ((GravityDir*this->get_mass()) * jumppower)  );
     currentjumps = currentjumps-1;
-    _gdvirtual__extern_just_jumped_call();
+    FootStepAccumalation = 0;
+    emit_signal("Jumped");
 }
 
 void RigidPlayer::Just_Landed(){
     rez_jump();
-    _gdvirtual__extern_just_landed_call();
+    emit_signal("JustLanded");
 }
 
 void RigidPlayer::rez_jump(){

@@ -56,6 +56,7 @@ class RigidPlayer : public RigidBody3D{
 
         void debuginput();
         void orbitcamtoggle();
+        void acumalatesteps(Vector3 &force);
         
     
     public:
@@ -63,7 +64,6 @@ class RigidPlayer : public RigidBody3D{
         void _process(double delta) override;
         void _physics_process(double delta) override; 
 	    void _input(const Ref<InputEvent> &event) override;
-
         float MappedDotProduct(Vector3 x , Vector3 y);
         void CountershoveRigid(Vector3 Force, Vector3 Loc, RigidBody3D* bodyptr);
         void jump();
@@ -78,6 +78,7 @@ class RigidPlayer : public RigidBody3D{
         void rez_jump();
         void just_stopped_moving();
         bool is_ipnuting();
+        
 
 
     RigidPlayer() = default;
@@ -152,6 +153,9 @@ class RigidPlayer : public RigidBody3D{
         float airtime = 0;
         bool toonjump = true;
         Plane walkingPlane;
+        float FootStepAccumalationThreashold = 10000;
+        float FootStepAccumalation =0;
+        float FootStepSpeedCoffcient = 1;
 
         int MaxContactReportCount = 4;
         // cant use a u_int here cuss microsoft and there dword or whatever i guess

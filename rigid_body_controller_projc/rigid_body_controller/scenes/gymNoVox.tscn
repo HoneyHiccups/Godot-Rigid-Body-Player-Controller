@@ -14,7 +14,7 @@ resource_name = "gameinsta"
 script/source = "extends Node3D
 
 @onready var rigid_player_pawn: RigidPlayer = $PlayerPawns/RigidPlayerPawn
-@onready var sceneprt = preload(\"res://rigid_body_controller/scenes/gym.tscn\")
+
 
 
 func _physics_process(delta: float) -> void:
@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 	if(Input.get_action_strength(\"SensDown\") == 1):
 		rigid_player_pawn.sensitivity = clampf(rigid_player_pawn.sensitivity-delta,delta,12.0) 
 	if(Input.is_action_just_pressed(\"Reset\") == true):
-		get_tree().change_scene_to_file(\"res://rigid_body_controller/scenes/gym.tscn\")
+		get_tree().change_scene_to_file(\"res://rigid_body_controller/scenes/gymNoVox.tscn\")
 		print(\"sence change\")
 "
 
