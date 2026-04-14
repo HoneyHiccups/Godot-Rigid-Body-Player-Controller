@@ -78,22 +78,13 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_body_height", "body_height"), &RigidPlayer::set_body_height);
     ClassDB::bind_method(D_METHOD("get_max_walk_angle"),                &RigidPlayer::get_max_walk_angle);
     ClassDB::bind_method(D_METHOD("set_max_walk_angle", "max_walk_angle"), &RigidPlayer::set_max_walk_angle);
-
+    ClassDB::bind_method(D_METHOD("get_foot_step_accumalation_threashold"),             &RigidPlayer::get_foot_step_accumalation_threashold);
+    ClassDB::bind_method(D_METHOD("set_foot_step_accumalation_threashold", "foot_step_accumalation_threashold"), &RigidPlayer::set_foot_step_accumalation_threashold);
     ClassDB::bind_method(D_METHOD("get_allow_movment"),                       &RigidPlayer::get_allow_movment);
     ClassDB::bind_method(D_METHOD("set_allow_movment", "allow_movment"),      &RigidPlayer::set_allow_movment);
-
-
     ClassDB::bind_method(D_METHOD("get_allow_toon_jumping"),                       &RigidPlayer::get_allow_toon_jumping);
     ClassDB::bind_method(D_METHOD("set_allow_toon_jumping", "allow_toon_jumping"), &RigidPlayer::set_allow_toon_jumping);
 
-    //ClassDB::bind_method(D_METHOD("_extern_procces", "delta"), 
-    //                     &RigidPlayer::_extern_procces_default);
-    //ClassDB::bind_method(D_METHOD("_extern_physics_process", "delta"), 
-    //                     &RigidPlayer::_extern_physics_process_default); 
-    //ClassDB::bind_method(D_METHOD("_extern_just_jumped"), 
-    //                     &RigidPlayer::_extern_just_jumped_default);
-    //ClassDB::bind_method(D_METHOD("_extern_just_landed"), 
-    //                     &RigidPlayer::_extern_just_landed_default);
 
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
@@ -116,6 +107,7 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_width"),  "set_body_width", "get_body_width");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "max_walk_angle"),  "set_max_walk_angle", "get_max_walk_angle");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "allow_toon_jumping"),  "set_allow_toon_jumping", "get_allow_toon_jumping");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "foot_step_accumalation_threashold"), "set_foot_step_accumalation_threashold", "get_foot_step_accumalation_threashold");
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
@@ -123,7 +115,7 @@ void RigidPlayer::_bind_methods(){
 
     ADD_SIGNAL(MethodInfo("FootStep"));
     ADD_SIGNAL(MethodInfo("Jumped"));
-    ADD_SIGNAL(MethodInfo("JustLanded"));
+    ADD_SIGNAL(MethodInfo("JustLanded", PropertyInfo(Variant::FLOAT, "power")));
 
 
 }
@@ -225,14 +217,8 @@ void RigidPlayer::handle_gravity_ort_logic(){
 
 }
 
-void RigidPlayer::_process(double delta){
-
-    // prob will unovride this in a bit its not used
-    //_gdvirtual__extern_procces_call(delta);
-}
-
 void RigidPlayer::acumalatesteps(Vector3 &force){
-    float addedfootstepacummalation = (force.length()/4) * (CurrentSpeed/MaxSpeed);
+    float addedfootstepacummalation = (force.length()/4) * ((CurrentSpeed/MaxSpeed)+FootStepSpeedFloor);
     FootStepAccumalation = addedfootstepacummalation + FootStepAccumalation;
     if(FootStepAccumalation > FootStepAccumalationThreashold){
         FootStepAccumalation = 0;
@@ -289,17 +275,12 @@ void RigidPlayer::_physics_process(double delta){
             Just_Landed();
         }
         bisGrounded = true;
-        airtime = 0;
     }
 
     Vector3 temptesting = this->get_linear_velocity();
     temptesting = walkingPlane.project(temptesting);
     CurrentSpeed = temptesting.length();
 
-    //CurrentSpeed = (this->get_linear_velocity().x+
-    //this->get_linear_velocity().y+
-    //this->get_linear_velocity().z
-    //);
 
     CurrentSpeed = Math::abs(CurrentSpeed);
     Vector2 InputDir = Vector2(
@@ -326,6 +307,7 @@ void RigidPlayer::_physics_process(double delta){
 
     if(input != nullptr && piv_body != nullptr){
         if(InputDir.is_zero_approx()== false && bisGrounded == true){
+            airtime = 0; // to aovid potential bugs
             // on ground and inputing
             currentjumps = maxjumps; //max sure we dont deadjump
             bisinputing = true;
@@ -452,6 +434,7 @@ void RigidPlayer::_physics_process(double delta){
             apply_central_force(Force);
         }
         if (piv_body != nullptr && bisGrounded == false && isOverSlooped == true){
+            print_line("over slooped");
             // in air not sliding
 
             // over slooped
@@ -480,6 +463,7 @@ void RigidPlayer::_physics_process(double delta){
     }
 
     handle_gravity_ort_logic();
+    accumulate_falling_mag();
     
 }
 
@@ -612,7 +596,7 @@ void RigidPlayer:: CreateTwistedWishDir(Vector3 &wish, Vector3 &Lin){
 }
 
 void RigidPlayer::just_stopped_moving(){
-
+    FootStepAccumalation = 0;
 }
 
 void RigidPlayer::_input(const Ref<InputEvent> &event){
@@ -647,9 +631,32 @@ void RigidPlayer::jump(){
     emit_signal("Jumped");
 }
 
+void RigidPlayer::accumulate_falling_mag(){
+    if(airtime<0){
+        return;
+    }
+
+    if ( LastGravitydir == Vector3(0,0,0) ){
+
+    }else{
+        if(LastGravitydir.dot(this->get_linear_velocity()) > 0){
+            // means we are falling
+            AcummlateFallingMag = AcummlateFallingMag + (this->get_linear_velocity()* (LastGravitydir*-1));
+        }
+    }
+}
+
 void RigidPlayer::Just_Landed(){
+    float power = AcummlateFallingMag.length();
+    //can grab fall damage here
+    power = 100.0f * (Math::log(power + 1.0f) / Math::log(101.0f));
+    power = power - 20;
+    power = power/100.0;
+    power = Math::clamp<float>(power, 0, 2);
+    airtime = 0;
     rez_jump();
-    emit_signal("JustLanded");
+    emit_signal("JustLanded", power);
+    AcummlateFallingMag = Vector3(0,0,0);
 }
 
 void RigidPlayer::rez_jump(){

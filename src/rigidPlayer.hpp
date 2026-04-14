@@ -43,25 +43,17 @@ class RigidPlayer : public RigidBody3D{
     
     protected:
         static void _bind_methods();
-        GDVIRTUAL1(_extern_procces, double );
-        GDVIRTUAL1(_extern_physics_process, double );
-        GDVIRTUAL0(_extern_just_jumped);
-        GDVIRTUAL0(_extern_just_landed);
-        //void _extern_procces_default(double delta);
-        //void _extern_physics_process_default(double delta);
-        //void _extern_just_jumped_default();
-        //void _extern_just_landed_default();
 
     private:
 
         void debuginput();
         void orbitcamtoggle();
         void acumalatesteps(Vector3 &force);
+        void accumulate_falling_mag();
         
     
     public:
         void _ready() override;
-        void _process(double delta) override;
         void _physics_process(double delta) override; 
 	    void _input(const Ref<InputEvent> &event) override;
         float MappedDotProduct(Vector3 x , Vector3 y);
@@ -153,9 +145,9 @@ class RigidPlayer : public RigidBody3D{
         float airtime = 0;
         bool toonjump = true;
         Plane walkingPlane;
-        float FootStepAccumalationThreashold = 10000;
+        float FootStepAccumalationThreashold = 5000;
         float FootStepAccumalation =0;
-        float FootStepSpeedCoffcient = 1;
+        float FootStepSpeedFloor= .05;
 
         int MaxContactReportCount = 4;
         // cant use a u_int here cuss microsoft and there dword or whatever i guess
@@ -172,6 +164,7 @@ class RigidPlayer : public RigidBody3D{
         Vector3 LastGravityForward = Vector3(1,0,0);
         Vector3 LastGravityRight;
         Vector3 RayCastHitLoc = Vector3(0,0,0);
+        Vector3 AcummlateFallingMag = Vector3(0,0,0);
 
         Basis Targetbasis;
         Vector3 Wishdir = Vector3(0,0,0);
@@ -199,6 +192,9 @@ class RigidPlayer : public RigidBody3D{
 
         void set_allow_movment(bool n){allowMovmentInput = n;}
         bool get_allow_movment(){return allowMovmentInput;}
+
+        void set_foot_step_accumalation_threashold(float n){FootStepAccumalationThreashold = n;}
+        float get_foot_step_accumalation_threashold(){return FootStepAccumalationThreashold;}
 
         void set_max_walk_angle(float n){MaxStandAngle = n;}
 	    float get_max_walk_angle(){return MaxStandAngle;}

@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://dnu21041rtmht"]
 
 [ext_resource type="Script" uid="uid://blo22706p8ljt" path="res://testing.gd" id="1_vv8vt"]
+[ext_resource type="AudioStream" uid="uid://bo8228jmnf4si" path="res://SoundEffects/footstep.wav" id="2_fpj1q"]
+[ext_resource type="AudioStream" uid="uid://bnd7efd6g3iyf" path="res://SoundEffects/Jump2.wav" id="3_ighh1"]
+[ext_resource type="AudioStream" uid="uid://cnye15a502hek" path="res://SoundEffects/Land.wav" id="4_knmyl"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ib480"]
 friction = 0.3
@@ -52,4 +55,18 @@ mesh = SubResource("CapsuleMesh_mllbw")
 
 [node name="ThirdPersonBodyWrapper" type="Node3D" parent="." unique_id=888345571]
 
+[node name="FootStep" type="AudioStreamPlayer" parent="." unique_id=1625338117]
+stream = ExtResource("2_fpj1q")
+volume_db = -5.0
+
+[node name="Jump" type="AudioStreamPlayer" parent="." unique_id=576158366]
+stream = ExtResource("3_ighh1")
+volume_db = -5.0
+
+[node name="Land" type="AudioStreamPlayer" parent="." unique_id=1059028134]
+stream = ExtResource("4_knmyl")
+volume_db = -5.0
+
 [connection signal="FootStep" from="." to="BodyPiv" method="_on_rigid_player_pawn_foot_step"]
+[connection signal="Jumped" from="." to="BodyPiv" method="_on_rigid_player_pawn_jumped"]
+[connection signal="JustLanded" from="." to="BodyPiv" method="_on_rigid_player_pawn_just_landed"]

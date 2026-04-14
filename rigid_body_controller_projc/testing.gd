@@ -3,10 +3,11 @@ extends Node3D
 
 @onready var Player : RigidPlayer = $".."
 @export var DebugDraw:bool = true
-
+@onready var landvol : float =0;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Player.set_allow_align_with_gravity(true)
+	landvol = land.volume_linear
 
 
 func _process(delta: float) -> void:
@@ -22,7 +23,25 @@ func debugdraw():
 	DebugDraw3D.draw_line(start,target,Color(255,0,0))
 	DebugDraw3D.draw_line(start,(Player.get_gravity()*3000),Color(0,255,0))
 
+@onready var foot_step: AudioStreamPlayer = $"../FootStep"
+@onready var jump: AudioStreamPlayer = $"../Jump"
+@onready var land: AudioStreamPlayer = $"../Land"
 
 
 func _on_rigid_player_pawn_foot_step() -> void:
-		print("hellow")
+	foot_step.play()
+	return;
+
+
+
+func _on_rigid_player_pawn_jumped() -> void:
+	jump.play();
+	return;
+
+
+
+func _on_rigid_player_pawn_just_landed(power: float) -> void:
+	print(power)
+	land.volume_linear = landvol*power
+	land.play();
+	return;
