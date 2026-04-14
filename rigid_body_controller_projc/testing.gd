@@ -41,7 +41,6 @@ func _on_rigid_player_pawn_jumped() -> void:
 
 
 func _on_rigid_player_pawn_just_landed(power: float) -> void:
-	print(power)
 	land.volume_linear = landvol*power
 	land.play();
 	return;
