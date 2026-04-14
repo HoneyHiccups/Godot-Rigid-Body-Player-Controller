@@ -132,6 +132,9 @@ data = PackedVector3Array(-3, -3, 3, -3, -3, -3, -3, 3, -3, 3, -3, -3, -3, -3, -
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_fx30h"]
 data = PackedVector3Array(-3, -7.5944824, 3, -3, -7.5944824, -3, -3, 7.5944824, -3, 3, -7.5944824, -3, -3, -7.5944824, -3, -3, -7.5944824, 3, -3, 7.5944824, -3, -3, -7.5944824, -3, 3, -7.5944824, -3, -3, 7.5944824, -3, -3, 7.5944824, 3, -3, -7.5944824, 3, -3, -7.5944824, 3, -3, 7.5944824, 3, 3, 7.5944824, 3, 3, 7.5944824, 3, -3, 7.5944824, 3, -3, 7.5944824, -3, -3, -7.5944824, 3, 3, -7.5944824, 3, 3, -7.5944824, -3, 3, 7.5944824, 3, 3, -7.5944824, 3, -3, -7.5944824, 3, 3, -7.5944824, -3, 3, -7.5944824, 3, 3, 7.5944824, 3, 3, -7.5944824, -3, 3, 7.5944824, -3, -3, 7.5944824, -3, -3, 7.5944824, -3, 3, 7.5944824, -3, 3, 7.5944824, 3, 3, 7.5944824, 3, 3, 7.5944824, -3, 3, -7.5944824, -3)
 
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_at04l"]
+data = PackedVector3Array(-50.226074, -100.04425, 3, -50.226074, -100.04425, -3, -50.226074, 100.04425, -3, 50.226074, -100.04425, -3, -50.226074, -100.04425, -3, -50.226074, -100.04425, 3, -50.226074, 100.04425, -3, -50.226074, -100.04425, -3, 50.226074, -100.04425, -3, -50.226074, 100.04425, -3, -50.226074, 100.04425, 3, -50.226074, -100.04425, 3, -50.226074, -100.04425, 3, -50.226074, 100.04425, 3, 50.226074, 100.04425, 3, 50.226074, 100.04425, 3, -50.226074, 100.04425, 3, -50.226074, 100.04425, -3, -50.226074, -100.04425, 3, 50.226074, -100.04425, 3, 50.226074, -100.04425, -3, 50.226074, 100.04425, 3, 50.226074, -100.04425, 3, -50.226074, -100.04425, 3, 50.226074, -100.04425, -3, 50.226074, -100.04425, 3, 50.226074, 100.04425, 3, 50.226074, -100.04425, -3, 50.226074, 100.04425, -3, -50.226074, 100.04425, -3, -50.226074, 100.04425, -3, 50.226074, 100.04425, -3, 50.226074, 100.04425, 3, 50.226074, 100.04425, 3, 50.226074, 100.04425, -3, 50.226074, -100.04425, -3)
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2y7ey"]
 
 [sub_resource type="Sky" id="Sky_s0fi8"]
@@ -313,6 +316,11 @@ transform = Transform3D(1, 0, 0, 0, 0.70710677, -0.7071068, 0, 0.7071068, 0.7071
 size = Vector3(6, 6, 6)
 material = ExtResource("3_wus6r")
 
+[node name="CSGBox3D22" type="CSGBox3D" parent="WorldCSG" unique_id=230634161]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, -0.7071068, 0, 0.7071068, 0.70710677, -27.637478, -71.58249, -168.55592)
+size = Vector3(100.45215, 200.0885, 6)
+material = ExtResource("3_wus6r")
+
 [node name="CSGBox3D13" type="CSGBox3D" parent="WorldCSG" unique_id=604024071]
 transform = Transform3D(1, 0, 0, 0, 0.49999994, -0.86602545, 0, 0.86602545, 0.49999994, -23.006725, -0.10903406, 22.102537)
 size = Vector3(6, 6, 6)
@@ -416,9 +424,9 @@ shape = SubResource("ConcavePolygonShape3D_myh01")
 transform = Transform3D(0.9790365, 0, 0, 0, 0.7169592, 0.69711506, 0, -0.69711506, 0.7169592, -47.06683, -0.6327907, -51.383194)
 shape = SubResource("ConcavePolygonShape3D_fx30h")
 
-[node name="Ball" parent="Cols/StaticBody3D" unique_id=1580252953 instance=ExtResource("4_vmhiq")]
-transform = Transform3D(3.72, 0, 0, 0, 3.72, 0, 0, 0, 3.72, -46.730488, 8.964041, -55.674084)
-mass = 750.0
+[node name="CSGBakedCollisionShape3D21" type="CollisionShape3D" parent="Cols/StaticBody3D" unique_id=761862888]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, -0.7071068, 0, 0.7071068, 0.70710677, -27.637478, -71.58249, -168.55592)
+shape = SubResource("ConcavePolygonShape3D_at04l")
 
 [node name="Visuals" type="Node" parent="." unique_id=956391145]
 
@@ -719,6 +727,11 @@ physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
 [node name="Block3" parent="Toys/Ancor2" unique_id=1306601595 instance=ExtResource("5_5vec5")]
 transform = Transform3D(6.5593634, 0, 0, 0, -1.1307449e-08, -12.964124, 0, 0.25868428, -5.6667983e-07, -46.85043, -0.3353262, 4.161695)
+mass = 2500.0
+physics_material_override = SubResource("PhysicsMaterial_54tkj")
+
+[node name="Block43" parent="Toys/Ancor2" unique_id=1421415663 instance=ExtResource("5_5vec5")]
+transform = Transform3D(6.5593634, 0, 0, 0, -1.1307449e-08, -5.625555, 0, 0.25868428, -2.4590082e-07, -33.640236, -4.4237757, -9.5715275)
 mass = 2500.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
@@ -1059,6 +1072,10 @@ shape = SubResource("ConcavePolygonShape3D_2tlil")
 transform = Transform3D(6.6146474, 0, 0, 0, 0.3381434, 0, 0, 0, 6.723428, 0, -3.6831284, 0)
 mass = 1000.0
 
+[node name="Ball" parent="Toys" unique_id=1580252953 instance=ExtResource("4_vmhiq")]
+transform = Transform3D(3.72, 0, 0, 0, 3.72, 0, 0, 0, 3.72, -46.730488, 8.964041, -55.674084)
+mass = 750.0
+
 [node name="Node3D" parent="." unique_id=1349669363 instance=ExtResource("8_w60jt")]
 transform = Transform3D(8, 0, 0, 0, -7.854936e-07, -8, 0, 17.97, -3.496911e-07, -19.93863, 3.9275665, 134.46976)
 
@@ -1067,6 +1084,14 @@ gravity_space_override = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1307247778]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 51.184742, 0)
+shape = SubResource("BoxShape3D_s0fi8")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D" unique_id=1568420402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -42.109737, -200.87354)
+shape = SubResource("BoxShape3D_s0fi8")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Area3D" unique_id=266794028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -144.20767, -200.87354)
 shape = SubResource("BoxShape3D_s0fi8")
 
 [node name="RigidBody3D" parent="." unique_id=1338217806 instance=ExtResource("7_bh7bf")]

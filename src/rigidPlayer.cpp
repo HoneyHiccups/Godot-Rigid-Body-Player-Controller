@@ -1,5 +1,6 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
+#include "godot_cpp/classes/node3d.hpp"
 #include "godot_cpp/classes/ray_cast3d.hpp"
 #include "godot_cpp/classes/rigid_body3d.hpp"
 #include "godot_cpp/classes/time.hpp"
@@ -15,6 +16,7 @@
 #include "godot_cpp/variant/vector3.hpp"
 #include <cstddef>
 #include <cstdint>
+#include <vector>
 
 
 
@@ -229,6 +231,31 @@ void RigidPlayer::acumalatesteps(Vector3 &force){
     return;
 }
 
+void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
+    if (piv_body != nullptr && bisGrounded == false && this->get_contact_count()>0){
+        int contacts  = state->get_contact_count();
+        std::vector<ContactInfo> Contactlist;
+        Contactlist.resize(contacts);
+        for(int i = 0; i< contacts; i++){
+            ContactInfo addcontact;
+            addcontact.ContactPoint = state->get_contact_collider_position(i);
+            addcontact.ContactNormal = state->get_contact_local_normal(i);  
+            Contactlist[i] = addcontact;  
+        }
+        
+        for(int i = 0; i< contacts; i++){
+            Vector3 forcepush = Contactlist[i].ContactNormal;
+            forcepush.normalize();
+            forcepush = forcepush* (this->get_mass()*.8);
+            this->apply_central_force(forcepush);
+
+        }
+
+    }
+}
+
+
+
 void RigidPlayer::_physics_process(double delta){
     RigidBody3D* StandingOnRigidBodyPtr = nullptr;
     int contanct = this->get_contact_count();
@@ -258,10 +285,13 @@ void RigidPlayer::_physics_process(double delta){
             walkingPlane.set_normal(HitNoraml);
         }else{
             walkingPlane.set_normal(Vector3(0,0,0));
+            slidgingPlane.set_normal(HitNoraml);
         }
         if(RayHitDist<0.22f){
             Raybisgrounded = !isOverSlooped; // looks werid but trust me
-        } 
+        } else{
+            isOverSlooped = true;
+        }
     }
     
     
@@ -415,8 +445,9 @@ void RigidPlayer::_physics_process(double delta){
             //_gdvirtual__extern_physics_process_call(delta);
         }
         
-        if (piv_body != nullptr && bisGrounded == false ){
+        if (piv_body != nullptr && bisGrounded == false && contanct == 0){
             // in air not sliding
+            
             bisinputing = true;
             InputDir.normalize();
             Basis BodyBasis = piv_body->get_global_transform().get_basis();
@@ -433,12 +464,12 @@ void RigidPlayer::_physics_process(double delta){
             Force = Force/aircontrol;
             apply_central_force(Force);
         }
-        if (piv_body != nullptr && bisGrounded == false && isOverSlooped == true){
-            print_line("over slooped");
-            // in air not sliding
+        //print_line(" contacts is : ", contanct);
+        //print_line("Ovber slooped is : ", isOverSlooped);
+        if (piv_body != nullptr /*&& bisGrounded == false */&& isOverSlooped == true && contanct > 0 ){
 
-            // over slooped
-            /*
+            //sliding
+
             bisinputing = true;
             InputDir.normalize();
             Basis BodyBasis = piv_body->get_global_transform().get_basis();
@@ -446,14 +477,18 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 RightVec = BodyBasis.get_column(0);
             Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
-            Vector3 linVel = this->get_linear_velocity();
-            linVel.normalize();
-            float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
-            float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
-            float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
-            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * aircontrol * PD_DampiningPower * delta);
-            apply_central_force(Force);
-            */
+            Wishdir = slidgingPlane.project(Wishdir);
+            if(Wishdir.dot(LastGravitydir)>-.07){
+                Vector3 linVel = this->get_linear_velocity();
+                linVel.normalize();
+                float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
+                float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
+                Vector3 Force = Wishdir * (this->get_mass()* .7) * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+                Force = Force/aircontrol;
+                apply_central_force(Force);
+            }
+
+
         }
 
         if(input->is_action_just_pressed(JumpActionMappping)){
@@ -639,9 +674,11 @@ void RigidPlayer::accumulate_falling_mag(){
     if ( LastGravitydir == Vector3(0,0,0) ){
 
     }else{
-        if(LastGravitydir.dot(this->get_linear_velocity()) > 0){
+        if(LastGravitydir.dot(this->get_linear_velocity()) > 0 && !(int(isOverSlooped)+this->get_contact_count() >1  )){
             // means we are falling
             AcummlateFallingMag = AcummlateFallingMag + (this->get_linear_velocity()* (LastGravitydir*-1));
+        }else{
+            AcummlateFallingMag = this->get_linear_velocity();
         }
     }
 }

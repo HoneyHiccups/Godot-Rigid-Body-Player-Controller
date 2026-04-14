@@ -1,6 +1,7 @@
 #pragma once
 
 #include "godot_cpp/classes/node3d.hpp"
+#include "godot_cpp/classes/object.hpp"
 #include "godot_cpp/classes/ray_cast3d.hpp"
 #include "godot_cpp/classes/rigid_body3d.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
@@ -28,7 +29,14 @@
 #include <sys/types.h>
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/gdvirtual.gen.inc>
+#include <godot_cpp/classes/physics_direct_body_state3d.hpp>
 
+
+//  TODO
+// [] add wishdir twisting to remove skating feeling
+// [] Add an allow sliding jump feature
+//      -- use sliding plane to see if moving down before allow jump
+// [] Go through and look for bugs in jumping thats getting a little sus
 
 
 using namespace godot;
@@ -56,6 +64,7 @@ class RigidPlayer : public RigidBody3D{
         void _ready() override;
         void _physics_process(double delta) override; 
 	    void _input(const Ref<InputEvent> &event) override;
+        void _integrate_forces(PhysicsDirectBodyState3D *state) override;
         float MappedDotProduct(Vector3 x , Vector3 y);
         void CountershoveRigid(Vector3 Force, Vector3 Loc, RigidBody3D* bodyptr);
         void jump();
@@ -99,6 +108,11 @@ class RigidPlayer : public RigidBody3D{
             WishBackwardLeft,
             WishBackwardRight,
             NoInput
+        };
+
+        struct ContactInfo{
+            Vector3 ContactNormal = Vector3(0,0,0);
+            Vector3 ContactPoint = Vector3(0,0,0);
         };
 
     private:
@@ -145,6 +159,7 @@ class RigidPlayer : public RigidBody3D{
         float airtime = 0;
         bool toonjump = true;
         Plane walkingPlane;
+        Plane slidgingPlane;
         float FootStepAccumalationThreashold = 5000;
         float FootStepAccumalation =0;
         float FootStepSpeedFloor= .05;
@@ -268,3 +283,4 @@ class RigidPlayer : public RigidBody3D{
         void set_duck_action_map(String n) {DuckActionMappping = n;}
         String get_duck_action_map() {return DuckActionMappping;}
 };
+
