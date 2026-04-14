@@ -37,7 +37,8 @@
 // [] Add an allow sliding jump feature
 //      -- use sliding plane to see if moving down before allow jump
 // [] Go through and look for bugs in jumping thats getting a little sus
-
+// [] Ivestage wall running avune
+//      -- with the method we use to do surface rejection we can do surrface attracstion
 
 using namespace godot;
 
