@@ -39,6 +39,7 @@
 // [] Go through and look for bugs in jumping thats getting a little sus
 // [] Ivestage wall running avune
 //      -- with the method we use to do surface rejection we can do surrface attracstion
+// [] Handle player getting crushed by heavy objects
 
 using namespace godot;
 
