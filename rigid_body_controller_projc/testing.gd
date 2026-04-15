@@ -1,18 +1,34 @@
 extends Node3D
 
 
+@onready var shaker_wrapper: Node3D = $HeadPiv/ShakerWrapper
+
 @onready var Player : RigidPlayer = $".."
 @export var DebugDraw:bool = true
 @onready var landvol : float =0;
+var cam: Camera3D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Player.set_allow_align_with_gravity(true)
 	landvol = land.volume_linear
+	print("pawn name is :: "+ Player.name)
+	if Player.name.to_int() == multiplayer.get_unique_id():
+		cam = Camera3D.new()
+		cam.name = "PlayerCamera"
+		#cam.global_position = shaker_wrapper.global_position
+		cam.current = true;
+		shaker_wrapper.add_child(cam)
+		print("I have athoury of this pawn ::", str(multiplayer.get_unique_id()))
+		
 
+@onready var i_ds: Label = $"../Control/IDs"
 
 func _process(delta: float) -> void:
+	if(i_ds!=null):
+		i_ds.text = str(multiplayer.get_unique_id())
 	if(DebugDraw == true):
 		debugdraw()
+		
 
 func debugdraw():
 	var start :Vector3 = Player.global_position

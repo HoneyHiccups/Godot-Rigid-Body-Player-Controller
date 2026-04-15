@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://4mkib0vyful5"]
+
+[sub_resource type="GDScript" id="GDScript_smvga"]
+resource_name = "Handle Mutiplayer"
+script/source = "extends Node2D
+var ip :String = \"localhost\"
+var PORT:int = 2222
+@onready var multiplayer_spawner: MultiplayerSpawner = $\"../PlayerPawns/MultiplayerSpawner\"
+
+var peer: ENetMultiplayerPeer;
+
+func _on_connect_to_host_pressed() -> void:
+	self.visible = false;
+	peer = ENetMultiplayerPeer.new()
+	peer.create_client(\"localhost\", PORT)
+	multiplayer.multiplayer_peer = peer
+	
+
+
+func _on_become_host_pressed() -> void:
+	self.visible = false;
+	peer = ENetMultiplayerPeer.new()
+	peer.create_server(PORT)
+	multiplayer.multiplayer_peer = peer
+	multiplayer_spawner._host_spawned();
+	
+"
+
+[node name="InitGameMutiScene" type="Node2D" unique_id=1226725451]
+script = SubResource("GDScript_smvga")
+
+[node name="Control" type="Control" parent="." unique_id=36897930]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Connect To Host" type="Button" parent="Control" unique_id=1694157827]
+layout_mode = 0
+offset_left = 283.0
+offset_top = 378.0
+offset_right = 355.0
+offset_bottom = 409.0
+text = "Connect To Host"
+
+[node name="Become Host" type="Button" parent="Control" unique_id=1042569129]
+layout_mode = 0
+offset_left = 690.0
+offset_top = 378.0
+offset_right = 784.0
+offset_bottom = 409.0
+text = "Host Game
+"
+
+[connection signal="pressed" from="Control/Connect To Host" to="." method="_on_connect_to_host_pressed"]
+[connection signal="pressed" from="Control/Become Host" to="." method="_on_become_host_pressed"]

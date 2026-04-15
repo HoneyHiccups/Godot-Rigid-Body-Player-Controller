@@ -1,5 +1,9 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
+#include "godot_cpp/classes/multiplayer_api.hpp"
+#include "godot_cpp/classes/multiplayer_api_extension.hpp"
+#include "godot_cpp/classes/multiplayer_peer.hpp"
+#include "godot_cpp/classes/multiplayer_peer_extension.hpp"
 #include "godot_cpp/classes/node3d.hpp"
 #include "godot_cpp/classes/ray_cast3d.hpp"
 #include "godot_cpp/classes/rigid_body3d.hpp"
@@ -257,6 +261,7 @@ void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
 
 
 void RigidPlayer::_physics_process(double delta){
+
     RigidBody3D* StandingOnRigidBodyPtr = nullptr;
     int contanct = this->get_contact_count();
     Vector3 HitNoraml = this->get_basis().get_column(1);
@@ -313,11 +318,15 @@ void RigidPlayer::_physics_process(double delta){
 
 
     CurrentSpeed = Math::abs(CurrentSpeed);
-    Vector2 InputDir = Vector2(
+    Vector2 InputDir;
+    if(!is_multiplayer_authority()){
+    InputDir = Vector2(
     input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
     //0.0f,
     input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
     );
+    }
+
 
     if(Math::abs(InputDir.x)< 0.6){
         InputDir.x = 0;
@@ -478,7 +487,7 @@ void RigidPlayer::_physics_process(double delta){
             Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
             Wishdir = slidgingPlane.project(Wishdir);
-            if(Wishdir.dot(LastGravitydir)>-.07){
+            if(Wishdir.dot(LastGravitydir)>-.01){
                 Vector3 linVel = this->get_linear_velocity();
                 linVel.normalize();
                 float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
