@@ -185,7 +185,7 @@ class RigidPlayer : public RigidBody3D{
 
         Basis Targetbasis;
         Vector3 Wishdir = Vector3(0,0,0);
-        bool bisOrienttoGravity = false;
+        bool bisOrienttoGravity = true;
         bool keepskewedGravityOrientaions = true;
         bool SlerpGravityOrientaions = true;
         bool isOverSlooped = false;

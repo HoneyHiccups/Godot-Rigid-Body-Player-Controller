@@ -319,7 +319,7 @@ void RigidPlayer::_physics_process(double delta){
 
     CurrentSpeed = Math::abs(CurrentSpeed);
     Vector2 InputDir;
-    if(!is_multiplayer_authority()){
+    if(/*is_multiplayer_authority()*/ true == 1){
     InputDir = Vector2(
     input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
     //0.0f,
@@ -645,16 +645,17 @@ void RigidPlayer::just_stopped_moving(){
 
 void RigidPlayer::_input(const Ref<InputEvent> &event){
     Ref<InputEventMouseMotion> MouseEvent = event;
-
-    if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
-        if(MouseEvent.is_valid()){
-            Vector2 MouseDelta = MouseEvent->get_relative() *-0.001;
-            if(MouseDelta != Vector2(0,0)){
-                piv_body->rotate(piv_body->get_basis().get_column(1), MouseDelta.x*sensitivity);
-                float min = Math::deg_to_rad(-89.0f);
-                float max = Math::deg_to_rad(89.0f);
-                CurrentHeadRot = Math::clamp(CurrentHeadRot + (MouseDelta.y*sensitivity), min,max);
-                piv_head->set_rotation(Vector3(CurrentHeadRot,0.0f,0.0f));
+    if(is_multiplayer_authority()){
+        if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
+            if(MouseEvent.is_valid()){
+                Vector2 MouseDelta = MouseEvent->get_relative() *-0.001;
+                if(MouseDelta != Vector2(0,0)){
+                    piv_body->rotate(piv_body->get_basis().get_column(1), MouseDelta.x*sensitivity);
+                    float min = Math::deg_to_rad(-89.0f);
+                    float max = Math::deg_to_rad(89.0f);
+                    CurrentHeadRot = Math::clamp(CurrentHeadRot + (MouseDelta.y*sensitivity), min,max);
+                    piv_head->set_rotation(Vector3(CurrentHeadRot,0.0f,0.0f));
+                }
             }
         }
     }
