@@ -170,7 +170,7 @@ class RigidPlayer : public RigidBody3D{
         // cant use a u_int here cuss microsoft and there dword or whatever i guess
         // tilted about it ngl, dont make this go negative cuss somthing bad will prob happen
 
-        //
+        ////.
 
         float CurrentSpeed;
 
