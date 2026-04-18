@@ -645,20 +645,20 @@ void RigidPlayer::just_stopped_moving(){
 
 void RigidPlayer::_input(const Ref<InputEvent> &event){
     Ref<InputEventMouseMotion> MouseEvent = event;
-    if(is_multiplayer_authority()){
-        if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
-            if(MouseEvent.is_valid()){
-                Vector2 MouseDelta = MouseEvent->get_relative() *-0.001;
-                if(MouseDelta != Vector2(0,0)){
-                    piv_body->rotate(piv_body->get_basis().get_column(1), MouseDelta.x*sensitivity);
-                    float min = Math::deg_to_rad(-89.0f);
-                    float max = Math::deg_to_rad(89.0f);
-                    CurrentHeadRot = Math::clamp(CurrentHeadRot + (MouseDelta.y*sensitivity), min,max);
-                    piv_head->set_rotation(Vector3(CurrentHeadRot,0.0f,0.0f));
-                }
+
+    if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
+        if(MouseEvent.is_valid()){
+            Vector2 MouseDelta = MouseEvent->get_relative() *-0.001;
+            if(MouseDelta != Vector2(0,0)){
+                piv_body->rotate(piv_body->get_basis().get_column(1), MouseDelta.x*sensitivity);
+                float min = Math::deg_to_rad(-89.0f);
+                float max = Math::deg_to_rad(89.0f);
+                CurrentHeadRot = Math::clamp(CurrentHeadRot + (MouseDelta.y*sensitivity), min,max);
+                piv_head->set_rotation(Vector3(CurrentHeadRot,0.0f,0.0f));
             }
         }
     }
+    
 }
 
 void RigidPlayer::jump(){
@@ -724,6 +724,9 @@ void RigidPlayer::orbitcamtoggle(){
 }
 
 void RigidPlayer::ToggleCursor(){
+    if(!is_multiplayer_authority()){
+        return;
+    }
     if( input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED ){
         input->set_mouse_mode(Input::MOUSE_MODE_VISIBLE);
         mousecursor_show = true;
