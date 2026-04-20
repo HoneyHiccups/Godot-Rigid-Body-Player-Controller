@@ -38,7 +38,6 @@ func debugdraw():
 	var target:Vector3 = start+(wishdir*speed)
 	DebugDraw3D.draw_line(start,target,Color(255,0,0))
 	DebugDraw3D.draw_line(start,(Player.get_gravity()*3000),Color(0,255,0))
-	DebugDraw3D.draw_line(start,Player.get_projected_gravitydir(),Color(75,0,75))
 
 @onready var foot_step: AudioStreamPlayer = $"../FootStep"
 @onready var jump: AudioStreamPlayer = $"../Jump"

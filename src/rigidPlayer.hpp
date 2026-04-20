@@ -40,7 +40,7 @@
 // [] Ivestage wall running avune
 //      -- with the method we use to do surface rejection we can do surrface attracstion
 // [] Handle player getting crushed by heavy objects
-
+// [] Come up with a way of making slope walking not broken
 using namespace godot;
 
 class RigidPlayer : public RigidBody3D{
@@ -193,7 +193,7 @@ class RigidPlayer : public RigidBody3D{
         bool Raybisgrounded = false;
         bool autoslow = true; // needs grounded check to work
         float MaxStandAngle = 41; // will let player walk up 40 degree slops
-
+        
 
 
 

@@ -271,6 +271,7 @@ void RigidPlayer::_physics_process(double delta){
     Vector3 HitNoraml = this->get_basis().get_column(1);
     float StandingAngle  = 0;
     float RayHitDist = -1;
+    float SlopeRadins =0;
     Raybisgrounded = false;
     isOverSlooped = true;
     if(GroundRay->is_colliding()){
@@ -284,7 +285,7 @@ void RigidPlayer::_physics_process(double delta){
             // should work with child of rigid bodys cuss dynamic cast;
             //print_line("Standing on rigid");
         }
-        float SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
+        SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
         StandingAngle = SlopeRadins * 180 / 3.14;
         RayHitDist = GroundRay->get_collision_point().distance_to(this->get_global_position());
         RayHitDist = RayHitDist- playerHieght/2;
@@ -382,12 +383,24 @@ void RigidPlayer::_physics_process(double delta){
 
             
             Wishdir = walkingPlane.project(Wishdir);
+            Vector3 Downslope = Vector3(0,0,0);
+            float slopeboost = 1;
+            if(StandingAngle>0.1){
+                Downslope = (LastGravitydir - walkingPlane.get_normal() * LastGravitydir.dot(walkingPlane.get_normal()));
+                Downslope.normalize();
+                slopeboost = Downslope.dot(Wishdir)+2;
+                slopeboost = slopeboost/1.5; // this is borken on slolps that are close to flat need to also scale out the slop
+                Downslope = Downslope*-1;
+                Downslope = Downslope*(this->get_mass()*Math::sin(SlopeRadins)*(this->get_gravity().length()) );
+            }
+            
+            
             
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) *slopeboost* jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
-            apply_central_force(Force);
+            apply_central_force(Force+Downslope);
             CountershoveRigid(Force, RayCastHitLoc, StandingOnRigidBodyPtr);
             acumalatesteps(Force);
 
