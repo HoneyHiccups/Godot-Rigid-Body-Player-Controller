@@ -41,6 +41,7 @@
 //      -- with the method we use to do surface rejection we can do surrface attracstion
 // [] Handle player getting crushed by heavy objects
 // [] Come up with a way of making slope walking not broken
+//      -- The new system normalsize slope movemnt and that dose not feel fun
 using namespace godot;
 
 class RigidPlayer : public RigidBody3D{
