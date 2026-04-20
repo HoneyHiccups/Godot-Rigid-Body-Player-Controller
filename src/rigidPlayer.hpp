@@ -143,7 +143,7 @@ class RigidPlayer : public RigidBody3D{
         RayCast3D* GroundRay = nullptr;
         float playerwidith = .5;
         float playerHieght = 2.0f;
-
+        float CounterSteerPower = 1.33;//1.33f;
         float PD_DampiningPower = 0.8f;
         float StrafeJumpAddPower = 0.f;
         float Acceleration = 10;
@@ -207,6 +207,9 @@ class RigidPlayer : public RigidBody3D{
         bool is_oversloped(){return isOverSlooped;}
         float get_airtime(){return airtime;}
         int get_current_jumps(){return currentjumps;}
+
+        void  set_counter_steer_power(float n){CounterSteerPower = n;}
+        float get_counter_steer_power(){return CounterSteerPower;}
 
         void set_allow_movment(bool n){allowMovmentInput = n;}
         bool get_allow_movment(){return allowMovmentInput;}

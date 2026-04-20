@@ -91,7 +91,8 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_allow_movment", "allow_movment"),      &RigidPlayer::set_allow_movment);
     ClassDB::bind_method(D_METHOD("get_allow_toon_jumping"),                       &RigidPlayer::get_allow_toon_jumping);
     ClassDB::bind_method(D_METHOD("set_allow_toon_jumping", "allow_toon_jumping"), &RigidPlayer::set_allow_toon_jumping);
-
+    ClassDB::bind_method(D_METHOD("get_counter_steer_power"),                        &RigidPlayer::get_counter_steer_power);
+    ClassDB::bind_method(D_METHOD("set_counter_steer_power", "counter_steer_power"), &RigidPlayer::set_counter_steer_power);
 
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
@@ -115,6 +116,7 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "max_walk_angle"),  "set_max_walk_angle", "get_max_walk_angle");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "allow_toon_jumping"),  "set_allow_toon_jumping", "get_allow_toon_jumping");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "foot_step_accumalation_threashold"), "set_foot_step_accumalation_threashold", "get_foot_step_accumalation_threashold");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "counter_steer_power"), "set_counter_steer_power", "get_counter_steer_power");
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
@@ -377,16 +379,6 @@ void RigidPlayer::_physics_process(double delta){
             float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
 
 
-            //the goal here is to make a scaler that will rotate the wishdir
-            //so that the player dose not conserve forward speed as much as they do
-            //this will make it feel more arcady
-            //
-            //
-            
-
-
-
-            //wishdir getting shifted
             
             Wishdir = walkingPlane.project(Wishdir);
             CreateTwistedWishDir(Wishdir , linvelFlat);
@@ -638,6 +630,12 @@ void RigidPlayer::setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forwar
 
 void RigidPlayer:: CreateTwistedWishDir(Vector3 &wish, Vector3 &Lin){
     
+   if(wish.angle_to(Lin)< 1.57f && CounterSteerPower != 0) {
+        Vector3 lean2 = wish - Lin;
+        lean2 = lean2 * (MappedDotProduct(wish, Lin)* CounterSteerPower );
+        wish = lean2+wish;
+   }
+   return;
 
 }
 
