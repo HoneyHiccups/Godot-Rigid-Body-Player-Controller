@@ -90,7 +90,7 @@ class RigidPlayer : public RigidBody3D{
 
     protected:
 
-        enum PlaylinCounterSteer{
+        enum PlaylinCounterSteer{ // soon to be depracated I think
             Forward,
             Backward,
             ForwardLeft,
@@ -100,7 +100,7 @@ class RigidPlayer : public RigidBody3D{
             NotMoving
         };
 
-        enum PlayerWishDirState{
+        enum PlayerWishDirState{ // soon to be depracated I think
             WishForward,
             WishBackward,
             WishLeft,
@@ -143,7 +143,7 @@ class RigidPlayer : public RigidBody3D{
         RayCast3D* GroundRay = nullptr;
         float playerwidith = .5;
         float playerHieght = 2.0f;
-        float CounterSteerPower = 1.33;//1.33f;
+        float CounterSteerPower = 1.83;//1.33f;
         float PD_DampiningPower = 0.8f;
         float StrafeJumpAddPower = 0.f;
         float Acceleration = 10;
@@ -199,8 +199,8 @@ class RigidPlayer : public RigidBody3D{
 
     public:
         bool bisinputing = false;
-        void CreateTwistedWishDir( Vector3 &wish, Vector3 &Lin);
-        void setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forward, Vector3 &right);
+        Vector3 CreateTwistedWishDir( const Vector3 &wish, const Vector3 &Lin);
+        void setsterringEnums(const Vector2 &input, const Vector3 &lin, const Vector3 &forward, const Vector3 &right);
     public: //setters and getters
         bool is_inputing(){return bisinputing;}
         bool is_grounded(){return bisGrounded;}

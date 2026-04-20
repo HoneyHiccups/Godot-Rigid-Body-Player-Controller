@@ -28,6 +28,7 @@
 //vitrual calls not work
 
 using namespace godot;
+
 void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_allow_align_with_gravity"),                 &RigidPlayer::get_allow_align_with_gravity);
     ClassDB::bind_method(D_METHOD("set_allow_align_with_gravity", "bisOrienttoGravity"), &RigidPlayer::set_allow_align_with_gravity);
@@ -367,9 +368,9 @@ void RigidPlayer::_physics_process(double delta){
             float rot_wishdir = Wishdir.dot(linVel);
             Vector3 linvelFlat = walkingPlane.project(linVel);
             linvelFlat.normalize();
-            SteerSwitchKey = NotMoving;
+            //SteerSwitchKey = NotMoving;
             
-            setsterringEnums(InputDir, linvelFlat, ForwardVec, RightVec);
+           // setsterringEnums(InputDir, linvelFlat, ForwardVec, RightVec);
 
             // Creates an amount to reduce speed
             float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
@@ -381,11 +382,9 @@ void RigidPlayer::_physics_process(double delta){
 
             
             Wishdir = walkingPlane.project(Wishdir);
-            CreateTwistedWishDir(Wishdir , linvelFlat);
             
-
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
             apply_central_force(Force);
@@ -514,7 +513,12 @@ if(bodyptr != nullptr){
 
 }
 
-void RigidPlayer::setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forward, Vector3 &right){
+void RigidPlayer::setsterringEnums(const Vector2 &input, const Vector3 &lin, const Vector3 &forward, const Vector3 &right){
+    //depracating 
+    // might un depracate as a state machine but for now this is not needing and will have it depprcated 
+    print_line( " RigidPlayer::setsterringEnums :: is being called :: this func will be depracated find and remove");
+
+    
     if(lin.dot(forward)<0){
                 // the player is moving forward
                 SteerSwitchKey = Forward;
@@ -628,14 +632,15 @@ void RigidPlayer::setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forwar
             }
 }
 
-void RigidPlayer:: CreateTwistedWishDir(Vector3 &wish, Vector3 &Lin){
-    
+Vector3 RigidPlayer:: CreateTwistedWishDir( const Vector3 &wish, const Vector3 &Lin){
+
    if(wish.angle_to(Lin)< 1.57f && CounterSteerPower != 0) {
         Vector3 lean2 = wish - Lin;
-        lean2 = lean2 * (MappedDotProduct(wish, Lin)* CounterSteerPower );
-        wish = lean2+wish;
+        lean2 = lean2 * (MappedDotProduct(wish, Lin)* CounterSteerPower);
+        //print_line( StandAng);
+        return lean2+wish;
    }
-   return;
+   return wish;
 
 }
 
