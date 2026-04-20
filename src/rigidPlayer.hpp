@@ -33,7 +33,7 @@
 
 
 //  TODO
-// [] add wishdir twisting to remove skating feeling
+// [X] add wishdir twisting to remove skating feeling
 // [] Add an allow sliding jump feature
 //      -- use sliding plane to see if moving down before allow jump
 // [] Go through and look for bugs in jumping thats getting a little sus
