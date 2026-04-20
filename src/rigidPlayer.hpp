@@ -112,7 +112,8 @@ class RigidPlayer : public RigidBody3D{
             NoInput
         };
 
-        struct ContactInfo{
+        struct ContactInfo{ // might change this not really using it 
+            // so its just adding overhead for nothing 
             Vector3 ContactNormal = Vector3(0,0,0);
             Vector3 ContactPoint = Vector3(0,0,0);
         };

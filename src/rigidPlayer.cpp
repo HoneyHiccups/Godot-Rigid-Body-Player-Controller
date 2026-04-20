@@ -15,6 +15,7 @@
 #include "godot_cpp/core/print_string.hpp"
 #include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/basis.hpp"
+#include "godot_cpp/variant/quaternion.hpp"
 #include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
@@ -636,6 +637,7 @@ void RigidPlayer::setsterringEnums(Vector2 &input, Vector3 &lin, Vector3 &forwar
 }
 
 void RigidPlayer:: CreateTwistedWishDir(Vector3 &wish, Vector3 &Lin){
+    
 
 }
 
