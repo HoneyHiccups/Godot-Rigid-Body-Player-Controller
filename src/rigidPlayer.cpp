@@ -1,27 +1,6 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
-#include "godot_cpp/classes/multiplayer_api.hpp"
-#include "godot_cpp/classes/multiplayer_api_extension.hpp"
-#include "godot_cpp/classes/multiplayer_peer.hpp"
-#include "godot_cpp/classes/multiplayer_peer_extension.hpp"
-#include "godot_cpp/classes/node3d.hpp"
-#include "godot_cpp/classes/ray_cast3d.hpp"
-#include "godot_cpp/classes/rigid_body3d.hpp"
-#include "godot_cpp/classes/time.hpp"
-#include "godot_cpp/core/class_db.hpp"
-#include "godot_cpp/core/math.hpp"
-#include "godot_cpp/core/memory.hpp"
-#include "godot_cpp/core/object.hpp"
-#include "godot_cpp/core/print_string.hpp"
-#include "godot_cpp/core/property_info.hpp"
-#include "godot_cpp/variant/basis.hpp"
-#include "godot_cpp/variant/quaternion.hpp"
-#include "godot_cpp/variant/variant.hpp"
-#include "godot_cpp/variant/vector2.hpp"
-#include "godot_cpp/variant/vector3.hpp"
-#include <cstddef>
-#include <cstdint>
-#include <vector>
+
 
 
 

@@ -1,35 +1,61 @@
 #pragma once
 
 #include "godot_cpp/classes/node3d.hpp"
-#include "godot_cpp/classes/object.hpp"
 #include "godot_cpp/classes/ray_cast3d.hpp"
 #include "godot_cpp/classes/rigid_body3d.hpp"
 #include "godot_cpp/classes/wrapped.hpp"
 #include "godot_cpp/variant/string.hpp"
-#include "godot_cpp/variant/typed_array.hpp"
-#include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/classes/node3d.hpp"
 #include "godot_cpp/classes/input.hpp"
 #include "godot_cpp/classes/input_event.hpp"
 #include "godot_cpp/classes/input_event_mouse.hpp"
 #include "godot_cpp/classes/input_event_mouse_button.hpp"
 #include "godot_cpp/classes/input_event_mouse_motion.hpp"
-#include "godot_cpp/core/math.hpp"
-#include "RigidBodyUtilitys.h"
-#include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/basis.hpp"
 #include "godot_cpp/variant/projection.hpp"
-#include "godot_cpp/variant/transform3d.hpp"
-#include "godot_cpp/variant/variant.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
-#include "godot_cpp/core/class_db.hpp"
-#include "godot_cpp/core/object.hpp"
-#include "godot_cpp/core/print_string.hpp"
 #include <sys/types.h>
 #include <godot_cpp/core/binder_common.hpp>
 #include <godot_cpp/core/gdvirtual.gen.inc>
 #include <godot_cpp/classes/physics_direct_body_state3d.hpp>
+#include "godot_cpp/classes/node3d.hpp"
+#include "godot_cpp/classes/ray_cast3d.hpp"
+#include "godot_cpp/classes/rigid_body3d.hpp"
+#include "godot_cpp/variant/basis.hpp"
+#include "godot_cpp/variant/vector2.hpp"
+#include "godot_cpp/variant/vector3.hpp"
+#include <vector>
+
+//auto added incluldes alot of dubbles
+
+//#include <cstddef>
+//#include <cstdint>
+//#include "godot_cpp/variant/quaternion.hpp"
+//#include "godot_cpp/variant/variant.hpp"
+//#include "godot_cpp/classes/time.hpp"
+//#include "godot_cpp/core/class_db.hpp"
+//#include "godot_cpp/core/math.hpp"
+//#include "godot_cpp/core/memory.hpp"
+//#include "godot_cpp/core/object.hpp"
+//#include "godot_cpp/core/print_string.hpp"
+//#include "godot_cpp/core/property_info.hpp"
+//#include "godot_cpp/classes/multiplayer_api.hpp"
+//#include "godot_cpp/classes/multiplayer_api_extension.hpp"
+//#include "godot_cpp/classes/multiplayer_peer.hpp"
+//#include "godot_cpp/classes/multiplayer_peer_extension.hpp"
+//#include "godot_cpp/core/class_db.hpp"
+//#include "godot_cpp/core/object.hpp"
+//#include "godot_cpp/core/print_string.hpp"
+//#include "godot_cpp/variant/transform3d.hpp"
+//#include "godot_cpp/variant/variant.hpp"
+//#include "godot_cpp/core/math.hpp"
+//#include "godot_cpp/core/property_info.hpp"
+//#include "godot_cpp/variant/typed_array.hpp"
+//#include "godot_cpp/variant/variant.hpp"
+//#include "godot_cpp/classes/object.hpp"
+
+
 
 
 //  TODO
