@@ -384,12 +384,11 @@ void RigidPlayer::_physics_process(double delta){
             
             Wishdir = walkingPlane.project(Wishdir);
             Vector3 Downslope = Vector3(0,0,0);
-            float slopeboost = 1;
-            if(StandingAngle>0.1){
+            if(StandingAngle>0.1 && normlizeslopes == true){
                 Downslope = (LastGravitydir - walkingPlane.get_normal() * LastGravitydir.dot(walkingPlane.get_normal()));
                 Downslope.normalize();
-                slopeboost = Downslope.dot(Wishdir)+2;
-                slopeboost = slopeboost/1.5; // this is borken on slolps that are close to flat need to also scale out the slop
+                //slopeboost = Downslope.dot(Wishdir)+4;
+                //slopeboost = slopeboost*(StandingAngle/100); // this is borken on slolps that are close to flat need to also scale out the slop
                 Downslope = Downslope*-1;
                 Downslope = Downslope*(this->get_mass()*Math::sin(SlopeRadins)*(this->get_gravity().length()) );
             }
@@ -397,7 +396,7 @@ void RigidPlayer::_physics_process(double delta){
             
             
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) *slopeboost* jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) /* *slopeboost*/  *  jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
             apply_central_force(Force+Downslope);

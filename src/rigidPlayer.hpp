@@ -194,7 +194,7 @@ class RigidPlayer : public RigidBody3D{
         bool Raybisgrounded = false;
         bool autoslow = true; // needs grounded check to work
         float MaxStandAngle = 41; // will let player walk up 40 degree slops
-        
+        bool normlizeslopes = true;
 
 
 
