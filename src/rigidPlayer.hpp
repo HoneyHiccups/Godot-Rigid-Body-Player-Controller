@@ -193,6 +193,8 @@ class RigidPlayer : public RigidBody3D{
         float FootStepAccumalationThreashold = 5000;
         float FootStepAccumalation =0;
         float FootStepSpeedFloor= .05;
+        Vector2 injectedInput = Vector2(0,0);
+        bool AiPossed = false;
 
         int MaxContactReportCount = 4;
         // cant use a u_int here cuss microsoft and there dword or whatever i guess
@@ -315,5 +317,15 @@ class RigidPlayer : public RigidBody3D{
 
         void set_duck_action_map(String n) {DuckActionMappping = n;}
         String get_duck_action_map() {return DuckActionMappping;}
+
+        void virtual_inputdir(Vector2 input){
+            injectedInput = input;
+        }
+        void enable_ai_posses(bool b){
+            AiPossed = b;
+        }
+        void virtual_jump(){
+            jump();
+        }
 };
 

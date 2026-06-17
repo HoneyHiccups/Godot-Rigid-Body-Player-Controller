@@ -1,5 +1,6 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
+#include "godot_cpp/variant/vector2.hpp"
 
 
 
@@ -73,7 +74,9 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_allow_toon_jumping", "allow_toon_jumping"), &RigidPlayer::set_allow_toon_jumping);
     ClassDB::bind_method(D_METHOD("get_counter_steer_power"),                        &RigidPlayer::get_counter_steer_power);
     ClassDB::bind_method(D_METHOD("set_counter_steer_power", "counter_steer_power"), &RigidPlayer::set_counter_steer_power);
-
+    ClassDB::bind_method(D_METHOD("virtual_jump"), &RigidPlayer::jump);
+    ClassDB::bind_method(D_METHOD("virtual_inputdir", "input"),      &RigidPlayer::virtual_inputdir);
+    ClassDB::bind_method(D_METHOD("enable_ai_posses", "bool"),      &RigidPlayer::enable_ai_posses);
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "maxSpeed"), "set_maxSpeed", "get_maxSpeed");
@@ -303,12 +306,13 @@ void RigidPlayer::_physics_process(double delta){
 
     CurrentSpeed = Math::abs(CurrentSpeed);
     Vector2 InputDir;
-    if(/*is_multiplayer_authority()*/ true == 1){
+    if(AiPossed == true){
     InputDir = Vector2(
     input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
-    //0.0f,
     input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
     );
+    }else{
+        InputDir = injectedInput;
     }
 
 
@@ -640,6 +644,9 @@ void RigidPlayer::just_stopped_moving(){
 }
 
 void RigidPlayer::_input(const Ref<InputEvent> &event){
+    if(AiPossed == true){
+        return;
+    }
     Ref<InputEventMouseMotion> MouseEvent = event;
 
     if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
@@ -707,6 +714,9 @@ void RigidPlayer::rez_jump(){
 }
 
 void RigidPlayer::orbitcamtoggle(){
+    if(AiPossed == true){
+        return;
+    }
 
     if(camrea_wrapper!= nullptr){
         Vector3 camloc = camrea_wrapper->get_position();
@@ -720,6 +730,10 @@ void RigidPlayer::orbitcamtoggle(){
 }
 
 void RigidPlayer::ToggleCursor(){
+
+    if(AiPossed == true){
+        return;
+    }
     if(!is_multiplayer_authority()){
         return;
     }
@@ -733,6 +747,9 @@ void RigidPlayer::ToggleCursor(){
 }
 
 void RigidPlayer::UI_Mode(){
+    if(AiPossed == true){
+        return;
+    }
     input->set_mouse_mode(Input::MOUSE_MODE_VISIBLE);
     mousecursor_show = true;
 }

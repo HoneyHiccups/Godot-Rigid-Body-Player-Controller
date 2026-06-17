@@ -27,6 +27,7 @@ obit_cam_dist = 45.0
 "Right Action Map" = "Right"
 "Jump Action Map" = "Jump"
 "Duck Action Map" = "Duck"
+foot_step_accumalation_threashold = 125.0
 piv_body = NodePath("BodyPiv")
 piv_head = NodePath("BodyPiv/HeadPiv")
 camrea_wrapper = NodePath("BodyPiv/HeadPiv/ShakerWrapper")
