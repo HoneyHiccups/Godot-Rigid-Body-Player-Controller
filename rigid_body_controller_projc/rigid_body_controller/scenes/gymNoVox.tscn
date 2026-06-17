@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cn3i3f6ye30qq" path="res://prefabs/Speedmeter.tscn" id="6_kslns"]
 [ext_resource type="PackedScene" uid="uid://bmewepq4wxw3x" path="res://prefabs/Cylian.tscn" id="7_bh7bf"]
 [ext_resource type="PackedScene" uid="uid://cmbclf4x60ne8" path="res://prefabs/RingPlant.tscn" id="8_w60jt"]
+[ext_resource type="PackedScene" uid="uid://bu06x7k4jh5br" path="res://prefabs/AIRigidPlayerPawnModdedUp_withMuitplayer.tscn" id="9_djt5g"]
 
 [sub_resource type="GDScript" id="GDScript_2tlil"]
 resource_name = "gameinsta"
@@ -229,6 +230,9 @@ func _physics_process(delta: float) -> void:
 [sub_resource type="BoxShape3D" id="BoxShape3D_54tkj"]
 size = Vector3(0.91, 0.10517578, 0.97)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_djt5g"]
+size = Vector3(19.925537, 2.9937134, 19.68811)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_s0fi8"]
 size = Vector3(200, 102.203, 200)
 
@@ -239,6 +243,7 @@ script = SubResource("GDScript_2tlil")
 
 [node name="RigidPlayerPawn" parent="PlayerPawns" unique_id=170371887 instance=ExtResource("1_djt5g")]
 obit_cam_dist = 10.0
+foot_step_accumalation_threashold = 5000.0
 transform = Transform3D(-0.96806455, 0, -0.25070098, 0, 1, 0, 0.25070098, 0, -0.96806455, 22.41376, 6.7846756, -1.4296861)
 
 [node name="WorldCSG" type="Node" parent="." unique_id=558763903]
@@ -1079,6 +1084,18 @@ mass = 750.0
 [node name="Node3D" parent="." unique_id=1349669363 instance=ExtResource("8_w60jt")]
 transform = Transform3D(8, 0, 0, 0, -7.854936e-07, -8, 0, 17.97, -3.496911e-07, -19.93863, 3.9275665, 134.46976)
 
+[node name="Node3D2" parent="." unique_id=802357093 instance=ExtResource("8_w60jt")]
+transform = Transform3D(0.905, 0, 0, 0, -8.886525e-08, -0.905, 0, 2.033, -3.9558806e-08, 29.832886, 9.755523, -40.00489)
+
+[node name="Area3D" type="Area3D" parent="Node3D2" unique_id=323499076]
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D2/Area3D" unique_id=684365736]
+transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000004, -0.026252747, -0.0016174316, -0.13153267)
+shape = SubResource("BoxShape3D_djt5g")
+
 [node name="Area3D" type="Area3D" parent="." unique_id=465929545]
 gravity_space_override = 1
 
@@ -1104,3 +1121,9 @@ mass = 3000.0
 
 [node name="RigidBody3D3" parent="." unique_id=1351479223 instance=ExtResource("4_vmhiq")]
 transform = Transform3D(4.775, 0, 0, 0, 4.775, 0, 0, 0, 4.775, -77.835785, -42.71983, 125.75582)
+
+[node name="RigidPlayerPawn" parent="." unique_id=804029277 instance=ExtResource("9_djt5g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9155324, 1.9999995, -30.295052)
+
+[node name="RigidPlayerPawn2" parent="." unique_id=1380272102 instance=ExtResource("9_djt5g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.689678, 2.9760509, -38.77573)

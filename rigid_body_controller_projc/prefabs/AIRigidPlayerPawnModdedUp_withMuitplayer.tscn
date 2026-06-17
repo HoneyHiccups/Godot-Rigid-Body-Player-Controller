@@ -1,22 +1,66 @@
-[gd_scene format=3 uid="uid://dnu21041rtmht"]
+[gd_scene format=3 uid="uid://bu06x7k4jh5br"]
 
-[ext_resource type="Script" uid="uid://blo22706p8ljt" path="res://testing.gd" id="1_vv8vt"]
-[ext_resource type="AudioStream" uid="uid://bo8228jmnf4si" path="res://SoundEffects/footstep.wav" id="2_fpj1q"]
-[ext_resource type="AudioStream" uid="uid://bnd7efd6g3iyf" path="res://SoundEffects/Jump2.wav" id="3_ighh1"]
-[ext_resource type="AudioStream" uid="uid://cnye15a502hek" path="res://SoundEffects/Land.wav" id="4_knmyl"]
+[ext_resource type="AudioStream" uid="uid://bo8228jmnf4si" path="res://SoundEffects/footstep.wav" id="2_57aos"]
+[ext_resource type="AudioStream" uid="uid://bnd7efd6g3iyf" path="res://SoundEffects/Jump2.wav" id="3_6svlo"]
+[ext_resource type="AudioStream" uid="uid://cnye15a502hek" path="res://SoundEffects/Land.wav" id="4_ck0lx"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ib480"]
 friction = 0.3
 bounce = 1.0
 absorbent = true
 
-[sub_resource type="PrismMesh" id="PrismMesh_fpj1q"]
+[sub_resource type="GDScript" id="GDScript_oo8lq"]
+resource_name = "Ai Possed.gd"
+script/source = "extends Node3D
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fpj1q"]
+@onready var shaker_wrapper: Node3D = $HeadPiv/ShakerWrapper
+
+@onready var Player : RigidPlayer = $\"..\"
+@export var DebugDraw:bool = true
+@onready var landvol : float =0;
+var wait:float = 10.0;
+var collecttime:float = 0;
+var dirstate:float = 1;
+func _ready() -> void: 
+	Player.set_allow_align_with_gravity(true);
+	Player.enable_ai_posses(true);
+	return;
+
+func _physics_process(delta: float) -> void:
+	collecttime = collecttime+delta;
+	if collecttime >= wait:
+		collecttime = 0;
+		set_input(Vector2(dirstate,0))
+		if(dirstate ==1):
+			dirstate = -1;
+		else:
+			dirstate = 1;
+	return;
+	
+func set_input(dir:Vector2)-> void:
+	print(dir)
+	Player.virtual_inputdir(dir)
+	Player.virtual_jump()
+"
+
+[sub_resource type="PrismMesh" id="PrismMesh_oo8lq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rexv0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mllbw"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_mllbw"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_prw4t"]
+properties/0/path = NodePath(".:linear_velocity")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [node name="RigidPlayerPawn" type="RigidPlayer" unique_id=170371887 node_paths=PackedStringArray("piv_body", "piv_head", "camrea_wrapper")]
 acceleration = 100.0
@@ -31,7 +75,6 @@ obit_cam_dist = 45.0
 "Right Action Map" = "Right"
 "Jump Action Map" = "Jump"
 "Duck Action Map" = "Duck"
-foot_step_accumalation_threashold = 125.0
 piv_body = NodePath("BodyPiv")
 piv_head = NodePath("BodyPiv/HeadPiv")
 camrea_wrapper = NodePath("BodyPiv/HeadPiv/ShakerWrapper")
@@ -44,19 +87,17 @@ physics_material_override = SubResource("PhysicsMaterial_ib480")
 
 [node name="BodyPiv" type="Node3D" parent="." unique_id=934816624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68711245, 0)
-script = ExtResource("1_vv8vt")
+script = SubResource("GDScript_oo8lq")
 
 [node name="HeadPiv" type="Node3D" parent="BodyPiv" unique_id=1871123716]
 
 [node name="ShakerWrapper" type="Node3D" parent="BodyPiv/HeadPiv" unique_id=377982921]
 
-[node name="Camera3D" type="Camera3D" parent="BodyPiv/HeadPiv/ShakerWrapper" unique_id=1335987393]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="BodyPiv/HeadPiv" unique_id=82932992]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BodyPiv/HeadPiv/ShakerWrapper" unique_id=34455367]
 transform = Transform3D(1, 0, 0, 0, -0.18290478, -0.9831307, 0, 0.9831307, -0.18290478, 0, -0.23758101, -0.19852144)
-mesh = SubResource("PrismMesh_fpj1q")
+mesh = SubResource("PrismMesh_oo8lq")
 skeleton = NodePath("../ShakerWrapper")
-surface_material_override/0 = SubResource("StandardMaterial3D_fpj1q")
+surface_material_override/0 = SubResource("StandardMaterial3D_rexv0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1455552595]
 shape = SubResource("CapsuleShape3D_mllbw")
@@ -67,16 +108,19 @@ mesh = SubResource("CapsuleMesh_mllbw")
 [node name="ThirdPersonBodyWrapper" type="Node3D" parent="." unique_id=888345571]
 
 [node name="FootStep" type="AudioStreamPlayer" parent="." unique_id=1625338117]
-stream = ExtResource("2_fpj1q")
+stream = ExtResource("2_57aos")
 volume_db = -5.0
 
 [node name="Jump" type="AudioStreamPlayer" parent="." unique_id=576158366]
-stream = ExtResource("3_ighh1")
+stream = ExtResource("3_6svlo")
 volume_db = -5.0
 
 [node name="Land" type="AudioStreamPlayer" parent="." unique_id=1059028134]
-stream = ExtResource("4_knmyl")
+stream = ExtResource("4_ck0lx")
 volume_db = -5.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1088297425]
+replication_config = SubResource("SceneReplicationConfig_prw4t")
 
 [connection signal="FootStep" from="." to="BodyPiv" method="_on_rigid_player_pawn_foot_step"]
 [connection signal="Jumped" from="." to="BodyPiv" method="_on_rigid_player_pawn_jumped"]

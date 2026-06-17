@@ -487,7 +487,7 @@ void RigidPlayer::_physics_process(double delta){
 
         }
 
-        if(input->is_action_just_pressed(JumpActionMappping)){
+        if(input->is_action_just_pressed(JumpActionMappping) && AiPossed == false  ){
             jump();
         }
         debuginput();
