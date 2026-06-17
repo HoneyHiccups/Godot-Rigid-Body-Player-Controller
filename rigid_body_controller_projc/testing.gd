@@ -11,6 +11,7 @@ var cam: Camera3D
 func _ready() -> void:
 	Player.set_allow_align_with_gravity(true)
 	landvol = land.volume_linear
+	return;
 	print("pawn name is :: "+ Player.name)
 	if Player.name.to_int() == multiplayer.get_unique_id():
 		cam = Camera3D.new()
@@ -37,7 +38,6 @@ func debugdraw():
 	speed = speed.length()/4
 	var target:Vector3 = start+(wishdir*speed)
 	DebugDraw3D.draw_line(start,target,Color(255,0,0))
-
 	DebugDraw3D.draw_line(start,(Player.get_gravity()*3000),Color(0,255,0))
 @onready var foot_step: AudioStreamPlayer = $"../FootStep"
 @onready var jump: AudioStreamPlayer = $"../Jump"

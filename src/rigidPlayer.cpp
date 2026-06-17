@@ -306,7 +306,7 @@ void RigidPlayer::_physics_process(double delta){
 
     CurrentSpeed = Math::abs(CurrentSpeed);
     Vector2 InputDir;
-    if(AiPossed == true){
+    if(AiPossed == false){
     InputDir = Vector2(
     input->get_action_raw_strength(MoveRightActionMappping) -input->get_action_raw_strength(MoveLeftActionMappping),
     input->get_action_raw_strength(MoveBackWardActionMappping) - input->get_action_raw_strength(MoveForwardActionMappping)
