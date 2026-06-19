@@ -26,6 +26,9 @@
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
 #include <vector>
+#include "godot_cpp/classes/object.hpp"
+#include "godot_cpp/variant/typed_array.hpp"
+#include "godot_cpp/core/class_db.hpp"
 
 //auto added incluldes alot of dubbles
 
