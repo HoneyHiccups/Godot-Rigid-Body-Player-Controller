@@ -116,7 +116,12 @@ void RigidPlayer::_bind_methods(){
 void RigidPlayer::_ready(){
     input = Input::get_singleton();
 
-    LastGravitydir = this->get_gravity().normalized();
+    if(!this->get_gravity().is_zero_approx()){
+        LastGravitydir = this->get_gravity().normalized();
+    }else{
+        LastGravitydir = Vector3(0,0,0);
+    }
+    
 
     CurrentHeadRot = piv_head->get_rotation().y;
 
