@@ -204,6 +204,9 @@ func _process(delta: float) -> void:
 	light_energy = energy
 "
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_djt5g"]
+bounce = 0.3
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wost2"]
 bounce = 0.14
 
@@ -556,22 +559,27 @@ mass = 100.0
 [node name="Block9" parent="Toys" unique_id=2071491908 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 2.1230915, 11.484423)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_djt5g")
 
 [node name="Block10" parent="Toys" unique_id=1283747041 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 3.2075834, 11.484423)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_djt5g")
 
 [node name="Block11" parent="Toys" unique_id=1750123171 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 4.3496523, 11.484423)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_djt5g")
 
 [node name="Block12" parent="Toys" unique_id=1097621221 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 5.4360113, 11.484423)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_djt5g")
 
 [node name="Block13" parent="Toys" unique_id=951883224 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.99118674, 0.08366604, 0.10270709, -0.1068274, 0.96330535, 0.24623397, -0.078336835, -0.2550358, 0.9637534, 12.818822, 6.500985, 11.484423)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_djt5g")
 
 [node name="Block14" parent="Toys" unique_id=1250221043 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 2.1230915, -0.86204886)
