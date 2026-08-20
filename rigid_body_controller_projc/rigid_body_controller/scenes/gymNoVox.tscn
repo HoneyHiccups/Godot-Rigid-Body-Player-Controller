@@ -204,6 +204,9 @@ func _process(delta: float) -> void:
 	light_energy = energy
 "
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wost2"]
+bounce = 0.14
+
 [sub_resource type="TorusMesh" id="TorusMesh_s0fi8"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_2tlil"]
@@ -573,22 +576,27 @@ mass = 10.0
 [node name="Block14" parent="Toys" unique_id=1250221043 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 2.1230915, -0.86204886)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_wost2")
 
 [node name="Block15" parent="Toys" unique_id=1107070810 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 3.2075834, -0.86204886)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_wost2")
 
 [node name="Block16" parent="Toys" unique_id=390519806 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 4.3496523, -0.86204886)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_wost2")
 
 [node name="Block17" parent="Toys" unique_id=388383198 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 5.4360113, -0.86204886)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_wost2")
 
 [node name="Block18" parent="Toys" unique_id=442564379 instance=ExtResource("5_5vec5")]
 transform = Transform3D(0.946814, 0.022956483, 0.3209614, -0.10682739, 0.9633053, 0.24623397, -0.303531, -0.26742518, 0.91452336, 28.94316, 6.500985, -0.86204886)
 mass = 10.0
+physics_material_override = SubResource("PhysicsMaterial_wost2")
 
 [node name="Block6" parent="Toys" unique_id=2100358639 instance=ExtResource("5_5vec5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.239112, 3.4665804, -9.090237)
