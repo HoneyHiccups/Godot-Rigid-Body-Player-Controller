@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://bmewepq4wxw3x" path="res://prefabs/Cylian.tscn" id="7_bh7bf"]
 [ext_resource type="PackedScene" uid="uid://cmbclf4x60ne8" path="res://prefabs/RingPlant.tscn" id="8_w60jt"]
 [ext_resource type="PackedScene" uid="uid://bu06x7k4jh5br" path="res://prefabs/AIRigidPlayerPawnModdedUp_withMuitplayer.tscn" id="9_djt5g"]
+[ext_resource type="PackedScene" uid="uid://blmlgupipfgy1" path="res://prefabs/PlanetBody.tscn" id="10_dd8aj"]
+[ext_resource type="Script" uid="uid://d3x2jjmfcy73j" path="res://area_3d.gd" id="11_wus6r"]
 
 [sub_resource type="GDScript" id="GDScript_2tlil"]
 resource_name = "gameinsta"
@@ -241,6 +243,11 @@ size = Vector3(19.925537, 2.9937134, 19.68811)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s0fi8"]
 size = Vector3(200, 102.203, 200)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ivkol"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wus6r"]
+bounce = 0.8
 
 [node name="Gym" type="Node3D" unique_id=566124272]
 script = SubResource("GDScript_2tlil")
@@ -936,6 +943,11 @@ transform = Transform3D(2.2001271, 0.00947736, -1.8064718, 1.2163749e-08, 0.2501
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_54tkj")
 
+[node name="Block44" parent="Toys/Ancor2" unique_id=1154550041 instance=ExtResource("5_5vec5")]
+transform = Transform3D(2.2001271, 0.00947736, -1.8064718, 1.2163749e-08, 0.25018117, 3.2965312, 0.3203364, -0.06509216, 12.407166, 64.70158, -5.319652, 36.961014)
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_54tkj")
+
 [node name="Block13" parent="Toys/Ancor2" unique_id=465563920 instance=ExtResource("5_5vec5")]
 transform = Transform3D(5.6743813, -0.12976359, -0.018614616, 2.9358809e-09, -0.0007404512, 12.96407, -3.2903824, -0.22378191, -0.032101568, -65.2844, -0.3353281, 41.788055)
 mass = 2500.0
@@ -1112,6 +1124,18 @@ gravity_direction = Vector3(0, 1, 0)
 transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000004, -0.026252747, -0.0016174316, -0.13153267)
 shape = SubResource("BoxShape3D_djt5g")
 
+[node name="Node3D3" parent="." unique_id=472886840 instance=ExtResource("8_w60jt")]
+transform = Transform3D(0.9050001, 0, 0, 0, -2.0330002, 7.911761e-08, 0, -1.777305e-07, -0.905, 15.660633, 24.662123, 11.311603)
+
+[node name="Area3D" type="Area3D" parent="Node3D3" unique_id=445430127]
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D3/Area3D" unique_id=1161559766]
+transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000004, -0.026252747, -0.0016174316, -0.13153267)
+shape = SubResource("BoxShape3D_djt5g")
+
 [node name="Area3D" type="Area3D" parent="." unique_id=465929545]
 gravity_space_override = 1
 
@@ -1135,6 +1159,10 @@ mass = 3000.0
 transform = Transform3D(0.12036307, 1.7164109, -0.2228662, -1.5204202, -0.0019033129, -0.8357895, -0.8270794, 0.25328442, 1.5039985, 28.169025, 1.9999995, 4.9575205)
 mass = 3000.0
 
+[node name="RigidBody3D10" parent="." unique_id=717889919 instance=ExtResource("7_bh7bf")]
+transform = Transform3D(0.12036307, 1.7164109, -0.2228662, -1.5204202, -0.0019033129, -0.8357895, -0.8270794, 0.25328442, 1.5039985, 64.83092, 1.9999995, 27.215424)
+mass = 3000.0
+
 [node name="RigidBody3D3" parent="." unique_id=1351479223 instance=ExtResource("4_vmhiq")]
 transform = Transform3D(4.775, 0, 0, 0, 4.775, 0, 0, 0, 4.775, -77.835785, -42.71983, 125.75582)
 
@@ -1143,3 +1171,66 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9155324, 1.9999995, -30.295
 
 [node name="RigidPlayerPawn2" parent="." unique_id=1380272102 instance=ExtResource("9_djt5g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.689678, 2.9760509, -38.77573)
+
+[node name="Planatoid" parent="." unique_id=447789922 instance=ExtResource("10_dd8aj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.00889, 7.9990034, 11.781393)
+
+[node name="Area3D" parent="Planatoid" index="1" unique_id=1193623608]
+gravity_space_override = 1
+
+[node name="Area3D2" type="Area3D" parent="Planatoid" unique_id=1497257534]
+gravity_space_override = 1
+gravity_point_center = Vector3(0, 1, 0)
+gravity_direction = Vector3(0, 1, 0)
+script = ExtResource("11_wus6r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Planatoid/Area3D2" unique_id=165412035]
+transform = Transform3D(16.495, 0, 0, 0, 16.495, 0, 0, 0, 16.495, 0, 0, 0)
+shape = SubResource("SphereShape3D_ivkol")
+
+[node name="Planatoid2" parent="." unique_id=925005595 instance=ExtResource("10_dd8aj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.00889, 9.7922325, 35.348602)
+
+[node name="Area3D" parent="Planatoid2" index="1" unique_id=1193623608]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+gravity_space_override = 4
+
+[node name="Planatoid3" parent="." unique_id=875277761 instance=ExtResource("10_dd8aj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.216385, 14.666071, 35.348602)
+
+[node name="Area3D" parent="Planatoid3" index="1" unique_id=1193623608]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+gravity_space_override = 4
+
+[node name="RigidBody3D4" parent="." unique_id=497230866 instance=ExtResource("4_vmhiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.0804, 1.9297929, 3.8140106)
+physics_material_override = SubResource("PhysicsMaterial_wus6r")
+
+[node name="RigidBody3D5" parent="." unique_id=90772660 instance=ExtResource("4_vmhiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.007805, 5.0526605, 3.8140106)
+physics_material_override = SubResource("PhysicsMaterial_wus6r")
+
+[node name="RigidBody3D6" parent="." unique_id=599383556 instance=ExtResource("4_vmhiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.007805, 7.3339114, 0.24729061)
+physics_material_override = SubResource("PhysicsMaterial_wus6r")
+
+[node name="RigidBody3D7" parent="." unique_id=1463169688 instance=ExtResource("4_vmhiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.233, 9.242786, 0.24729061)
+physics_material_override = SubResource("PhysicsMaterial_wus6r")
+
+[node name="RigidBody3D8" parent="." unique_id=1554112940 instance=ExtResource("4_vmhiq")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 72.704384, 9.242786, 0.24729061)
+mass = 200.0
+physics_material_override = SubResource("PhysicsMaterial_wus6r")
+
+[node name="RigidBody3D9" parent="." unique_id=51150014 instance=ExtResource("4_vmhiq")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 75.829155, 9.242786, 5.5103865)
+mass = 300.0
+physics_material_override = SubResource("PhysicsMaterial_wus6r")
+
+[connection signal="body_shape_entered" from="Planatoid/Area3D2" to="Planatoid/Area3D2" method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="Planatoid/Area3D2" to="Planatoid/Area3D2" method="_on_body_shape_exited"]
+
+[editable path="Planatoid"]
+[editable path="Planatoid2"]
+[editable path="Planatoid3"]
