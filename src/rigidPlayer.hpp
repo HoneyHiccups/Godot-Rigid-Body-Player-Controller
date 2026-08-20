@@ -69,8 +69,10 @@
 // [] Ivestage wall running avune
 //      -- with the method we use to do surface rejection we can do surrface attracstion
 // [] Handle player getting crushed by heavy objects
+//      --might be to gameplay specfic 
 // [] Come up with a way of making slope walking not broken
 //      -- The new system normalsize slope movemnt and that dose not feel fun
+//      -- I think im gunna give up on this, just dose not seem that important right now will think on it
 using namespace godot;
 
 class RigidPlayer : public RigidBody3D{

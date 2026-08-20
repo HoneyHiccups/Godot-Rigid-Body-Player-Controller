@@ -185,7 +185,7 @@ void RigidPlayer::AlineToGravity(){
         if(dot>= 0.99){
             //this->set_basis(Targetbasis);
             // not sure what I am doing wrong here 
-            // snapping just felt like dog shit so
+            // snapping just felt like it was bad
             // I turned it off
         }else{
             
@@ -215,6 +215,7 @@ void RigidPlayer::handle_gravity_ort_logic(){
 }
 
 void RigidPlayer::acumalatesteps(Vector3 &force){
+    // I dont really like what I am doing here it kinda works but feels pretty tacky with the sound
     float addedfootstepacummalation = (force.length()/4) * ((CurrentSpeed/MaxSpeed)+FootStepSpeedFloor);
     FootStepAccumalation = addedfootstepacummalation + FootStepAccumalation;
     if(FootStepAccumalation > FootStepAccumalationThreashold){
@@ -248,8 +249,6 @@ void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
 
     }
 }
-
-
 
 void RigidPlayer::_physics_process(double delta){
 
@@ -443,7 +442,6 @@ void RigidPlayer::_physics_process(double delta){
                 }
 
             }
-            //_gdvirtual__extern_physics_process_call(delta);
         }
         
         if (piv_body != nullptr && bisGrounded == false && contanct == 0){
@@ -505,6 +503,8 @@ void RigidPlayer::_physics_process(double delta){
 
 void RigidPlayer::CountershoveRigid(Vector3 Force, Vector3 Loc, RigidBody3D* bodyptr){
     return;
+    // would love to know why this dose not work, as of right now it dose not really add anything to the project
+    // so I am just going to ignore it, I might come back to it later//
 
 if(bodyptr != nullptr){
     // not working
@@ -576,6 +576,7 @@ void RigidPlayer::setsterringEnums(const Vector2 &input, const Vector3 &lin, con
             }
     
     return;
+    //debug stuff
 
                 switch (SteerSwitchKey) {
                 case 0:
