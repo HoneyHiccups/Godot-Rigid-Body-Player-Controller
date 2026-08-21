@@ -27,4 +27,5 @@ As of now the roadmap is
     Motion Vector alignment 
 
 
-If u want to play a demo try it on <iframe frameborder="0" src="https://itch.io/embed/4916081?bg_color=ffffff" width="552" height="167"><a href="https://honey-hiccups.itch.io/rigid-body-player-controller">Rigid body Player Controller for Godot by HONEY HICCUPS</a></iframe>
+If u want to play a demo try it on itch
+https://honey-hiccups.itch.io/rigid-body-player-controller
