@@ -27,4 +27,5 @@ As of now the roadmap is
     Motion Vector alignment 
 
 
-
+If u want to play a demo try it on itch
+https://honey-hiccups.itch.io/rigid-body-player-controller
