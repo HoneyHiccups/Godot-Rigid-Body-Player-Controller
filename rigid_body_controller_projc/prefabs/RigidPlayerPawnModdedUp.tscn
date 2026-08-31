@@ -45,7 +45,6 @@ physics_material_override = SubResource("PhysicsMaterial_ib480")
 [node name="BodyPiv" type="Node3D" parent="." unique_id=934816624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.68711245, 0)
 script = ExtResource("1_vv8vt")
-DebugDraw = false
 
 [node name="HeadPiv" type="Node3D" parent="BodyPiv" unique_id=1871123716]
 
