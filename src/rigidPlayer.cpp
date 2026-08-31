@@ -1,6 +1,7 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
 #include "godot_cpp/variant/vector2.hpp"
+#include "godot_cpp/variant/vector3.hpp"
 
 
 
@@ -371,6 +372,13 @@ void RigidPlayer::_physics_process(double delta){
             
             Wishdir = walkingPlane.project(Wishdir);
             Vector3 Downslope = Vector3(0,0,0);
+            // dubble dot strat
+            //wishdir - dir = a vector of the diff
+            // dont the diff and u can check weather it is more perpindicular to left or right
+            // then project that vector on plans to flat it out
+            Vector3 walkingplanelinvel = walkingPlane.project(linVel);
+            float dot = Wishdir.dot(walkingplanelinvel);
+
             if(StandingAngle>0.1 && normlizeslopes == true){
                 Downslope = (LastGravitydir - walkingPlane.get_normal() * LastGravitydir.dot(walkingPlane.get_normal()));
                 Downslope.normalize();
