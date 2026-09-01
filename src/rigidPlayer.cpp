@@ -1,5 +1,6 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
+#include "godot_cpp/core/math.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
 
@@ -378,6 +379,12 @@ void RigidPlayer::_physics_process(double delta){
             // then project that vector on plans to flat it out
             Vector3 walkingplanelinvel = walkingPlane.project(linVel);
             float dot = Wishdir.dot(walkingplanelinvel);
+            // if this dose not equal 1 then we need to reajust to lin
+            if(dot > 0.0f){
+                dot = dot -1.0f;
+                dot = Math::absf(dot); /// innvert the dot to a scaler now it will be 1 and not aligined and 0 at algined 
+                // 1 on dot is max ajust and and 0 is none; Might need to ajust this to not be linner
+            }
 
             if(StandingAngle>0.1 && normlizeslopes == true){
                 Downslope = (LastGravitydir - walkingPlane.get_normal() * LastGravitydir.dot(walkingPlane.get_normal()));
