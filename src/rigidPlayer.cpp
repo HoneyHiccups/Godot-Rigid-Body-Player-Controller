@@ -386,11 +386,15 @@ void RigidPlayer::_physics_process(double delta){
                 dot = dot -1.0f;
                 dot = Math::absf(dot); /// innvert the dot to a scaler now it will be 1 and not aligined and 0 at algined 
                 // 1 on dot is max ajust and and 0 is none; Might need to ajust this to not be linner
+                float scaler = CurvingPlane.length();
                 CurvingPlane = RightPlane.project(CurvingPlane);
                 CurvingPlane.normalize();
-                CurvingPlane = CurvingPlane*this->get_mass()*(dot);
+                CurvingPlane = CurvingPlane*this->get_mass()*(scaler*10);
                 //not sure if I like this or not it might just be ezer to amp liner velocity on ground, I dont like that cuss it breaks 
                 // physics rules, cuss I want the player to have same rigid liner damping as everything
+                // this seems to be bugged not that its not workign right, working good when projecteding
+                // onto right plane but dose not seem to work for forward planes might need to planes
+                // more tesing later
             }else{
                 CurvingPlane = Vector3(0,0,0);
             }
