@@ -194,6 +194,7 @@ class RigidPlayer : public RigidBody3D{
         float airtime = 0;
         bool toonjump = true;
         Plane walkingPlane;
+        Plane RightPlane;
         Plane slidgingPlane;
         float FootStepAccumalationThreashold = 5000;
         float FootStepAccumalation =0;

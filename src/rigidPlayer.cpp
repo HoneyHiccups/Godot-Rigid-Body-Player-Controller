@@ -291,7 +291,7 @@ void RigidPlayer::_physics_process(double delta){
             isOverSlooped = true;
         }
     }
-    
+
     
       
     if(contanct == 0 || Raybisgrounded == false){
@@ -349,6 +349,7 @@ void RigidPlayer::_physics_process(double delta){
             //
             Vector3 ForwardVec = BodyBasis.get_column(2);
             Vector3 RightVec = BodyBasis.get_column(0);
+            RightPlane.set_normal(RightVec);
             Wishdir = (RightVec*InputDir.x) + (ForwardVec*InputDir.y);
             Wishdir.normalize();
 
@@ -379,11 +380,19 @@ void RigidPlayer::_physics_process(double delta){
             // then project that vector on plans to flat it out
             Vector3 walkingplanelinvel = walkingPlane.project(linVel);
             float dot = Wishdir.dot(walkingplanelinvel);
+            Vector3 CurvingPlane = Wishdir - walkingplanelinvel;
             // if this dose not equal 1 then we need to reajust to lin
             if(dot > 0.0f){
                 dot = dot -1.0f;
                 dot = Math::absf(dot); /// innvert the dot to a scaler now it will be 1 and not aligined and 0 at algined 
                 // 1 on dot is max ajust and and 0 is none; Might need to ajust this to not be linner
+                CurvingPlane = RightPlane.project(CurvingPlane);
+                CurvingPlane.normalize();
+                CurvingPlane = CurvingPlane*this->get_mass()*(dot);
+                //not sure if I like this or not it might just be ezer to amp liner velocity on ground, I dont like that cuss it breaks 
+                // physics rules, cuss I want the player to have same rigid liner damping as everything
+            }else{
+                CurvingPlane = Vector3(0,0,0);
             }
 
             if(StandingAngle>0.1 && normlizeslopes == true){
@@ -401,7 +410,7 @@ void RigidPlayer::_physics_process(double delta){
             Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) /* *slopeboost*/  *  jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
-            apply_central_force(Force+Downslope);
+            apply_central_force(Force+Downslope + CurvingPlane);
             CountershoveRigid(Force, RayCastHitLoc, StandingOnRigidBodyPtr);
             acumalatesteps(Force);
 
