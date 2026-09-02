@@ -38,6 +38,8 @@ func debugdraw():
 	speed = speed.length()/4
 	var target:Vector3 = start+(wishdir*speed)
 	DebugDraw3D.draw_line(start,target,Color(255,0,0))
+	DebugDraw3D.draw_line(start,Player.linear_velocity+start,Color(0.157, 0.529, 1.0, 1.0))
+	DebugDraw3D.draw_line(Player.position,Player.get_curiving_plane()+start,Color(1.063, 0.0, 2.55, 1.0))
 	DebugDraw3D.draw_line(start,(Player.get_gravity()*3000),Color(0,255,0))
 @onready var foot_step: AudioStreamPlayer = $"../FootStep"
 @onready var jump: AudioStreamPlayer = $"../Jump"

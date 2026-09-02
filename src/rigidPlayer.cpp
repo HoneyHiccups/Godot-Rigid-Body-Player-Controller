@@ -79,6 +79,8 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("virtual_jump"), &RigidPlayer::jump);
     ClassDB::bind_method(D_METHOD("virtual_inputdir", "input"),      &RigidPlayer::virtual_inputdir);
     ClassDB::bind_method(D_METHOD("enable_ai_posses", "bool"),      &RigidPlayer::enable_ai_posses);
+    ClassDB::bind_method(D_METHOD("get_curiving_plane"),                        &RigidPlayer::get_curiving_plane);
+
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "maxSpeed"), "set_maxSpeed", "get_maxSpeed");
@@ -380,23 +382,27 @@ void RigidPlayer::_physics_process(double delta){
             // then project that vector on plans to flat it out
             Vector3 walkingplanelinvel = walkingPlane.project(linVel);
             float dot = Wishdir.dot(walkingplanelinvel);
-            Vector3 CurvingPlane = Wishdir - walkingplanelinvel;
+            CurvingPlane = walkingplanelinvel.cross(LastGravitydir); // this is left of lin;
+            CurvingPlane.normalize();
             // if this dose not equal 1 then we need to reajust to lin
-            if(dot > 0.0f){
-                dot = dot -1.0f;
-                dot = Math::absf(dot); /// innvert the dot to a scaler now it will be 1 and not aligined and 0 at algined 
-                // 1 on dot is max ajust and and 0 is none; Might need to ajust this to not be linner
-                float scaler = CurvingPlane.length();
-                CurvingPlane = RightPlane.project(CurvingPlane);
-                CurvingPlane.normalize();
-                CurvingPlane = CurvingPlane*this->get_mass()*(scaler*10);
-                //not sure if I like this or not it might just be ezer to amp liner velocity on ground, I dont like that cuss it breaks 
-                // physics rules, cuss I want the player to have same rigid liner damping as everything
-                // this seems to be bugged not that its not workign right, working good when projecteding
-                // onto right plane but dose not seem to work for forward planes might need to planes
-                // more tesing later
+            if(dot > 0.0f){ // same hem
+                Vector3 left = CurvingPlane;
+                Vector3 right = CurvingPlane *-1;
+
+                float rightAlin = right.dot(Wishdir);
+                float leftAlin = left.dot(Wishdir);
+                if(true){
+                    if(rightAlin>leftAlin){
+                        CurvingPlane = right;
+                    }else{
+                        CurvingPlane = left;
+                    }
+                    CurvingPlane = CurvingPlane*this->get_mass() *(alinetovectorlinnerpower * 1.0-dot);   
+                }else{
+                    CurvingPlane = Vector3(0,0,0); // kinda ugly but its what it needs to be
+                } 
             }else{
-                CurvingPlane = Vector3(0,0,0);
+                CurvingPlane = Vector3(0,0,0); // dose a diff things trust me;
             }
 
             if(StandingAngle>0.1 && normlizeslopes == true){

@@ -171,7 +171,7 @@ class RigidPlayer : public RigidBody3D{
         String MoveRightActionMappping = "empty";
         String JumpActionMappping = "empty";
         String DuckActionMappping = "empty";
-
+        Vector3 CurvingPlane = Vector3(0,0,0);
         RayCast3D* GroundRay = nullptr;
         float playerwidith = .5;
         float playerHieght = 2.0f;
@@ -201,6 +201,8 @@ class RigidPlayer : public RigidBody3D{
         float FootStepSpeedFloor= .05;
         Vector2 injectedInput = Vector2(0,0);
         bool AiPossed = false;
+
+        float alinetovectorlinnerpower = 7;
 
         int MaxContactReportCount = 4;
         // cant use a u_int here cuss microsoft and there dword or whatever i guess
@@ -323,6 +325,8 @@ class RigidPlayer : public RigidBody3D{
 
         void set_duck_action_map(String n) {DuckActionMappping = n;}
         String get_duck_action_map() {return DuckActionMappping;}
+
+        Vector3 get_curiving_plane(){return CurvingPlane;}
 
         void virtual_inputdir(Vector2 input){
             injectedInput = input;
