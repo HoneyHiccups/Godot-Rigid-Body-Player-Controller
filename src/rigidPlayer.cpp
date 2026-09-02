@@ -391,16 +391,14 @@ void RigidPlayer::_physics_process(double delta){
 
                 float rightAlin = right.dot(Wishdir);
                 float leftAlin = left.dot(Wishdir);
-                if(true){
-                    if(rightAlin>leftAlin){
-                        CurvingPlane = right;
-                    }else{
-                        CurvingPlane = left;
-                    }
-                    CurvingPlane = CurvingPlane*this->get_mass() *(alinetovectorlinnerpower * 1.0-dot);   
+
+                if(rightAlin>leftAlin){
+                    CurvingPlane = right;
                 }else{
-                    CurvingPlane = Vector3(0,0,0); // kinda ugly but its what it needs to be
-                } 
+                    CurvingPlane = left;
+                }
+                CurvingPlane = CurvingPlane*this->get_mass() *(alinetovectorlinnerpower * 1.0-dot);   
+
             }else{
                 CurvingPlane = Vector3(0,0,0); // dose a diff things trust me;
             }
