@@ -158,7 +158,7 @@ class RigidPlayer : public RigidBody3D{
         godot::Node3D* piv_body = nullptr;
         godot::Node3D* piv_head = nullptr;
         godot::Node3D* camrea_wrapper = nullptr;
-
+        float current_char_mass = 0;
         Input* input = nullptr;
 
         bool allowDebugFeatuers = true;
@@ -245,6 +245,10 @@ class RigidPlayer : public RigidBody3D{
         float get_airtime(){return airtime;}
         int get_current_jumps(){return currentjumps;}
 
+        void    set_current_char_mass(float n){current_char_mass = n;}
+        float   get_current_char_mass(){return current_char_mass;}
+        void  reset_current_char_mass(){current_char_mass = this->get_mass();}
+
         void  set_counter_steer_power(float n){CounterSteerPower = n;}
         float get_counter_steer_power(){return CounterSteerPower;}
 
@@ -289,6 +293,9 @@ class RigidPlayer : public RigidBody3D{
 
 	    void set_friction(float n){friction = n;}
 	    float get_friction(){return friction;}
+
+        void set_turning_speed(float n){alinetovectorlinnerpower = n;}
+        float get_turning_speed(){return alinetovectorlinnerpower;}
 
         void set_sensitivity(float n){sensitivity = n;}
 	    float get_sensitivity(){return sensitivity;}

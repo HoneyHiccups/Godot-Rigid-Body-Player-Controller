@@ -68,6 +68,8 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_body_height", "body_height"), &RigidPlayer::set_body_height);
     ClassDB::bind_method(D_METHOD("get_max_walk_angle"),                &RigidPlayer::get_max_walk_angle);
     ClassDB::bind_method(D_METHOD("set_max_walk_angle", "max_walk_angle"), &RigidPlayer::set_max_walk_angle);
+    ClassDB::bind_method(D_METHOD("get_turning_speed"),                &RigidPlayer::get_turning_speed);
+    ClassDB::bind_method(D_METHOD("set_turning_speed", "turning_speed"), &RigidPlayer::set_turning_speed);
     ClassDB::bind_method(D_METHOD("get_foot_step_accumalation_threashold"),             &RigidPlayer::get_foot_step_accumalation_threashold);
     ClassDB::bind_method(D_METHOD("set_foot_step_accumalation_threashold", "foot_step_accumalation_threashold"), &RigidPlayer::set_foot_step_accumalation_threashold);
     ClassDB::bind_method(D_METHOD("get_allow_movment"),                       &RigidPlayer::get_allow_movment);
@@ -80,7 +82,9 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("virtual_inputdir", "input"),      &RigidPlayer::virtual_inputdir);
     ClassDB::bind_method(D_METHOD("enable_ai_posses", "bool"),      &RigidPlayer::enable_ai_posses);
     ClassDB::bind_method(D_METHOD("get_curiving_plane"),                        &RigidPlayer::get_curiving_plane);
-
+    ClassDB::bind_method(D_METHOD("set_current_char_mass", "current_char_mass"), &RigidPlayer::set_current_char_mass);
+    ClassDB::bind_method(D_METHOD("get_current_char_mass"), &RigidPlayer::get_current_char_mass);
+    ClassDB::bind_method(D_METHOD("reset_current_char_mass", "current_char_mass"), &RigidPlayer::reset_current_char_mass);
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "maxSpeed"), "set_maxSpeed", "get_maxSpeed");
@@ -104,6 +108,7 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "allow_toon_jumping"),  "set_allow_toon_jumping", "get_allow_toon_jumping");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "foot_step_accumalation_threashold"), "set_foot_step_accumalation_threashold", "get_foot_step_accumalation_threashold");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "counter_steer_power"), "set_counter_steer_power", "get_counter_steer_power");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "turning_speed"), "set_turning_speed", "get_turning_speed");
 
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_body", PROPERTY_HINT_NODE_TYPE),"set_piv_body","get_piv_body" );
     ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "piv_head", PROPERTY_HINT_NODE_TYPE),"set_piv_head","get_piv_head" );
@@ -147,7 +152,7 @@ void RigidPlayer::_ready(){
     this->set_use_continuous_collision_detection(true);
     this->set_sleeping(true);
     this->set_sleeping(false);
-
+    current_char_mass = this->get_mass();
     GroundRay = memnew(RayCast3D);
     GroundRay->set_position(Vector3(0,0,0));
     this->add_child(GroundRay);
@@ -232,6 +237,9 @@ void RigidPlayer::acumalatesteps(Vector3 &force){
 }
 
 void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
+    //float grav_scale = this->get_gravity_scale();
+    //this->set_gravity_scale(Math::clamp(grav_scale, 0.0f, 9.8f)); not working no effect
+
     if (piv_body != nullptr && bisGrounded == false && this->get_contact_count()>0){
         int contacts  = state->get_contact_count();
         std::vector<ContactInfo> Contactlist;
@@ -246,7 +254,7 @@ void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
         for(int i = 0; i< contacts; i++){
             Vector3 forcepush = Contactlist[i].ContactNormal;
             forcepush.normalize();
-            forcepush = forcepush* (this->get_mass()*.8);
+            forcepush = forcepush* (current_char_mass*.8);
             this->apply_central_force(forcepush);
 
         }
@@ -255,6 +263,8 @@ void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
 }
 
 void RigidPlayer::_physics_process(double delta){
+    //float grav_scale = this->get_gravity_scale();
+    //this->set_gravity_scale(Math::clamp(grav_scale, 0.0f, 9.8f));
 
     RigidBody3D* StandingOnRigidBodyPtr = nullptr;
     int contanct = this->get_contact_count();
@@ -397,7 +407,7 @@ void RigidPlayer::_physics_process(double delta){
                 }else{
                     CurvingPlane = left;
                 }
-                CurvingPlane = CurvingPlane*this->get_mass() *(alinetovectorlinnerpower * 1.0-dot);   
+                CurvingPlane = CurvingPlane*current_char_mass *(alinetovectorlinnerpower * 1.0-dot);   
 
             }else{
                 CurvingPlane = Vector3(0,0,0); // dose a diff things trust me;
@@ -409,13 +419,13 @@ void RigidPlayer::_physics_process(double delta){
                 //slopeboost = Downslope.dot(Wishdir)+4;
                 //slopeboost = slopeboost*(StandingAngle/100); // this is borken on slolps that are close to flat need to also scale out the slop
                 Downslope = Downslope*-1;
-                Downslope = Downslope*(this->get_mass()*Math::sin(SlopeRadins)*(this->get_gravity().length()) );
+                Downslope = Downslope*(current_char_mass*Math::sin(SlopeRadins)*(this->get_gravity().length()) );
             }
             
             
             
             /*I need to rotate the wishdir to corspond to walking angles*/
-            Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) /* *slopeboost*/  *  jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) /* *slopeboost*/  *  jazzhands * current_char_mass * effectiveAccel * delta - (linVel * current_char_mass * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
             apply_central_force(Force+Downslope + CurvingPlane);
@@ -446,7 +456,7 @@ void RigidPlayer::_physics_process(double delta){
                     float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
                     float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
                     float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
-                    Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+                    Vector3 Force = Wishdir * jazzhands * current_char_mass* effectiveAccel * delta - (linVel * current_char_mass* PD_DampiningPower * delta);
                     Force = Force*autoslowPower;
                     Force = Force/FrictionBurn;
 
@@ -491,7 +501,7 @@ void RigidPlayer::_physics_process(double delta){
             float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
             float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
             float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
-            Vector3 Force = Wishdir * jazzhands * this->get_mass() * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+            Vector3 Force = Wishdir * jazzhands * current_char_mass* effectiveAccel * delta - (linVel * current_char_mass* PD_DampiningPower * delta);
             Force = Force/aircontrol;
             apply_central_force(Force);
         }
@@ -514,7 +524,7 @@ void RigidPlayer::_physics_process(double delta){
                 linVel.normalize();
                 float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
                 float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
-                Vector3 Force = Wishdir * (this->get_mass()* .7) * effectiveAccel * delta - (linVel * this->get_mass() * PD_DampiningPower * delta);
+                Vector3 Force = Wishdir * (current_char_mass* .7) * effectiveAccel * delta - (linVel * current_char_mass * PD_DampiningPower * delta);
                 Force = Force/aircontrol;
                 apply_central_force(Force);
             }
@@ -711,7 +721,7 @@ void RigidPlayer::jump(){
     GravityDir = GravityDir * -1.f;
     ToonJumpPower = ToonJumpPower.clamp(Vector3(0,0,0), ToonJumpPower); // not working fix later;
     ToonJumpPower = ToonJumpPower*float(allowToonJumping);
-    this->apply_central_impulse( (ToonJumpPower * this->get_mass()) + ((GravityDir*this->get_mass()) * jumppower)  );
+    this->apply_central_impulse( (ToonJumpPower * current_char_mass) + ((GravityDir*current_char_mass) * jumppower)  );
     currentjumps = currentjumps-1;
     FootStepAccumalation = 0;
     emit_signal("Jumped");
