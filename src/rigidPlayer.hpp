@@ -66,13 +66,12 @@
 // [] Add an allow sliding jump feature
 //      -- use sliding plane to see if moving down before allow jump
 // [] Go through and look for bugs in jumping thats getting a little sus
+//      -- gunna add a lockout for a couple frames before you can jump again, should fix bug
+//      -- I dont think that will work will jsut let the player get a duble jump
 // [] Ivestage wall running avune
 //      -- with the method we use to do surface rejection we can do surrface attracstion
 // [] Handle player getting crushed by heavy objects
 //      --might be to gameplay specfic 
-// [] Come up with a way of making slope walking not broken
-//      -- The new system normalsize slope movemnt and that dose not feel fun
-//      -- I think im gunna give up on this, just dose not seem that important right now will think on it
 using namespace godot;
 
 class RigidPlayer : public RigidBody3D{
@@ -161,6 +160,7 @@ class RigidPlayer : public RigidBody3D{
         float current_char_mass = 0;
         Input* input = nullptr;
 
+        bool bisfade_aircontrol = false;
         bool allowDebugFeatuers = true;
         bool allowToonJumping = true;
         bool allowMovmentInput = true;
@@ -183,6 +183,7 @@ class RigidPlayer : public RigidBody3D{
         float friction = 10;
         float sensitivity = 1;
         float aircontrol = 3.0f;
+        float air_control_fade_scale = 1.0f;
         float jumppower = 300;
         float obit_cam_dist = 7;
         int maxjumps = 1;
@@ -244,6 +245,12 @@ class RigidPlayer : public RigidBody3D{
         bool is_oversloped(){return isOverSlooped;}
         float get_airtime(){return airtime;}
         int get_current_jumps(){return currentjumps;}
+        
+        void set_air_control_fade_scale(float n){ air_control_fade_scale = n;}
+        float get_air_control_fade_scale(){return air_control_fade_scale;}
+
+        void set_b_is_fade_aircontrol(bool b){bisfade_aircontrol = b;}
+        bool get_b_is_fade_aircontrol(){ return bisfade_aircontrol;}
 
         void    set_current_char_mass(float n){current_char_mass = n;}
         float   get_current_char_mass(){return current_char_mass;}

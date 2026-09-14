@@ -1,5 +1,6 @@
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
+#include "godot_cpp/classes/time.hpp"
 #include "godot_cpp/core/math.hpp"
 #include "godot_cpp/variant/vector2.hpp"
 #include "godot_cpp/variant/vector3.hpp"
@@ -68,6 +69,13 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_body_height", "body_height"), &RigidPlayer::set_body_height);
     ClassDB::bind_method(D_METHOD("get_max_walk_angle"),                &RigidPlayer::get_max_walk_angle);
     ClassDB::bind_method(D_METHOD("set_max_walk_angle", "max_walk_angle"), &RigidPlayer::set_max_walk_angle);
+
+    ClassDB::bind_method(D_METHOD("get_air_control_fade_scale"),                           &RigidPlayer::get_air_control_fade_scale);
+    ClassDB::bind_method(D_METHOD("set_air_control_fade_scale", "air_control_fade_scale"), &RigidPlayer::set_air_control_fade_scale);
+
+    ClassDB::bind_method(D_METHOD("get_b_is_fade_aircontrol"),                           &RigidPlayer::get_b_is_fade_aircontrol);
+    ClassDB::bind_method(D_METHOD("set_b_is_fade_aircontrol", "b_is_fade_aircontrol"), &RigidPlayer::set_b_is_fade_aircontrol);
+
     ClassDB::bind_method(D_METHOD("get_turning_speed"),                &RigidPlayer::get_turning_speed);
     ClassDB::bind_method(D_METHOD("set_turning_speed", "turning_speed"), &RigidPlayer::set_turning_speed);
     ClassDB::bind_method(D_METHOD("get_foot_step_accumalation_threashold"),             &RigidPlayer::get_foot_step_accumalation_threashold);
@@ -106,6 +114,11 @@ void RigidPlayer::_bind_methods(){
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "body_width"),  "set_body_width", "get_body_width");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "max_walk_angle"),  "set_max_walk_angle", "get_max_walk_angle");
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "allow_toon_jumping"),  "set_allow_toon_jumping", "get_allow_toon_jumping");
+
+    ADD_PROPERTY(PropertyInfo(Variant::BOOL, "b_is_fade_aircontrol"),  "set_b_is_fade_aircontrol", "get_b_is_fade_aircontrol");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "air_control_fade_scale"), "set_air_control_fade_scale", "get_air_control_fade_scale");
+
+
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "foot_step_accumalation_threashold"), "set_foot_step_accumalation_threashold", "get_foot_step_accumalation_threashold");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "counter_steer_power"), "set_counter_steer_power", "get_counter_steer_power");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "turning_speed"), "set_turning_speed", "get_turning_speed");
@@ -502,7 +515,15 @@ void RigidPlayer::_physics_process(double delta){
             float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
             float jazzhands = MappedDotProduct(linVel, Wishdir) + (StrafeJumpAddPower*(CurrentSpeed/PD_DampiningPower));
             Vector3 Force = Wishdir * jazzhands * current_char_mass* effectiveAccel * delta - (linVel * current_char_mass* PD_DampiningPower * delta);
-            Force = Force/aircontrol;
+            if(bisfade_aircontrol == true){
+                Force = Force/(aircontrol * (((1+airtime)*(1+airtime)) *(air_control_fade_scale* (airtime+1)))); 
+                // the larger aircontrol is the less u have
+                // cuss I seem to love confusing name, eitherway this will make it to where air con starts
+                // strong and then gets gone, good for having a good hybraid or boost jumps
+            }else{
+                Force = Force/aircontrol;
+            }
+           
             apply_central_force(Force);
         }
         //print_line(" contacts is : ", contanct);
