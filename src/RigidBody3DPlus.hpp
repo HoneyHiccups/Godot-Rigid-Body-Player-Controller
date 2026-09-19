@@ -25,11 +25,11 @@ class RigidBody3DPlus : public RigidBody3D{
         Cylinder,
         Capsule
     };
-    u_int8_t SphereR = 0;
+    float SphereR = 0;
 
     public:
 
-    void set_sphere_shape_radius(uint8_t n){SphereR = n;}
+    void set_sphere_shape_radius(float n){SphereR = n;}
     float get_sphere_shape_radius(){return float(SphereR);}
 
 
