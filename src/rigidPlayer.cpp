@@ -92,7 +92,7 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("get_curiving_plane"),                        &RigidPlayer::get_curiving_plane);
     ClassDB::bind_method(D_METHOD("set_current_char_mass", "current_char_mass"), &RigidPlayer::set_current_char_mass);
     ClassDB::bind_method(D_METHOD("get_current_char_mass"), &RigidPlayer::get_current_char_mass);
-    ClassDB::bind_method(D_METHOD("reset_current_char_mass", "current_char_mass"), &RigidPlayer::reset_current_char_mass);
+    ClassDB::bind_method(D_METHOD("reset_current_char_mass"), &RigidPlayer::reset_current_char_mass);
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "maxSpeed"), "set_maxSpeed", "get_maxSpeed");

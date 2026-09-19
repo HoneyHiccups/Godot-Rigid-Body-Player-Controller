@@ -2,7 +2,7 @@
 //#include "item_data.hpp"
 #include "rigidPlayer.hpp"
 #include "RigidBodyUtilitys.h"
-
+#include "RigidBody3DPlus.hpp"
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
@@ -20,6 +20,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 //	GDREGISTER_CLASS(ItemData)
 	GDREGISTER_CLASS(RigidBodyUtilitys);
 	GDREGISTER_RUNTIME_CLASS(RigidPlayer);
+	GDREGISTER_RUNTIME_CLASS(RigidBody3DPlus);
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
