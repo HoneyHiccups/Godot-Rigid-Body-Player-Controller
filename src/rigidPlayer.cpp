@@ -734,8 +734,12 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
 }
 
 void RigidPlayer::jump(){
-    if(currentjumps == 0 || airtime>CoyoteTime)
+    if(allowMovmentInput == false){
         return;
+    }
+    if(currentjumps == 0 || airtime>CoyoteTime){
+        return;
+    }
     Vector3 GravityDir = (this->get_gravity());
     GravityDir.normalize();
     Vector3 ToonJumpPower = this->get_linear_velocity()*GravityDir;

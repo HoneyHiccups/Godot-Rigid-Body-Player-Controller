@@ -26,11 +26,14 @@ class RigidBody3DPlus : public RigidBody3D{
         Capsule
     };
     float SphereR = 0;
+    bool bisheld = false;
 
     public:
 
     void set_sphere_shape_radius(float n){SphereR = n;}
     float get_sphere_shape_radius(){return float(SphereR);}
 
+    void set_b_is_held(bool b){bisheld = b;}
+    bool get_b_is_held(){return bisheld;}
 
 };
