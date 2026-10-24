@@ -144,20 +144,7 @@ void RigidPlayer::_ready(){
         LastGravitydir = Vector3(0,0,0);
     }
     
-
     CurrentHeadRot = piv_head->get_rotation().y;
-
-        Basis BodyBasis = this->get_basis();
-        Vector3 Gravitydir = this->get_gravity();
-        Gravitydir.normalize();
-        LastGravitydir = Gravitydir;
-        LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
-        LastGravityRight.normalize();
-        LastGravityForward = LastGravityRight.cross(-Gravitydir);
-        Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
-        NewBodyBasis.orthogonalize();
-        Targetbasis = NewBodyBasis;
-        this->set_basis(NewBodyBasis);
 
     this->set_process_input(true);
     this->set_contact_monitor(true);
@@ -253,6 +240,25 @@ void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
     //float grav_scale = this->get_gravity_scale();
     //this->set_gravity_scale(Math::clamp(grav_scale, 0.0f, 9.8f)); not working no effect
 
+    if(FirstTick == false){
+        FirstTick = true;
+
+        Basis BodyBasis = this->get_basis();
+        Vector3 Gravitydir = this->get_gravity();
+        if(Gravitydir.is_equal_approx(Vector3(0,0,0))){
+            Gravitydir = Vector3(0,-1,0);
+        }
+        Gravitydir.normalize();
+        LastGravitydir = Gravitydir;
+        LastGravityRight = BodyBasis.get_column(2).normalized().cross(Gravitydir);
+        LastGravityRight.normalize();
+        LastGravityForward = LastGravityRight.cross(-Gravitydir);
+        Basis NewBodyBasis = Basis(LastGravityRight,Gravitydir*-1.0f,LastGravityForward);
+        NewBodyBasis.orthogonalize();
+        Targetbasis = NewBodyBasis;
+        this->set_basis(NewBodyBasis);
+    }
+
     if (piv_body != nullptr && bisGrounded == false && this->get_contact_count()>0){
         int contacts  = state->get_contact_count();
         std::vector<ContactInfo> Contactlist;
@@ -278,7 +284,9 @@ void RigidPlayer::_integrate_forces(PhysicsDirectBodyState3D *state){
 void RigidPlayer::_physics_process(double delta){
     //float grav_scale = this->get_gravity_scale();
     //this->set_gravity_scale(Math::clamp(grav_scale, 0.0f, 9.8f));
-
+    if(FirstTick == false){
+        return;
+    }
     RigidBody3D* StandingOnRigidBodyPtr = nullptr;
     int contanct = this->get_contact_count();
     Vector3 HitNoraml = this->get_basis().get_column(1);

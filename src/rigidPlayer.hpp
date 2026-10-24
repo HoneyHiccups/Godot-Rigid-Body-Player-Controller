@@ -164,6 +164,7 @@ class RigidPlayer : public RigidBody3D{
         bool allowDebugFeatuers = true;
         bool allowToonJumping = true;
         bool allowMovmentInput = true;
+        bool FirstTick = false;
 
         String MoveForwardActionMappping = "empty";
         String MoveBackWardActionMappping = "empty";
