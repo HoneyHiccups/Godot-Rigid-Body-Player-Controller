@@ -63,15 +63,14 @@
 
 //  TODO
 // [X] add wishdir twisting to remove skating feeling
-// [] Add an allow sliding jump feature
 //      -- use sliding plane to see if moving down before allow jump
 // [] Go through and look for bugs in jumping thats getting a little sus
 //      -- gunna add a lockout for a couple frames before you can jump again, should fix bug
 //      -- I dont think that will work will jsut let the player get a duble jump
-// [] Ivestage wall running avune
-//      -- with the method we use to do surface rejection we can do surrface attracstion
 // [] Handle player getting crushed by heavy objects
 //      --might be to gameplay specfic 
+// [] Add a secondary stat for top speed and alcaration to allow adding without storing
+// [] Add a get net speed function when to allow better movment on rigid bodys
 using namespace godot;
 
 class RigidPlayer : public RigidBody3D{
