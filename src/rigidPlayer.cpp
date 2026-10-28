@@ -733,6 +733,19 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
         if(MouseEvent.is_valid()){
             Vector2 MouseDelta = MouseEvent->get_relative() *-0.001;
             if(MouseDelta != Vector2(0,0)){
+                //using rotate makes it bug when there are two difreant forms of input
+                //to fix these we can have do somthing like
+                /*      
+                        Vector2 Rotation = get head and body piv
+                		Rotation.y = Rotation.y + deg_to_rad(inputDir.y * delta * 60.0)
+		                Rotation.x = Rotation.x + deg_to_rad(inputDir.x * delta * 60.0)
+		                Rotation.x = clampf(Rotation.x,-1.5,1.5)
+		                BodyPiv.rotation = Vector3(BodyPiv.rotation.x,Rotation.y,BodyPiv.rotation.z)
+		                HeadPiv.rotation = Vector3(Rotation.x,HeadPiv.rotation.y,HeadPiv.rotation.z)
+                        I dont want to do this now and its not a really problamatic bug most people dont swap input devices a ton in gameplay
+                        so I am not gunna deal with it I just wanted to write down that I found this bug so I reamber when someone complains
+
+                */
                 piv_body->rotate(piv_body->get_basis().get_column(1), MouseDelta.x*sensitivity);
                 float min = Math::deg_to_rad(-89.0f);
                 float max = Math::deg_to_rad(89.0f);
