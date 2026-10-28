@@ -724,6 +724,9 @@ void RigidPlayer::_input(const Ref<InputEvent> &event){
     if(AiPossed == true){
         return;
     }
+    if(FirstTick == false){
+        return;
+    }
     Ref<InputEventMouseMotion> MouseEvent = event;
 
     if(input->get_mouse_mode() == Input::MOUSE_MODE_CAPTURED){
