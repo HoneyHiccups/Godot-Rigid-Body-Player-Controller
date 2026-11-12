@@ -8,6 +8,14 @@
 #include <cstdint>
 
 
+//////TODO//////
+//[] impact damage thresholds
+//[] breaking aprt on impact
+//[] audio preconfigs 
+//  -- air move, impact, break, sliding move
+//[] shadow cloning
+//[] maybe depracate shehper shape im not sure
+
 using namespace godot;
 
 

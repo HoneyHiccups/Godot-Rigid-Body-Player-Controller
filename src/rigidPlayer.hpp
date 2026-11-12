@@ -71,6 +71,11 @@
 //      --might be to gameplay specfic 
 // [] Add a secondary stat for top speed and alcaration to allow adding without storing
 // [] Add a get net speed function when to allow better movment on rigid bodys
+// [] Add a current speed function this is the netspeed that is not doing cnet sepped atm just for hooking
+// [] shape cast for grounding
+// [] experment with postion based sptep logic
+// [] shadow cloning for portals
+
 using namespace godot;
 
 class RigidPlayer : public RigidBody3D{
