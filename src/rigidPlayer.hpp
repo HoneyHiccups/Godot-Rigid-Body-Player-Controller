@@ -69,9 +69,10 @@
 //      -- I dont think that will work will jsut let the player get a duble jump
 // [] Handle player getting crushed by heavy objects
 //      --might be to gameplay specfic 
-// [] Add a secondary stat for top speed and alcaration to allow adding without storing
-// [] Add a get net speed function when to allow better movment on rigid bodys
-// [] Add a current speed function this is the netspeed that is not doing cnet sepped atm just for hooking
+// [x] Add a secondary stat for top speed and alcaration to allow adding without storing
+// [x] Add a get net speed function when to allow better movment on rigid bodys
+// [x] Walking on rigid needs to allow for higher speed
+// [] build a function that allows for lerping start speed like in my project
 // [] shape cast for grounding
 // [] experment with postion based sptep logic
 // [] shadow cloning for portals
@@ -116,6 +117,7 @@ class RigidPlayer : public RigidBody3D{
         void rez_jump();
         void just_stopped_moving();
         bool is_ipnuting();
+        float get_raw_velocity();
         
 
 
@@ -185,6 +187,7 @@ class RigidPlayer : public RigidBody3D{
         float StrafeJumpAddPower = 0.f;
         float Acceleration = 10;
         float MaxSpeed = 10;
+
         float friction = 10;
         float sensitivity = 1;
         float aircontrol = 3.0f;
@@ -217,6 +220,9 @@ class RigidPlayer : public RigidBody3D{
         
 
         float CurrentSpeed;
+        float NetSpeed = 0;
+        //float rawspeed = 0;
+        Vector3 NetLinVel = Vector3(0,0,0);
 
         bool mousecursor_show = true;
 
@@ -344,6 +350,8 @@ class RigidPlayer : public RigidBody3D{
 
         void set_duck_action_map(String n) {DuckActionMappping = n;}
         String get_duck_action_map() {return DuckActionMappping;}
+
+        float get_net_velocity(){return NetSpeed;}
 
         Vector3 get_curiving_plane(){return CurvingPlane;}
 

@@ -93,6 +93,10 @@ void RigidPlayer::_bind_methods(){
     ClassDB::bind_method(D_METHOD("set_current_char_mass", "current_char_mass"), &RigidPlayer::set_current_char_mass);
     ClassDB::bind_method(D_METHOD("get_current_char_mass"), &RigidPlayer::get_current_char_mass);
     ClassDB::bind_method(D_METHOD("reset_current_char_mass"), &RigidPlayer::reset_current_char_mass);
+    ClassDB::bind_method(D_METHOD("get_net_velocity"), &RigidPlayer::get_net_velocity);
+    ClassDB::bind_method(D_METHOD("get_raw_velocity"), &RigidPlayer::get_raw_velocity);
+
+   
     //macro       //type       // type        //var name  //setter    //getter
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "acceleration"), "set_acceleration", "get_acceleration");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "maxSpeed"), "set_maxSpeed", "get_maxSpeed");
@@ -295,16 +299,22 @@ void RigidPlayer::_physics_process(double delta){
     float SlopeRadins =0;
     Raybisgrounded = false;
     isOverSlooped = true;
+    NetSpeed = this->get_linear_velocity().length(); // will overright if we can
+    NetLinVel = this->get_linear_velocity();
     if(GroundRay->is_colliding()){
         HitNoraml = GroundRay->get_collision_normal();
         if(dynamic_cast<RigidBody3D*>(GroundRay->get_collider()) ){
             StandingOnRigidBodyPtr = dynamic_cast<RigidBody3D*>(GroundRay->get_collider());
             RayCastHitLoc = GroundRay->get_collision_point();
+            NetLinVel = this->get_linear_velocity() - StandingOnRigidBodyPtr->get_linear_velocity();
+            NetSpeed = NetLinVel.length();
             //the goal here is to allow feedback on rigid bodys and also get current
             //In addastion we want to be able to grab the speed on these to subtract
                 //  //from the speed of the player and allow for snapping on to rigid elvators
             // should work with child of rigid bodys cuss dynamic cast;
             //print_line("Standing on rigid");
+        }else{
+            // If where not standing on rigid
         }
         SlopeRadins = HitNoraml.angle_to(this->get_basis().get_column(1));
         StandingAngle = SlopeRadins * 180 / 3.14;
@@ -396,8 +406,8 @@ void RigidPlayer::_physics_process(double delta){
             
            // setsterringEnums(InputDir, linvelFlat, ForwardVec, RightVec);
 
-            // Creates an amount to reduce speed
-            float speedDampiningFactor = Math::clamp(CurrentSpeed - MaxSpeed, 0.f, 99999999.f);
+            // Creates an amount to reduce speed   // sspawing from current to Net
+            float speedDampiningFactor = Math::clamp((CurrentSpeed) - MaxSpeed, 0.f, 99999999.f);
             //creates a new accel power to avoid goining light speed
             float effectiveAccel = Math::clamp(Acceleration - speedDampiningFactor, 00.0f, 99999999.f);
             // jazzhands gives us bost moving in perpducular movments from base move dir
@@ -445,7 +455,7 @@ void RigidPlayer::_physics_process(double delta){
             
             
             
-            /*I need to rotate the wishdir to corspond to walking angles*/
+            /*I need to rotate the wishdir to corspond to walking angles*/                                                                                      //switching from linVel to Net
             Vector3 Force = CreateTwistedWishDir(Wishdir , linvelFlat) /* *slopeboost*/  *  jazzhands * current_char_mass * effectiveAccel * delta - (linVel * current_char_mass * PD_DampiningPower * delta);
             // need to do planer rots
             Force = Force/FrictionBurn;
@@ -718,6 +728,13 @@ Vector3 RigidPlayer:: CreateTwistedWishDir( const Vector3 &wish, const Vector3 &
 
 void RigidPlayer::just_stopped_moving(){
     FootStepAccumalation = 0;
+}
+
+float RigidPlayer::get_raw_velocity(){
+    if(FirstTick == false){
+        return 0;
+    }
+    return this->get_linear_velocity().length();
 }
 
 void RigidPlayer::_input(const Ref<InputEvent> &event){
