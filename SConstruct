@@ -24,7 +24,7 @@ def find_sources(dirs, exts):
     return sources
 
 # Configuration
-libname = "rigid_body_controller"
+libname = "rbpc"
 projectdir = "rigid_body_controller_projc"
 
 # Set up the environment
