@@ -38,7 +38,7 @@ on:
         options:
           - none
           - auto
-        default: auto
+        default: none
       use_cache:
         description: |
           Use Cache: Whether to use caching for the build process (build speed is boosted significantly and you don't waste as much GitHub resources). Set to false if your project is large and you want to avoid using cache to prevent storage limit issues.
@@ -116,7 +116,6 @@ jobs:
             { platform: ios, arch: arm64, os: macos-latest },
             { platform: web, arch: wasm32, os: ubuntu-22.04, threads: "no" },
             { platform: web, arch: wasm32, os: ubuntu-22.04, threads: "yes" },
-            { platform: windows, arch: x86_32, os: windows-latest },
             { platform: windows, arch: x86_64, os: windows-latest }
           ]
         target-type: ${{ fromJson(needs.set-matrix.outputs.target_types) }}
